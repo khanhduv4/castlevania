@@ -1,2 +1,7 @@
-Debug
+Debug/*
 .vs
+.vs/CastleVania/v16/.suo
+
+Debug/CastleVania.exe
+Debug/CastleVania.ilk
+Debug/CastleVania.pdb
