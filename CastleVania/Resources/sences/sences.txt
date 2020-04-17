@@ -1,0 +1,7 @@
+[SETTINGS]
+start	2
+#scene list
+[SCENES]
+1	resources\sences\scene1.txt
+2	resources\sences\scene2.txt
+3	resources\sences\scene-test.txt

@@ -5,23 +5,11 @@
     <ClCompile Include="Animations.cpp">
       <Filter>Framework</Filter>
     </ClCompile>
-    <ClCompile Include="Brick.cpp">
-      <Filter>Framework</Filter>
-    </ClCompile>
     <ClCompile Include="Game.cpp">
       <Filter>Framework</Filter>
     </ClCompile>
     <ClCompile Include="GameObject.cpp">
       <Filter>Framework</Filter>
-    </ClCompile>
-    <ClCompile Include="Goomba.cpp">
-      <Filter>Framework</Filter>
-    </ClCompile>
-    <ClCompile Include="Koopas.cpp">
-      <Filter>Framework</Filter>
-    </ClCompile>
-    <ClCompile Include="Mario.cpp">
-      <Filter>Object</Filter>
     </ClCompile>
     <ClCompile Include="Portal.cpp">
       <Filter>Object</Filter>
@@ -41,15 +29,27 @@
     <ClCompile Include="Utils.cpp">
       <Filter>Framework</Filter>
     </ClCompile>
+    <ClCompile Include="Goomba.cpp">
+      <Filter>Object</Filter>
+    </ClCompile>
+    <ClCompile Include="Brick.cpp">
+      <Filter>Object</Filter>
+    </ClCompile>
+    <ClCompile Include="Koopas.cpp">
+      <Filter>Object</Filter>
+    </ClCompile>
+    <ClCompile Include="Simon.cpp">
+      <Filter>Object</Filter>
+    </ClCompile>
+    <ClCompile Include="Tilemap.cpp">
+      <Filter>Framework</Filter>
+    </ClCompile>
+    <ClCompile Include="Torch.cpp">
+      <Filter>Object</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Koopas.h">
-      <Filter>Framework</Filter>
-    </ClInclude>
     <ClInclude Include="Animations.h">
-      <Filter>Framework</Filter>
-    </ClInclude>
-    <ClInclude Include="Brick.h">
       <Filter>Framework</Filter>
     </ClInclude>
     <ClInclude Include="Game.h">
@@ -58,14 +58,8 @@
     <ClInclude Include="GameObject.h">
       <Filter>Framework</Filter>
     </ClInclude>
-    <ClInclude Include="Goomba.h">
-      <Filter>Framework</Filter>
-    </ClInclude>
     <ClInclude Include="KeyEventHandler.h">
       <Filter>Framework</Filter>
-    </ClInclude>
-    <ClInclude Include="Mario.h">
-      <Filter>Object</Filter>
     </ClInclude>
     <ClInclude Include="Portal.h">
       <Filter>Object</Filter>
@@ -84,6 +78,24 @@
     </ClInclude>
     <ClInclude Include="Utils.h">
       <Filter>Framework</Filter>
+    </ClInclude>
+    <ClInclude Include="Goomba.h">
+      <Filter>Object</Filter>
+    </ClInclude>
+    <ClInclude Include="Brick.h">
+      <Filter>Object</Filter>
+    </ClInclude>
+    <ClInclude Include="Koopas.h">
+      <Filter>Object</Filter>
+    </ClInclude>
+    <ClInclude Include="Simon.h">
+      <Filter>Object</Filter>
+    </ClInclude>
+    <ClInclude Include="Tilemap.h">
+      <Filter>Framework</Filter>
+    </ClInclude>
+    <ClInclude Include="Torch.h">
+      <Filter>Object</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
