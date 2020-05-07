@@ -2,100 +2,121 @@
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="Animations.cpp">
-      <Filter>Framework</Filter>
-    </ClCompile>
-    <ClCompile Include="Game.cpp">
-      <Filter>Framework</Filter>
-    </ClCompile>
-    <ClCompile Include="GameObject.cpp">
-      <Filter>Framework</Filter>
-    </ClCompile>
-    <ClCompile Include="Portal.cpp">
-      <Filter>Object</Filter>
-    </ClCompile>
     <ClCompile Include="PlayScence.cpp">
-      <Filter>Framework</Filter>
+      <Filter>Framework\Sence</Filter>
     </ClCompile>
     <ClCompile Include="Scence.cpp">
-      <Filter>Framework</Filter>
+      <Filter>Framework\Sence</Filter>
     </ClCompile>
-    <ClCompile Include="Sprites.cpp">
-      <Filter>Framework</Filter>
+    <ClCompile Include="Animations.cpp">
+      <Filter>Framework\Animations</Filter>
     </ClCompile>
-    <ClCompile Include="Textures.cpp">
-      <Filter>Framework</Filter>
+    <ClCompile Include="Game.cpp">
+      <Filter>Framework\Game</Filter>
     </ClCompile>
-    <ClCompile Include="Utils.cpp">
-      <Filter>Framework</Filter>
-    </ClCompile>
-    <ClCompile Include="Goomba.cpp">
-      <Filter>Object</Filter>
-    </ClCompile>
-    <ClCompile Include="Brick.cpp">
-      <Filter>Object</Filter>
-    </ClCompile>
-    <ClCompile Include="Koopas.cpp">
-      <Filter>Object</Filter>
-    </ClCompile>
-    <ClCompile Include="Simon.cpp">
-      <Filter>Object</Filter>
+    <ClCompile Include="GameObject.cpp">
+      <Filter>Framework\GameObject</Filter>
     </ClCompile>
     <ClCompile Include="Tilemap.cpp">
-      <Filter>Framework</Filter>
+      <Filter>Framework\Tilemaps</Filter>
+    </ClCompile>
+    <ClCompile Include="Sprites.cpp">
+      <Filter>Framework\Sprites</Filter>
+    </ClCompile>
+    <ClCompile Include="Textures.cpp">
+      <Filter>Framework\Textures</Filter>
+    </ClCompile>
+    <ClCompile Include="Utils.cpp">
+      <Filter>Framework\Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="Simon.cpp">
+      <Filter>Object\Simon</Filter>
+    </ClCompile>
+    <ClCompile Include="Brick.cpp">
+      <Filter>Object\Background</Filter>
+    </ClCompile>
+    <ClCompile Include="Portal.cpp">
+      <Filter>Object\Portal</Filter>
+    </ClCompile>
+    <ClCompile Include="Goomba.cpp">
+      <Filter>Object\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="Koopas.cpp">
+      <Filter>Object\Enemy</Filter>
     </ClCompile>
     <ClCompile Include="Torch.cpp">
-      <Filter>Object</Filter>
+      <Filter>Object\Background</Filter>
+    </ClCompile>
+    <ClCompile Include="Board.cpp">
+      <Filter>Framework\Board</Filter>
+    </ClCompile>
+    <ClCompile Include="BoardHealth.cpp">
+      <Filter>Framework\Board</Filter>
+    </ClCompile>
+    <ClCompile Include="Font.cpp">
+      <Filter>Framework\Board</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Animations.h">
-      <Filter>Framework</Filter>
-    </ClInclude>
-    <ClInclude Include="Game.h">
-      <Filter>Framework</Filter>
-    </ClInclude>
-    <ClInclude Include="GameObject.h">
-      <Filter>Framework</Filter>
-    </ClInclude>
     <ClInclude Include="KeyEventHandler.h">
       <Filter>Framework</Filter>
     </ClInclude>
-    <ClInclude Include="Portal.h">
-      <Filter>Object</Filter>
+    <ClInclude Include="Scence.h">
+      <Filter>Framework\Sence</Filter>
     </ClInclude>
     <ClInclude Include="PlayScence.h">
-      <Filter>Framework</Filter>
+      <Filter>Framework\Sence</Filter>
     </ClInclude>
-    <ClInclude Include="Scence.h">
-      <Filter>Framework</Filter>
+    <ClInclude Include="Animations.h">
+      <Filter>Framework\Animations</Filter>
     </ClInclude>
-    <ClInclude Include="Sprites.h">
-      <Filter>Framework</Filter>
+    <ClInclude Include="Game.h">
+      <Filter>Framework\Game</Filter>
     </ClInclude>
-    <ClInclude Include="Textures.h">
-      <Filter>Framework</Filter>
-    </ClInclude>
-    <ClInclude Include="Utils.h">
-      <Filter>Framework</Filter>
-    </ClInclude>
-    <ClInclude Include="Goomba.h">
-      <Filter>Object</Filter>
-    </ClInclude>
-    <ClInclude Include="Brick.h">
-      <Filter>Object</Filter>
-    </ClInclude>
-    <ClInclude Include="Koopas.h">
-      <Filter>Object</Filter>
-    </ClInclude>
-    <ClInclude Include="Simon.h">
-      <Filter>Object</Filter>
+    <ClInclude Include="GameObject.h">
+      <Filter>Framework\GameObject</Filter>
     </ClInclude>
     <ClInclude Include="Tilemap.h">
-      <Filter>Framework</Filter>
+      <Filter>Framework\Tilemaps</Filter>
+    </ClInclude>
+    <ClInclude Include="Sprites.h">
+      <Filter>Framework\Sprites</Filter>
+    </ClInclude>
+    <ClInclude Include="Textures.h">
+      <Filter>Framework\Textures</Filter>
+    </ClInclude>
+    <ClInclude Include="Utils.h">
+      <Filter>Framework\Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="Simon.h">
+      <Filter>Object\Simon</Filter>
+    </ClInclude>
+    <ClInclude Include="Brick.h">
+      <Filter>Object\Background</Filter>
+    </ClInclude>
+    <ClInclude Include="Portal.h">
+      <Filter>Object\Portal</Filter>
+    </ClInclude>
+    <ClInclude Include="Goomba.h">
+      <Filter>Object\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="Koopas.h">
+      <Filter>Object\Enemy</Filter>
     </ClInclude>
     <ClInclude Include="Torch.h">
-      <Filter>Object</Filter>
+      <Filter>Object\Background</Filter>
+    </ClInclude>
+    <ClInclude Include="Define.h">
+      <Filter>Object\Define</Filter>
+    </ClInclude>
+    <ClInclude Include="Board.h">
+      <Filter>Framework\Board</Filter>
+    </ClInclude>
+    <ClInclude Include="BoardHealth.h">
+      <Filter>Framework\Board</Filter>
+    </ClInclude>
+    <ClInclude Include="Font.h">
+      <Filter>Framework\Board</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -104,6 +125,48 @@
     </Filter>
     <Filter Include="Object">
       <UniqueIdentifier>{b47fd180-9784-4aec-a793-3202c57fec07}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Framework\Sence">
+      <UniqueIdentifier>{29b58dac-9934-4455-989d-49f7b6a87a72}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Framework\Animations">
+      <UniqueIdentifier>{e2ed0f0b-2ddd-4e52-ad6d-dc0cae27c308}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Framework\Game">
+      <UniqueIdentifier>{69cdb06e-8ce4-486c-a385-696053cca183}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Framework\GameObject">
+      <UniqueIdentifier>{fba10783-ddb8-4165-98df-7b5a2b65d7dc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Framework\Tilemaps">
+      <UniqueIdentifier>{04bf2744-6053-42a8-ad33-fab4ca747e45}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Framework\Sprites">
+      <UniqueIdentifier>{62c18e5b-43cd-444d-b5a9-2a129b00ebf7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Framework\Textures">
+      <UniqueIdentifier>{2bf868e0-ceb1-4ab6-977a-a385f04b5508}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Framework\Utils">
+      <UniqueIdentifier>{6e410222-1f65-4aa9-a33d-15dbdab31df0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object\Enemy">
+      <UniqueIdentifier>{3b49cb38-fbc0-4ada-8d42-6c86e5a2c959}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object\Simon">
+      <UniqueIdentifier>{eb83a917-6e71-4078-b793-ea1a3485c076}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object\Portal">
+      <UniqueIdentifier>{c2eed75f-3e43-4a0e-bb8d-4048baecab14}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object\Background">
+      <UniqueIdentifier>{0d989f83-eb6b-47dd-a4ef-2d2d7e9c89f0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object\Define">
+      <UniqueIdentifier>{e95f3cf7-7a56-471e-9920-2cbe274dc877}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Framework\Board">
+      <UniqueIdentifier>{16bbad36-303d-47a5-9374-96cb3be917ec}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

@@ -26,8 +26,11 @@ class CAnimation
 	DWORD lastFrameTime;
 	int currentFrame;
 	int defaultTime;
+	bool isDone = 0;
 	vector<LPANIMATION_FRAME> frames;
 public:
+	bool IsDone() { return isDone; }
+	void Reset() { currentFrame = 0; lastFrameTime = GetTickCount(); isDone = 0; }
 	CAnimation(int defaultTime = 100) { this->defaultTime = defaultTime; lastFrameTime = -1; currentFrame = -1; }
 	void Add(int spriteId, DWORD time = 0);
 

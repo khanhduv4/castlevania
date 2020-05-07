@@ -80,6 +80,7 @@ void TiledMap::LoadMatrix(LPCWSTR filePath)
 		//Đọc thông tin width, height của map
 		getline(tilesInfo, tmp);
 		this->mapWidth = stoi(tmp);
+		//DebugOut(L"day la width ############################### %d", this->mapWidth);
 		getline(tilesInfo, tmp);
 		this->mapHeight = stoi(tmp);
 		//Đọc map

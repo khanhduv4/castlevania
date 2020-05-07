@@ -1,7 +1,7 @@
 #pragma once
 #include "GameObject.h"
 
-#define TORCH_BBOX_WIDTH  16
+#define TORCH_BBOX_WIDTH  32
 #define TORCH_BBOX_HEIGHT 16
 
 #define TORCH_ANI_BURNING 0
