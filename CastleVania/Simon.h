@@ -1,5 +1,6 @@
 #pragma once
 #include "GameObject.h"
+#include "MorningStar.h"
 
 #define SIMON_WALKING_SPEED	0.12f 
 //0.1f
@@ -61,6 +62,8 @@ class CSimon : public CGameObject
 	int untouchable;
 	DWORD untouchable_start;
 
+	MorningStar* morStar;
+
 	float start_x;			// initial position of Mario at scene
 	float start_y; 
 public: 
@@ -75,6 +78,12 @@ public:
 	bool IsAttacking() { return isAttacking; }
 	bool IsJumping () { return isJumping; }
 	bool IsSitting() { return isSitting;  }
+
+	void Attack();
+
+	MorningStar* getMorningStar() {
+		return morStar;
+	}
 
 	void setSitting(bool status);
 

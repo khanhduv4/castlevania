@@ -1,4 +1,5 @@
-﻿#include <algorithm>
+﻿#pragma once
+#include <algorithm>
 #include <assert.h>
 #include "Utils.h"
 
@@ -10,10 +11,14 @@
 #include "Goomba.h"
 #include "Portal.h"
 
+#include "MorningStar.h"
+
 CSimon::CSimon(float x, float y) : CGameObject()
 {
 	untouchable = 0;
 	SetState(SIMON_STATE_IDLE);
+
+	this->morStar = new MorningStar();
 
 	start_x = x;
 	start_y = y;
@@ -35,7 +40,6 @@ void CSimon::setSitting(bool status) {
 void CSimon::setJumping(bool status)
 {
 	isJumping = status;
-
 }
 
 void CSimon::setDirection(int direction) {
@@ -46,23 +50,23 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
 	// Calculate dx, dy 
 	CGameObject::Update(dt);
-
+	morStar->Update(dt, coObjects);
 	// Simple fall down
 	vy += SIMON_GRAVITY * dt;
 
-	if (isAttacking && !isJumping) { 
+	if (isAttacking && !isJumping) {
 		vx = 0;
 	};
-
+	
 	vector<LPCOLLISIONEVENT> coEvents;
 	vector<LPCOLLISIONEVENT> coEventsResult;
 
-	coEvents.clear();
+	//coEvents.clear();
 
 	// turn off collision when die 
 	if (state != SIMON_STATE_DIE)
 		CalcPotentialCollisions(coObjects, coEvents);
-
+	
 	// No collision occured, proceed normally
 	if (coEvents.size() == 0)
 	{
@@ -99,8 +103,7 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		if (ny != 0) {
 			vy = 0;
 		}
-
-
+		 
 		// 
 		// Collision logic with other objects
 		//
@@ -113,9 +116,8 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 					y -= 15;
 				}
 				this->setJumping(0);
-
-			}
-
+			} 
+			
 			if (dynamic_cast<CPortal*>(e->obj))
 			{
 				CPortal* p = dynamic_cast<CPortal*>(e->obj);
@@ -126,10 +128,17 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 	// clean up collision events
 	for (UINT i = 0; i < coEvents.size(); i++) delete coEvents[i];
+
 }
 
 void CSimon::Render()
 {
+	if (isAttacking) {
+		Attack();
+	}
+	else {
+		morStar->SetFinish(1);
+	}
 	int ani = -1;
 	if (state == SIMON_STATE_DIE)
 		ani = SIMON_ANI_DIE;
@@ -179,8 +188,14 @@ void CSimon::Render()
 	int alpha = 255;
 	if (untouchable) alpha = 128; 
 	animation_set->at(ani)->Render(x, y, alpha);
-	if (isAttacking && animation_set->at(ani)->IsDone()) { isAttacking = 0; }
+	if (isAttacking && animation_set->at(ani)->IsDone()) { isAttacking = 0; morStar->SetActive(0); }
 	RenderBoundingBox();
+
+	morStar->Render();
+}
+
+void CSimon::Attack() { 
+	morStar->Attack(x, y, nx); 
 }
 
 void CSimon::SetState(int state)
@@ -200,7 +215,8 @@ void CSimon::SetState(int state)
 		break;
 	case SIMON_STATE_ATTACKING:
 		if (this->isAttacking) return;
-		this->isAttacking = 1;
+		this->isAttacking = 1; 
+		morStar->ResetAnimation();
 		animation_set->at(SIMON_ANI_ATTACKING_LEFT)->Reset();
 		animation_set->at(SIMON_ANI_ATTACKING_RIGHT)->Reset();
 		animation_set->at(SIMON_ANI_SITTING_ATTACK_LEFT)->Reset();

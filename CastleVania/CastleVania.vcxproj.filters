@@ -56,6 +56,24 @@
     <ClCompile Include="Font.cpp">
       <Filter>Framework\Board</Filter>
     </ClCompile>
+    <ClCompile Include="Weapon.cpp">
+      <Filter>Object\Weapon</Filter>
+    </ClCompile>
+    <ClCompile Include="MorningStar.cpp">
+      <Filter>Object\Weapon\MorningStar</Filter>
+    </ClCompile>
+    <ClCompile Include="Item.cpp">
+      <Filter>Object\Item</Filter>
+    </ClCompile>
+    <ClCompile Include="UpgradeMorningStar.cpp">
+      <Filter>Object\Item\Upgrade MorningStar</Filter>
+    </ClCompile>
+    <ClCompile Include="GameBoard.cpp">
+      <Filter>Framework\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="CBurningEffect.cpp">
+      <Filter>Object\Item\BurningEffect</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="KeyEventHandler.h">
@@ -118,6 +136,24 @@
     <ClInclude Include="Font.h">
       <Filter>Framework\Board</Filter>
     </ClInclude>
+    <ClInclude Include="Weapon.h">
+      <Filter>Object\Weapon</Filter>
+    </ClInclude>
+    <ClInclude Include="MorningStar.h">
+      <Filter>Object\Weapon\MorningStar</Filter>
+    </ClInclude>
+    <ClInclude Include="Item.h">
+      <Filter>Object\Item</Filter>
+    </ClInclude>
+    <ClInclude Include="UpgradeMorningStar.h">
+      <Filter>Object\Item\Upgrade MorningStar</Filter>
+    </ClInclude>
+    <ClInclude Include="GameBoard.h">
+      <Filter>Framework\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="CBurningEffect.h">
+      <Filter>Object\Item\BurningEffect</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Framework">
@@ -167,6 +203,24 @@
     </Filter>
     <Filter Include="Framework\Board">
       <UniqueIdentifier>{16bbad36-303d-47a5-9374-96cb3be917ec}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object\Weapon">
+      <UniqueIdentifier>{5850935c-5dd7-4ed2-b3f8-27797da1d537}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object\Weapon\MorningStar">
+      <UniqueIdentifier>{ba564934-6af7-4f55-8ce1-abec72baadef}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object\Item">
+      <UniqueIdentifier>{4a5605b9-d05b-4694-9b36-929064101fc9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object\Item\Upgrade MorningStar">
+      <UniqueIdentifier>{a9585675-1c9e-4bd4-afc3-fca57aaae8ed}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Framework\UI">
+      <UniqueIdentifier>{7b9bf432-cc13-4863-85b7-eb3f41d50d64}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object\Item\BurningEffect">
+      <UniqueIdentifier>{4cce5610-804e-441c-800e-3cf5ba1632eb}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

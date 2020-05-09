@@ -23,8 +23,7 @@ private:
 	float x, y;
 
 	string FillNumber(string s, UINT MaxNumber);
-	 
-
+	  
 	CSprite * _spriteIconDoubleShot;
 
  public:

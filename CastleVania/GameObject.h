@@ -44,6 +44,7 @@ struct CCollisionEvent
 class CGameObject
 {
 public:
+	int eType = 1;
 
 	float x; 
 	float y;
@@ -95,5 +96,7 @@ public:
 
 
 	~CGameObject();
+	bool checkAABB(CGameObject* obj);
+	bool isCollitionObjectWithObject(CGameObject* obj);
 };
 

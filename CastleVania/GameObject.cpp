@@ -132,6 +132,18 @@ void CGameObject::RenderBoundingBox()
 	CGame::GetInstance()->Draw(x, y, bbox, rect.left, rect.top, rect.right, rect.bottom, 32);
 }
 
+bool CGameObject::checkAABB(CGameObject* obj)
+{
+	float l, t, r, b;
+	float l1, t1, r1, b1;
+	this->GetBoundingBox(l, t, r, b);
+	obj->GetBoundingBox(l1, t1, r1, b1);
+
+	if (CGame::GetInstance()->checkAABB(l, t, r, b, l1, t1, r1, b1))
+		return true;
+
+	return false;
+}
 
 CGameObject::~CGameObject()
 {

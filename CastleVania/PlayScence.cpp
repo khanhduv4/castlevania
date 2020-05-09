@@ -8,6 +8,10 @@
 #include "Portal.h"
 #include"Tilemap.h"
 #include "Torch.h"
+#include "UpgradeMorningStar.h"
+#include "GameBoard.h"
+#include "CBurningEffect.h"
+
 
 using namespace std;
 
@@ -33,8 +37,9 @@ CPlayScene::CPlayScene(int id, LPCWSTR filePath) :
 #define OBJECT_TYPE_SIMON	0
 #define OBJECT_TYPE_BRICK	1
 #define OBJECT_TYPE_TORCH	2
+#define OBJECT_TYPE_WEAPON_MORNINGSTAR	3
 
-#define OBJECT_TYPE_PORTAL	50
+#define OBJECT_TYPE_PORTAL 99
 
 #define MAX_SCENE_LINE 1024
 
@@ -46,12 +51,12 @@ void CPlayScene::_ParseSection_TEXTURES(string line)
 	if (tokens.size() < 5) return; // skip invalid lines
 
 	int texID = atoi(tokens[0].c_str());
-	wstring path = ToWSTR(tokens[1]); 
+	wstring path = ToWSTR(tokens[1]);
 	int R = atoi(tokens[2].c_str());
 	int G = atoi(tokens[3].c_str());
 	int B = atoi(tokens[4].c_str());
 
-	CTextures::GetInstance()->Add(texID, path.c_str(), D3DCOLOR_XRGB( R, G, B));
+	CTextures::GetInstance()->Add(texID, path.c_str(), D3DCOLOR_XRGB(R, G, B));
 }
 void CPlayScene::_ParseSection_TILEMAP(string line) {
 	vector<string> tokens = split(line);
@@ -82,7 +87,6 @@ void CPlayScene::_ParseSection_SPRITES(string line)
 
 	CSprites::GetInstance()->Add(ID, l, t, r, b, tex);
 }
-
 void CPlayScene::_ParseSection_ANIMATIONS(string line)
 {
 	vector<string> tokens = split(line);
@@ -103,7 +107,6 @@ void CPlayScene::_ParseSection_ANIMATIONS(string line)
 
 	CAnimations::GetInstance()->Add(ani_id, ani);
 }
-
 void CPlayScene::_ParseSection_ANIMATION_SETS(string line)
 {
 	vector<string> tokens = split(line);
@@ -126,10 +129,6 @@ void CPlayScene::_ParseSection_ANIMATION_SETS(string line)
 
 	CAnimationSets::GetInstance()->Add(ani_set_id, s);
 }
-
-/*
-	Parse a line in section [OBJECTS]
-*/
 void CPlayScene::_ParseSection_OBJECTS(string line)
 {
 	vector<string> tokens = split(line);
@@ -183,7 +182,6 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 	obj->SetAnimationSet(ani_set);
 	objects.push_back(obj);
 }
-
 void CPlayScene::Load()
 {
 	DebugOut(L"[INFO] Start loading scene resources from : %s \n", sceneFilePath);
@@ -238,9 +236,10 @@ void CPlayScene::Load()
 
 	CTextures::GetInstance()->Add(ID_TEX_BBOX, L"Resources\\textures\\bbox.png", D3DCOLOR_XRGB(255, 255, 255));
 
+	//Load UI
+	CGameBoard::GetIntance()->Load();
 	DebugOut(L"[INFO] Done loading scene resources %s\n", sceneFilePath);
 }
-
 void CPlayScene::Update(DWORD dt)
 {
 	// We know that Mario is the first object in the list hence we won't add him into the colliable object list
@@ -249,8 +248,6 @@ void CPlayScene::Update(DWORD dt)
 	vector<LPGAMEOBJECT> coObjects;
 	for (size_t i = 1; i < objects.size(); i++)
 	{
-		//if (dynamic_cast<CTorch*>(objects[i]))
-		//	continue; 
 		coObjects.push_back(objects[i]);
 	}
 
@@ -262,6 +259,10 @@ void CPlayScene::Update(DWORD dt)
 	// skip the rest if scene was already unloaded (Mario::Update might trigger PlayScene::Unload)
 	if (player == NULL) return;
 
+
+	CheckCollisionWeaponWithObject(dt, &coObjects);
+
+
 	// Update camera to follow mario
 	float cx, cy;
 	player->GetPosition(cx, cy);
@@ -272,15 +273,17 @@ void CPlayScene::Update(DWORD dt)
 	if (cx > game->GetScreenWidth() / 2)
 		cx -= game->GetScreenWidth() / 2;
 	else cx = 0;
-	if (cx + game->GetScreenWidth() >= mapWidth)
-		cx = mapWidth - game->GetScreenWidth();
+	if (cx + game->GetScreenWidth() >= mapWidth - 15)
+		cx = mapWidth - 15   - game->GetScreenWidth();
+
+	DebugOut(L"Map width = %f ", mapWidth);
 	cy -= game->GetScreenHeight() / 2;
 	game->SetCamPos(cx, 0.f);
 }
-
 void CPlayScene::Render()
 {
 	TiledMap::GetCurrentMap()->Render();
+	CGameBoard::GetIntance()->Render();
 	int simon_Index = -1;
 	for (int i = 0; i < objects.size(); i++) {
 		if (dynamic_cast<CSimon*>(objects[i]))
@@ -290,9 +293,28 @@ void CPlayScene::Render()
 		}
 		objects[i]->Render();
 	}
-	objects[simon_Index]->Render();
+	if (simon_Index != -1)
+		objects[simon_Index]->Render();
 }
+void CPlayScene::CheckCollisionWeaponWithObject(DWORD dt, vector<LPGAMEOBJECT>* coObjects) {
+	auto morStar = player->getMorningStar();
 
+	if (morStar->IsActive()) {
+		for (UINT i = 0; i < coObjects->size(); i++) {
+			if (dynamic_cast<CTorch*>((*coObjects)[i])) {
+				if (morStar->isCollision((*coObjects)[i])) {
+					auto torch = dynamic_cast<CTorch*>((*coObjects)[i]);
+					float x = 0, y = 0;
+
+					torch->GetPosition(x, y);
+
+					torch->Disappear();
+					auto fire = new CBurningEffect(x, y);
+				}
+			}
+		}
+	}
+}
 /*
 	Unload current scene
 */
@@ -306,7 +328,6 @@ void CPlayScene::Unload()
 
 	DebugOut(L"[INFO] Scene %s unloaded! \n", sceneFilePath);
 }
-
 void CPlayScenceKeyHandler::OnKeyDown(int KeyCode)
 {
 
@@ -321,8 +342,9 @@ void CPlayScenceKeyHandler::OnKeyDown(int KeyCode)
 		break;
 	case DIK_S:
 		simon->SetState(SIMON_STATE_ATTACKING);
+		simon->Attack();
 		break;
-	
+
 	case DIK_A:
 		simon->Reset();
 		break;

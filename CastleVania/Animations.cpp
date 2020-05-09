@@ -20,9 +20,8 @@ void CAnimation::Add(int spriteId, DWORD time)
 }
 
 // NOTE: sometimes Animation object is NULL ??? HOW ??? 
-void CAnimation::Render(float x, float y, int alpha)
-{
-	if (isDone) isDone = 0;
+int CAnimation::Render(float x, float y, int alpha)
+{  
 	DWORD now = GetTickCount();
 	if (currentFrame == -1)
 	{
@@ -41,12 +40,13 @@ void CAnimation::Render(float x, float y, int alpha)
 				frames[frames.size()-1]->GetSprite()->Draw(x, y, alpha);
 				currentFrame = 0;   
 				isDone = 1;
-				return;
+				return currentFrame;
 			}
 		}
 	}
 
 	frames[currentFrame]->GetSprite()->Draw(x, y, alpha);
+	return currentFrame;
 }
 
 CAnimations * CAnimations::__instance = NULL;

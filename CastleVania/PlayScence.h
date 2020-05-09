@@ -5,6 +5,7 @@
 #include "GameObject.h"
 #include "Brick.h"
 #include "Simon.h"
+#include "MorningStar.h"
 
 
 class CPlayScene: public CScene
@@ -13,6 +14,7 @@ protected:
 	CSimon *player;					// A play scene has to have player, right? 
 
 	vector<LPGAMEOBJECT> objects;
+	vector<LPGAMEOBJECT> fire;
 
 	void _ParseSection_TEXTURES(string line);
 	void _ParseSection_TILEMAP(string line);
@@ -28,6 +30,8 @@ public:
 	virtual void Load();
 	virtual void Update(DWORD dt);
 	virtual void Render();
+	void CheckCollisionWeaponWithObject(DWORD dt, vector<LPGAMEOBJECT>* coObjects);
+
 	virtual void Unload();
 
 	CSimon * GetPlayer() { return player; } 
