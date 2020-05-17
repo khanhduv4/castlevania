@@ -1,0 +1,5 @@
+#id	type	name	x	y	width	height	ani_set_id
+0 13 BoundingMap 3 332 160 16 -1
+1 13 BoundingMap 218 334 160 16 -1
+2 13 BoundingMap 529 333 160 16 -1
+3 13 BoundingMap 780 332 160 16 -1

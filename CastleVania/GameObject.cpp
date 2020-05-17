@@ -1,4 +1,4 @@
-#include <d3dx9.h>
+﻿#include <d3dx9.h>
 #include <algorithm>
 
 
@@ -13,6 +13,8 @@ CGameObject::CGameObject()
 	x = y = 0;
 	vx = vy = 0;
 	nx = 1;	
+	objLife = 0;
+	isFinish = 0;
 }
 
 void CGameObject::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
@@ -20,6 +22,7 @@ void CGameObject::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 	this->dt = dt;
 	dx = vx*dt;
 	dy = vy*dt;
+
 }
 
 /*
@@ -143,6 +146,26 @@ bool CGameObject::checkAABB(CGameObject* obj)
 		return true;
 
 	return false;
+}
+
+void CGameObject::SubHealth(int th)
+{
+	Health -= th;
+	if (Health <= 0) {
+		Health = 0;
+		isFinish = 1;
+	}
+}
+
+
+bool CGameObject::GetFinish()
+{
+	return isFinish;
+}
+
+void CGameObject::SetFinish(bool b)
+{
+	isFinish = b;
 }
 
 CGameObject::~CGameObject()

@@ -2,24 +2,25 @@
 
 CTorch::CTorch()
 {
-	eType = 3;
+	Health = 1;
 	isEnable = true;
-	disappearingAnimSet = CAnimationSets::GetInstance()->Get(6);
-	isDisappearing = 0;
+	_width = TORCH_BBOX_WIDTH;
+	_height = TORCH_BBOX_HEIGHT;
 }
+
+
 
 void CTorch::Render()
 {
-	int ani = 0;
-	if (isDisappearing)
-	{
-		disappearingAnimSet->at(0)->Render(x,y);
-		if (disappearingAnimSet->at(0)->IsDone())
-			isDisappearing = 0;
+	if (!objLife) {
+		int ani = 0;
+		animation_set->at(ani)->Render(x, y, 255);
+		RenderBoundingBox();
 	}
-	if (!isEnable) return;
-	currentFrame = animation_set->at(ani)->Render(x, y, 255);
-	RenderBoundingBox();
+	else {
+		CEnemy::Render();
+	}
+
 }
 
 void CTorch::GetBoundingBox(float& l, float& t, float& r, float& b)
@@ -36,10 +37,14 @@ void CTorch::GetBoundingBox(float& l, float& t, float& r, float& b)
 		r = 0;
 		b = 0;
 	}
-
 }
 
 void CTorch::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
-	CGameObject::Update(dt, coObjects);
+
+	if (Health <= 0 && !(objLife == OBJ_LIFE_OUT)) {
+		objLife = 1;
+		Disappear();
+	}
+
 }

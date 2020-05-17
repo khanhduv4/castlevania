@@ -4,6 +4,16 @@
 
 #define MORNINGSTAR_ANI_LEVEL0_LEFT 0
 #define MORNINGSTAR_ANI_LEVEL0_RIGHT 1
+#define MORNINGSTAR_ANI_LEVEL1_LEFT 2
+#define MORNINGSTAR_ANI_LEVEL1_RIGHT 3
+#define MORNINGSTAR_ANI_LEVEL2_LEFT 4
+#define MORNINGSTAR_ANI_LEVEL2_RIGHT 5
+
+#define MORNINGSTAR_LV0_BBOX_WIDTH	46
+#define MORNINGSTAR_LV0_BBOX_HEIGHT 16
+#define MORNINGSTAR_LV2_BBOX_WIDTH	78
+#define MORNINGSTAR_LV2_BBOX_HEIGHT 12
+
 #define SIMON_WIDTH  32
 #define SIMON_HEIGHT 59
 #define SIMON_SITTING_HEIGHT 45
@@ -32,6 +42,7 @@ public:
 	void SetActive(bool isVisible) { this->isActive = isVisible; }
 	void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects = NULL);
 	void Render();
+	bool isHit = 0;
 
 	bool IsActive() { return isActive; }
 

@@ -8,6 +8,7 @@ CItem::CItem()
 	TimeDisplayMax = 0;
 	TimeWaited = 0;
 	isFinish = 0;
+	Health = 1;
 }
 
 
@@ -18,22 +19,24 @@ CItem::~CItem()
 
 void CItem::Update(DWORD dt, vector<LPGAMEOBJECT> *listObject)
 { 
-	
+	if (isFinish) return;
+	// Simple fall down
+	vy += 0.0007f * dt;
 
-	if (isWaitingDisplay())
-	{
-		TimeWaited += dt;
-		return;
-	}
+	//if (isWaitingDisplay())
+	//{
+	//	TimeWaited += dt;
+	//	return;
+	//}
 
-	TimeDisplayed += dt;
-	if (TimeDisplayed >= TimeDisplayMax)
-	{
-		isFinish = true;
-		return;
-	}
+	//TimeDisplayed += dt;
+	//if (TimeDisplayed >= TimeDisplayMax)
+	//{
+	//	isFinish = true;
+	//	return;
+	//}
 
-	CGameObject::Update(dt);
+ 	CGameObject::Update(dt);
 
 	vector<LPGAMEOBJECT> listObject_Brick;
 	listObject_Brick.clear();
@@ -56,21 +59,8 @@ void CItem::Update(DWORD dt, vector<LPGAMEOBJECT> *listObject)
 		float rdx = 0;
 		float rdy = 0;
 
-		//Remove collision with torch event
-		auto begin = coEvents.begin();
-		while (begin != coEvents.end()) {
-			if (dynamic_cast<CBrick*>((*begin)->obj))
-				begin = coEvents.erase(begin);
-			else
-				++begin;
-		}
-
 		// TODO: This is a very ugly designed function!!!!
 		FilterCollision(coEvents, coEventsResult, min_tx, min_ty, nx, ny, rdx, rdy);
-
-		// how to push back Mario if collides with a moving objects, what if Mario is pushed this way into another object?
-		//if (rdx != 0 && rdx!=dx)
-		//	x += nx*abs(rdx); 
 
 		// block every object first!
 		x += min_tx * dx + nx * 0.4f;
@@ -80,18 +70,6 @@ void CItem::Update(DWORD dt, vector<LPGAMEOBJECT> *listObject)
 		if (ny != 0) {
 			vy = 0;
 		}
-
-		// 
-		// Collision logic with other objects
-		//
-		for (UINT i = 0; i < coEventsResult.size(); i++)
-		{
-			LPCOLLISIONEVENT e = coEventsResult[i];
-			if (dynamic_cast<CBrick*>(e->obj)) {
-				// Kéo simon lên sau khi nhảy
-
-			}
-		}
 	}
 	for (UINT i = 0; i < coEvents.size(); i++)
 		delete coEvents[i];
@@ -99,13 +77,14 @@ void CItem::Update(DWORD dt, vector<LPGAMEOBJECT> *listObject)
 
 void CItem::Render()
 {
-	if (isWaitingDisplay())
-	{ 
-		return;
-	}
+	//if (isWaitingDisplay())
+	//{ 
+	//	return;
+	//}
+	if (isFinish) return;
+	animation_set->at(0)->Render(x, y);
+	RenderBoundingBox();
 
-	//if (IS_DEBUG_RENDER_BBOX)
-	//	RenderBoundingBox();
 }
 
 bool CItem::isWaitingDisplay()
@@ -116,12 +95,4 @@ bool CItem::isWaitingDisplay()
 
 
 
-bool CItem::GetFinish()
-{
-	return isFinish;
-}
 
-void CItem::SetFinish(bool b)
-{
-	isFinish = b;
-}

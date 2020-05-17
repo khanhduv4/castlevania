@@ -5,19 +5,24 @@
 #include "GameObject.h"
 #include "Brick.h"
 #include "Simon.h"
-#include "MorningStar.h"
-
+#include "MorningStar.h" 
+#include "Grid.h"
 
 class CPlayScene: public CScene
 {
 protected: 
-	CSimon *player;					// A play scene has to have player, right? 
+	CSimon *player;// A play scene has to have player, right? 
+	static CPlayScene* __instance;
 
 	vector<LPGAMEOBJECT> objects;
-	vector<LPGAMEOBJECT> fire;
+	vector<LPGAMEOBJECT> items;
+
+	Grid* _grid;
+	 
 
 	void _ParseSection_TEXTURES(string line);
 	void _ParseSection_TILEMAP(string line);
+	void _ParseSection_GRID(string line);
 	void _ParseSection_SPRITES(string line);
 	void _ParseSection_ANIMATIONS(string line);
 	void _ParseSection_ANIMATION_SETS(string line);
@@ -26,6 +31,10 @@ protected:
 	
 public: 
 	CPlayScene(int id, LPCWSTR filePath);
+	static CPlayScene* _getInstance(int id= 0, LPCWSTR filePath = NULL) {
+		if (__instance == NULL) __instance = new CPlayScene(id, filePath);
+		return __instance;
+	}
 
 	virtual void Load();
 	virtual void Update(DWORD dt);
@@ -47,4 +56,3 @@ public:
 	virtual void OnKeyUp(int KeyCode);
 	CPlayScenceKeyHandler(CScene *s) :CScenceKeyHandler(s) {};
 };
-

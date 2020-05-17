@@ -8,9 +8,13 @@
 #include "Portal.h"
 #include"Tilemap.h"
 #include "Torch.h"
+#include "Sword.h"
 #include "UpgradeMorningStar.h"
+#include "LargeHeart.h"
 #include "GameBoard.h"
 #include "CBurningEffect.h"
+#include "Knight.h"
+#include "Bat.h"
 
 
 using namespace std;
@@ -33,11 +37,13 @@ CPlayScene::CPlayScene(int id, LPCWSTR filePath) :
 #define SCENE_SECTION_ANIMATION_SETS	5
 #define SCENE_SECTION_OBJECTS	6
 #define SCENE_SECTION_TILEMAP 7 
+#define SCENE_SECION_GRID 8
 
 #define OBJECT_TYPE_SIMON	0
 #define OBJECT_TYPE_BRICK	1
 #define OBJECT_TYPE_TORCH	2
-#define OBJECT_TYPE_WEAPON_MORNINGSTAR	3
+#define OBJECT_TYPE_ENEMY_KNIGHT	3
+#define OBJECT_TYPE_ENEMY_BAT	4
 
 #define OBJECT_TYPE_PORTAL 99
 
@@ -47,7 +53,6 @@ CPlayScene::CPlayScene(int id, LPCWSTR filePath) :
 void CPlayScene::_ParseSection_TEXTURES(string line)
 {
 	vector<string> tokens = split(line);
-
 	if (tokens.size() < 5) return; // skip invalid lines
 
 	int texID = atoi(tokens[0].c_str());
@@ -63,6 +68,13 @@ void CPlayScene::_ParseSection_TILEMAP(string line) {
 	if (tokens.size() != 2)
 		return;
 	TiledMap::Initialize(tokens[0], tokens[1]);
+	DebugOut(L"Loaded map");
+}
+void CPlayScene::_ParseSection_GRID(string line) {
+	vector<string> tokens = split(line);
+	if (tokens.size() != 3)
+		return;
+	_grid = new Grid(atoi(tokens[0].c_str()), atoi(tokens[1].c_str()), atoi(tokens[2].c_str()), &objects);
 	DebugOut(L"Loaded map");
 }
 void CPlayScene::_ParseSection_SPRITES(string line)
@@ -132,7 +144,10 @@ void CPlayScene::_ParseSection_ANIMATION_SETS(string line)
 void CPlayScene::_ParseSection_OBJECTS(string line)
 {
 	vector<string> tokens = split(line);
-
+	if (tokens.size() == 6)
+	{
+		int i = 100;
+	}
 	if (tokens.size() < 3) return; // skip invalid lines - an object set must have at least id, x, y
 
 	int object_type = atoi(tokens[0].c_str());
@@ -158,8 +173,12 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 
 		DebugOut(L"[INFO] Player object created!\n");
 		break;
-	case OBJECT_TYPE_BRICK: obj = new CBrick(); break;
+	case OBJECT_TYPE_BRICK: obj = new CBrick();
+		dynamic_cast<CBrick*>(obj)->SetSize(atoi(tokens[4].c_str()), atoi(tokens[5].c_str()));
+		break;
 	case OBJECT_TYPE_TORCH: obj = new CTorch(); break;
+	case OBJECT_TYPE_ENEMY_KNIGHT: obj = new Knight(); break;
+	case OBJECT_TYPE_ENEMY_BAT: obj = new Bat(); break;
 
 	case OBJECT_TYPE_PORTAL:
 	{
@@ -176,10 +195,12 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 
 	// General object setup
 	obj->SetPosition(x, y);
+	if (ani_set_id != -1) {
+		LPANIMATION_SET ani_set = animation_sets->Get(ani_set_id);
+		obj->SetAnimationSet(ani_set);
+	}
 
-	LPANIMATION_SET ani_set = animation_sets->Get(ani_set_id);
-
-	obj->SetAnimationSet(ani_set);
+	obj->SetObjId(objects.size());
 	objects.push_back(obj);
 }
 void CPlayScene::Load()
@@ -215,7 +236,9 @@ void CPlayScene::Load()
 		if (line == "[TILEMAP]") {
 			section = SCENE_SECTION_TILEMAP; continue;
 		}
-
+		if (line == "[GRID]") {
+			section = SCENE_SECION_GRID; continue;
+		}
 		if (line[0] == '[') { section = SCENE_SECTION_UNKNOWN; continue; }
 
 		//
@@ -229,6 +252,7 @@ void CPlayScene::Load()
 		case SCENE_SECTION_ANIMATION_SETS: _ParseSection_ANIMATION_SETS(line); break;
 		case SCENE_SECTION_OBJECTS: _ParseSection_OBJECTS(line); break;
 		case SCENE_SECTION_TILEMAP: _ParseSection_TILEMAP(line); break;
+		case SCENE_SECION_GRID:  _ParseSection_GRID(line); break;
 		}
 	}
 
@@ -246,22 +270,30 @@ void CPlayScene::Update(DWORD dt)
 	// TO-DO: This is a "dirty" way, need a more organized way 
 
 	vector<LPGAMEOBJECT> coObjects;
-	for (size_t i = 1; i < objects.size(); i++)
+	vector<LPGAMEOBJECT> gridObjects;
+	_grid->GetListOfObjects(&coObjects, SCREEN_WIDTH, SCREEN_HEIGHT);
+	_grid->GetListOfObjects(&gridObjects, SCREEN_WIDTH, SCREEN_HEIGHT);
+//	DebugOut(L"Size of objects = %d", coObjects.size());
+	/*for (size_t i = 1; i < objects.size(); i++)
 	{
 		coObjects.push_back(objects[i]);
-	}
-
-	for (size_t i = 0; i < objects.size(); i++)
+	}*/
+	player->Update(dt, &coObjects, &items);
+	for (size_t i = 0; i < gridObjects.size(); i++)
 	{
-		objects[i]->Update(dt, &coObjects);
+		if (!dynamic_cast<CSimon*>(gridObjects[i])) {
+			gridObjects[i]->Update(dt, &coObjects);
+		}
+	}
+	for (int i = 0; i < items.size(); i++) {
+		if (!items[i]->isFinish || !dynamic_cast<CBurningEffect*>(gridObjects[i]))
+			items[i]->Update(dt, &coObjects);
 	}
 
 	// skip the rest if scene was already unloaded (Mario::Update might trigger PlayScene::Unload)
 	if (player == NULL) return;
 
-
 	CheckCollisionWeaponWithObject(dt, &coObjects);
-
 
 	// Update camera to follow mario
 	float cx, cy;
@@ -274,47 +306,98 @@ void CPlayScene::Update(DWORD dt)
 		cx -= game->GetScreenWidth() / 2;
 	else cx = 0;
 	if (cx + game->GetScreenWidth() >= mapWidth - 15)
-		cx = mapWidth - 15   - game->GetScreenWidth();
+		cx = mapWidth - 15 - game->GetScreenWidth();
 
-	DebugOut(L"Map width = %f ", mapWidth);
 	cy -= game->GetScreenHeight() / 2;
 	game->SetCamPos(cx, 0.f);
+
+	_grid->UpdateGrid();
 }
+
 void CPlayScene::Render()
 {
 	TiledMap::GetCurrentMap()->Render();
 	CGameBoard::GetIntance()->Render();
+
+	vector<LPGAMEOBJECT> gridObjects;
+	_grid->GetListOfObjects(&gridObjects, SCREEN_WIDTH, SCREEN_HEIGHT);
+	// Render game Object
 	int simon_Index = -1;
-	for (int i = 0; i < objects.size(); i++) {
-		if (dynamic_cast<CSimon*>(objects[i]))
+	for (int i = 0; i < gridObjects.size(); i++) {
+		if (dynamic_cast<CSimon*>(gridObjects[i]))
 		{
 			simon_Index = i;
 			continue;
 		}
-		objects[i]->Render();
+		if (!gridObjects[i]->isFinish || gridObjects[i]->objLife)
+			gridObjects[i]->Render();
 	}
-	if (simon_Index != -1)
-		objects[simon_Index]->Render();
+	player->Render();
+	// Render Items
+	for (int i = 0; i < items.size(); i++) {
+		items[i]->Render();
+	}
 }
+
 void CPlayScene::CheckCollisionWeaponWithObject(DWORD dt, vector<LPGAMEOBJECT>* coObjects) {
+
 	auto morStar = player->getMorningStar();
 
 	if (morStar->IsActive()) {
 		for (UINT i = 0; i < coObjects->size(); i++) {
-			if (dynamic_cast<CTorch*>((*coObjects)[i])) {
-				if (morStar->isCollision((*coObjects)[i])) {
-					auto torch = dynamic_cast<CTorch*>((*coObjects)[i]);
-					float x = 0, y = 0;
+			if ((morStar->isCollision((*coObjects)[i])) && !((*coObjects)[i]->GetFinish()) && !dynamic_cast<CSimon*>((*coObjects)[i])) {
+				DebugOut(L"ID Object: %d \n", (*coObjects)[i]->id);
+				if (dynamic_cast<CEnemy*>((*coObjects)[i])) {
+					morStar->SetActive(0);
+					if (dynamic_cast<CTorch*>((*coObjects)[i])) {
+						auto torch = dynamic_cast<CTorch*>((*coObjects)[i]);
+						float x = 0, y = 0;
+						torch->GetPosition(x, y);
+						torch->SubHealth(1);
+						if (torch->GetFinish()) {
+							CItem* item = NULL;
+							switch (torch->GetObjId())
+							{
+							case 4:
+							case 7: {
+								item = new LargeHeart(x, y);
+								break;
+							}
+							case 5:
+							case 6: {
+								item = new UpgradeMorningStar(x, y);
+								break;
+							}
+							case 8: {
+								item = new Sword(x, y);
+								break;
+							}
 
-					torch->GetPosition(x, y);
+							default:
+								item = new UpgradeMorningStar(x, y);
 
-					torch->Disappear();
-					auto fire = new CBurningEffect(x, y);
+								break;
+							}
+							DebugOut(L"ID Items: %d \n", (*coObjects)[i]->id);
+							items.push_back(item);
+						}
+					}
+					if (dynamic_cast<Knight*>((*coObjects)[i])) {
+						auto knight = dynamic_cast<Knight*>((*coObjects)[i]);
+						float x = 0, y = 0;
+						knight->GetPosition(x, y);
+						knight->SubHealth(1);
+						if (knight->GetFinish())
+							items.push_back(new UpgradeMorningStar(x, y));
+					}
 				}
+
 			}
+
 		}
 	}
 }
+
 /*
 	Unload current scene
 */
@@ -322,8 +405,11 @@ void CPlayScene::Unload()
 {
 	for (int i = 0; i < objects.size(); i++)
 		delete objects[i];
-
+	for (int i = 0; i < items.size(); i++)
+		delete items[i];
+	delete _grid;
 	objects.clear();
+	items.clear();
 	player = NULL;
 
 	DebugOut(L"[INFO] Scene %s unloaded! \n", sceneFilePath);
@@ -352,7 +438,6 @@ void CPlayScenceKeyHandler::OnKeyDown(int KeyCode)
 }
 void CPlayScenceKeyHandler::OnKeyUp(int KeyCode) {
 	CSimon* simon = ((CPlayScene*)scence)->GetPlayer();
-
 	if (KeyCode == DIK_DOWN) {
 		simon->setSitting(0);
 	}

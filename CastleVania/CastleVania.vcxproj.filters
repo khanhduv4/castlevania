@@ -3,10 +3,10 @@
   <ItemGroup>
     <ClCompile Include="main.cpp" />
     <ClCompile Include="PlayScence.cpp">
-      <Filter>Framework\Sence</Filter>
+      <Filter>Framework\Scence</Filter>
     </ClCompile>
     <ClCompile Include="Scence.cpp">
-      <Filter>Framework\Sence</Filter>
+      <Filter>Framework\Scence</Filter>
     </ClCompile>
     <ClCompile Include="Animations.cpp">
       <Filter>Framework\Animations</Filter>
@@ -74,16 +74,37 @@
     <ClCompile Include="CBurningEffect.cpp">
       <Filter>Object\Item\BurningEffect</Filter>
     </ClCompile>
+    <ClCompile Include="Cell.cpp">
+      <Filter>Framework\Grid</Filter>
+    </ClCompile>
+    <ClCompile Include="Grid.cpp">
+      <Filter>Framework\Grid</Filter>
+    </ClCompile>
+    <ClCompile Include="LargeHeart.cpp">
+      <Filter>Object\Item\Heart</Filter>
+    </ClCompile>
+    <ClCompile Include="Enemy.cpp">
+      <Filter>Object\Enemy\Base</Filter>
+    </ClCompile>
+    <ClCompile Include="Sword.cpp">
+      <Filter>Object\Item\Sword</Filter>
+    </ClCompile>
+    <ClCompile Include="Knight.cpp">
+      <Filter>Object\Enemy\Knight</Filter>
+    </ClCompile>
+    <ClCompile Include="Bat.cpp">
+      <Filter>Object\Enemy\Bat</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="KeyEventHandler.h">
       <Filter>Framework</Filter>
     </ClInclude>
     <ClInclude Include="Scence.h">
-      <Filter>Framework\Sence</Filter>
+      <Filter>Framework\Scence</Filter>
     </ClInclude>
     <ClInclude Include="PlayScence.h">
-      <Filter>Framework\Sence</Filter>
+      <Filter>Framework\Scence</Filter>
     </ClInclude>
     <ClInclude Include="Animations.h">
       <Filter>Framework\Animations</Filter>
@@ -154,6 +175,27 @@
     <ClInclude Include="CBurningEffect.h">
       <Filter>Object\Item\BurningEffect</Filter>
     </ClInclude>
+    <ClInclude Include="Cell.h">
+      <Filter>Framework\Grid</Filter>
+    </ClInclude>
+    <ClInclude Include="Grid.h">
+      <Filter>Framework\Grid</Filter>
+    </ClInclude>
+    <ClInclude Include="LargeHeart.h">
+      <Filter>Object\Item\Heart</Filter>
+    </ClInclude>
+    <ClInclude Include="Enemy.h">
+      <Filter>Object\Enemy\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="Sword.h">
+      <Filter>Object\Item\Sword</Filter>
+    </ClInclude>
+    <ClInclude Include="Knight.h">
+      <Filter>Object\Enemy\Knight</Filter>
+    </ClInclude>
+    <ClInclude Include="Bat.h">
+      <Filter>Object\Enemy\Bat</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Framework">
@@ -161,9 +203,6 @@
     </Filter>
     <Filter Include="Object">
       <UniqueIdentifier>{b47fd180-9784-4aec-a793-3202c57fec07}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Framework\Sence">
-      <UniqueIdentifier>{29b58dac-9934-4455-989d-49f7b6a87a72}</UniqueIdentifier>
     </Filter>
     <Filter Include="Framework\Animations">
       <UniqueIdentifier>{e2ed0f0b-2ddd-4e52-ad6d-dc0cae27c308}</UniqueIdentifier>
@@ -221,6 +260,27 @@
     </Filter>
     <Filter Include="Object\Item\BurningEffect">
       <UniqueIdentifier>{4cce5610-804e-441c-800e-3cf5ba1632eb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Framework\Grid">
+      <UniqueIdentifier>{8235222a-37d2-4aee-ab6f-9ede2bd1a6ee}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Framework\Scence">
+      <UniqueIdentifier>{29b58dac-9934-4455-989d-49f7b6a87a72}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object\Item\Heart">
+      <UniqueIdentifier>{0ffd8b86-950d-4f1a-8755-219a0179addc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object\Enemy\Base">
+      <UniqueIdentifier>{15508b01-be3f-4804-9e3c-2ad552db30cc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object\Item\Sword">
+      <UniqueIdentifier>{8c3059b2-a874-4fb1-8a3e-60cae64596d3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object\Enemy\Knight">
+      <UniqueIdentifier>{73cff7e4-4c1e-460a-bfe3-4496003255c3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object\Enemy\Bat">
+      <UniqueIdentifier>{8f47f3c6-7bba-488e-b318-c3ad88298556}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

@@ -8,7 +8,8 @@
 #include "Torch.h"
 #include "Brick.h"
 
-#include "Goomba.h"
+#include "UpgradeMorningStar.h"
+#include "LargeHeart.h"
 #include "Portal.h"
 
 #include "MorningStar.h"
@@ -19,11 +20,14 @@ CSimon::CSimon(float x, float y) : CGameObject()
 	SetState(SIMON_STATE_IDLE);
 
 	this->morStar = new MorningStar();
-
+	Health = 20;
 	start_x = x;
 	start_y = y;
 	this->x = x;
 	this->y = y;
+
+	_width = SIMON_BBOX_WIDTH;
+	_height = SIMON_BBOX_HEIGHT;
 }
 
 int CSimon::getDirection() {
@@ -46,7 +50,7 @@ void CSimon::setDirection(int direction) {
 	this->nx = direction;
 }
 
-void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
+void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects, vector<LPGAMEOBJECT>* coItems)
 {
 	// Calculate dx, dy 
 	CGameObject::Update(dt);
@@ -64,8 +68,10 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	//coEvents.clear();
 
 	// turn off collision when die 
-	if (state != SIMON_STATE_DIE)
+	if (state != SIMON_STATE_DIE) {
 		CalcPotentialCollisions(coObjects, coEvents);
+		CalcPotentialCollisions(coItems, coEvents);
+	}
 	
 	// No collision occured, proceed normally
 	if (coEvents.size() == 0)
@@ -82,7 +88,7 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		//Remove collision with torch event
 		auto begin = coEvents.begin();
 		while (begin != coEvents.end()) {
-			if (dynamic_cast<CTorch*>((*begin)->obj))
+			if (dynamic_cast<CTorch*>((*begin)->obj) || (*begin)->obj->GetFinish())
 				begin = coEvents.erase(begin);
 			else
 				++begin;
@@ -116,12 +122,25 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 					y -= 15;
 				}
 				this->setJumping(0);
+				continue;
 			} 
-			
-			if (dynamic_cast<CPortal*>(e->obj))
+			else if (dynamic_cast<CItem*>(e->obj)) {
+				if (dynamic_cast<UpgradeMorningStar*>(e->obj))
+					morStar->UpgradeLevel();
+				else if (dynamic_cast<LargeHeart*>(e->obj))
+					AddHeart();
+
+				dynamic_cast<CItem*>(e->obj)->SetFinish(1);
+
+				continue;
+
+			}
+			else if (dynamic_cast<CPortal*>(e->obj))
 			{
 				CPortal* p = dynamic_cast<CPortal*>(e->obj);
 				CGame::GetInstance()->SwitchScene(p->GetSceneId());
+				return;
+
 			}
 		}
 	}
@@ -267,4 +286,9 @@ void CSimon::Reset()
 
 void CSimon::Idle() {
 	isSitting = isAttacking = isJumping = 0;
+}
+
+void CSimon::AddHeart() {
+	heart++;
+	DebugOut(L"Heart: %d \n", heart);
 }

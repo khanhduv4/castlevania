@@ -34,8 +34,7 @@
 #define SIMON_ANI_SITTING_RIGHT 9
 #define SIMON_ANI_SITTING_ATTACK_LEFT	10
 #define SIMON_ANI_SITTING_ATTACK_RIGHT	11
-
-
+ 
 #define SIMON_ANI_DIE	99
 
 #define SIMON_BBOX_WIDTH  32
@@ -63,12 +62,13 @@ class CSimon : public CGameObject
 	DWORD untouchable_start;
 
 	MorningStar* morStar;
+	Weapon* currentSubWeapon;
 
-	float start_x;			// initial position of Mario at scene
+	float start_x;// initial position of Mario at scene
 	float start_y; 
 public: 
 	CSimon(float x = 0.0f, float y = 0.0f);
-	virtual void Update(DWORD dt, vector<LPGAMEOBJECT> *colliable_objects = NULL);
+	virtual void Update(DWORD dt, vector<LPGAMEOBJECT> *colliable_objects = NULL, vector<LPGAMEOBJECT>* coItems = NULL);
 	virtual void Render();
 
 	void SetState(int state);
@@ -94,6 +94,8 @@ public:
 	void Reset();
 
 	void Idle();
+
+	void AddHeart();
 
 	virtual void GetBoundingBox(float &left, float &top, float &right, float &bottom);
 };

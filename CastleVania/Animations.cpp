@@ -3,6 +3,7 @@
 
 CAnimationSets * CAnimationSets::__instance = NULL;
 
+
 void CAnimation::Add(int spriteId, DWORD time)
 {
 	int t = time;
