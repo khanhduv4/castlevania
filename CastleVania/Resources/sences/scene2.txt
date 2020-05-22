@@ -1,4 +1,4 @@
-# id	file_path	transparent_color_r	g	b
+﻿# id	file_path	transparent_color_r	g	b
 [TEXTURES]
 0	resources\simon\simon.png	255	0	255
 1	resources\ground\0.png	255	0	255
@@ -31,7 +31,7 @@
 10011	12	4	44	63	0
 
 #walk left
-10012	196	3	220	63	0	
+10012	196	3	220	63	0
 10013	136	4	164	63	0
 10014	78	2	102	63	0
 
@@ -60,6 +60,14 @@
 10027	0	265	48	311	0
 10028	437	331	469	377	0
 10029	375	333	419	377	0
+#Climb UP right
+10030	191	266	221	328	0
+10031	134	266	158	328	0
+#Climb UP left
+10032	259	68	289	130	0
+10033	322	68	346	130	0
+#Climb DOWN right
+#10034	
 # die 
 10099	0	36	64	66	2
 
@@ -158,19 +166,26 @@
 5	10017	0
 
 #attack left
-6	10018	150	10019	150	10020	300
+6	10018	100	10019	100	10020	100
 #attack right
-7	10021	150	10022	150	10023	300
+7	10021	100	10022	100	10023	100
 #sitting left
 8	10016	100
 #sitting right
 9	10017	100
 
 #sitting attack left
-10	10024	150	10025	150	10026	300
+10	10024	100	10025	150	10026	100
 #sitting attack right
-11	10027	150	10028	150	10029	300
-
+11	10027	100	10028	100	10029	100
+#climb up right
+12	10030	100	10031	100
+#idle on stair right
+13	10030	100
+#climb up left
+14	10032	100	10033	100
+#climb up left Idle
+15	10032	100
 #die
 99	10099	100
 
@@ -178,19 +193,20 @@
 #=============MorningStar===================
 #=======LV0========
 #left
-50	400	150	401	150	402	300
+50	400	100	401	100	402	100
 #right	
-51	403	150	404	150	405	300
+51	403	100	404	100	405	100
 #========LV1=============
 #left
-52	406	150	407	150	408	300
+52	406	100	407	100	408	100
 #right
-53	409	150	410	150	411	300
+53	409	100	410	100	411	100
+
 #==========LV2==========
 #left
-54	412	150	413	150	414	300
+54	412	100	413	100	414	100
 #right
-55	415	150	416	150	417	300
+55	415	100	416	100	417	100
 
 
 
@@ -229,14 +245,13 @@
 #right
 94	712	150	713	150	714	150
 
-
 #========================================================================================================
 #
 # id	ani1	ani2	ani3
 #
 [ANIMATION_SETS]
 # SIMON
-1	0	1	2	3	4	5	6	7	8	9	10	11
+1	0	1	2	3	4	5	6	7	8	9	10	11	12	13	14	15
 # BRICK 
 2	60
 # TORCH
@@ -260,23 +275,37 @@
 # type	x	y	ani_set_id	extra_settings per object type
 # type: 0 = SIMON , 1 = Brick, 
 # SIMON
-0	100	20	1
+0	100	300	1
 
 # GROUND 
 # --- platform (hint: I created the list using Excel!) ----
-1	0	370	-1	500	50
+#ground
+1	0	415	-1	500	50
+#left wall
 1	60	0	-1	1	1000
-1	437	0	75	-1	1000
-1	0	215	-1	310	1
-1	350	265	-1	70	1
+#right wall
+1	450	0	75	-1	1000
+#highest ground
+1	0	228	-1	310	1
+#high 1 ground
+1	350	288	-1	70	1
+
+#Hidden Object
+type	x	y	ani	width	height	type_hidden	height(stair)	SIMON_X
+#stair 1 begin
+999	210	390	-1	50	20	2	165	206	1
+#stair 2 begin
+999	130	200	-1	50	20	2	165	140	1
+
+#stair end
+#999	330	230	-1	50	10	3	200	1
 
 
 #===============ENEMY====================
 #Knight
-
-3	100	0	9	32	64
+3	100	100	9	100	250
 #Bat
-4	70	100	10	32	32
+4	70	150	10	32	32
 
 
 # --- SCENE PORTAL ----
@@ -284,7 +313,6 @@
 #50	1000	345	0	380	150	2
 
 [TILEMAP]
-#E:\CastleVania\CastleVania\Resources\maps\scene1_map.txt	E:\CastleVania\CastleVania\Resources\maps\scene1_map.png
-E:\CastleVania\CastleVania\Resources\maps\scene2_map.txt	E:\CastleVania\CastleVania\Resources\maps\scene2_map.png
+C:\Users\Admin\Desktop\GAME\CastleVania\Resources\maps\scene2_map.txt	C:\Users\Admin\Desktop\GAME\CastleVania\Resources\maps\scene2_map.png
 [GRID]
 136	12	10

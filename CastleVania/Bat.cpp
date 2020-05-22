@@ -14,8 +14,9 @@ Bat::Bat()
 	//SetState(VAMPIRE_BAT_STATE_IDLE);
 	SetAnimation(11);
 	this->Health = 2;
-
+	isGravity = 0;
 	isFinish = 0;
+	ani = 0;
 }
 
 Bat::~Bat()
@@ -25,16 +26,16 @@ Bat::~Bat()
 void Bat::GetBoundingBox(float& left, float& top, float& right, float& bottom)
 {
 
-		left = 0;
-		top = 0;
-		right = left + isFinish ? 0 : 32;
-		bottom = top + isFinish ? 0 : 32;
+		left = x;
+		top = y;
+		right = left + (isFinish ? 0 : 32);
+		bottom = top + (isFinish ? 0 : 32);
 
 }
 
 void Bat::Update(DWORD dt, vector<LPGAMEOBJECT>* coObject)
 {
-	//CEnemy::Update(dt, coObject);
+	CEnemy::Update(dt, coObject);
 
 
 	//if (!isFinish) {
@@ -66,37 +67,12 @@ void Bat::Update(DWORD dt, vector<LPGAMEOBJECT>* coObject)
 
 void Bat::Render()
 {
-	/*if (!isDeadth) {
-		int posX = x, posY = y;
-		int ani = 0;
-		switch (state)
-		{
-		case VAMPIRE_BAT_STATE_IDLE:
-		{
-			ani = VAMPIRE_BAT_ANI_IDLE;
-		}
-		break;
-		case VAMPIRE_BAT_STATE_FLYING:
-		{
-			if (nx > 0) {
-				ani = VAMPIRE_BAT_ANI_BLACK_FLYING_RIGHT;
-			}
-			else {
-				ani = VAMPIRE_BAT_ANI_BLACK_FLYING_LEFT;
-			}
-		}
-		break;
-		default:
-			break;
-		}
-
-		animation_set->at(ani)->Render(posX, posY);
+	if (!objLife) {
+		animation_set->at(ani)->Render(x, y, 255);
 		RenderBoundingBox();
 	}
-
-	Enemy::Render();*/
-	animation_set->at(0)->Render(x, y);
-	//RenderBoundingBox();
+	else
+		CEnemy::Render();
 }
 
 

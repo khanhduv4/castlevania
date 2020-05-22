@@ -53,8 +53,7 @@ public:
 	// Object spec
 	int Health;
 	int direction;
-
-
+	bool isGravity = 1;
 	float x;
 	float y;
 

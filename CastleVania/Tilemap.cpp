@@ -115,9 +115,8 @@ void TiledMap::LoadTileSet(LPCWSTR tilesLocation)
 		rect.right = rect.left + tileSize;
 		rect.top = (i / this->tileSetSize) * tileSize;
 		rect.bottom = rect.top + tileSize;
-
+		//DebugOut(L"Tileset Id = %d", i);
 		CSprites::GetInstance()->Add(1000 + i, rect.left, rect.top, rect.right, rect.bottom, CTextures::GetInstance()->Get(1000));
-
 	}
 }
 
@@ -144,6 +143,7 @@ void TiledMap::Update(DWORD dt)
 }
 void TiledMap::Render()
 {
+	//DebugOut(L"Render Tilemap", matrix.size());
 	for (int i = 0; i < matrix.size(); i++)
 	{
 		Row curRow = matrix[i];
@@ -151,8 +151,9 @@ void TiledMap::Render()
 		{
 			Tile curTile = curRow[j];
 			CSprites::GetInstance()->Get(1000 + curTile.tileId)->Draw(curTile.x, curTile.y);
-			/*DebugOut(L"\nRender tile at "  );
-			string coord = to_string(curTile.x) + "-" + to_string(curTile.y);
+
+			//DebugOut(L"\nRender tile at %d " ,curTile.tileId );
+			/*string coord = to_string(curTile.x) + "-" + to_string(curTile.y);
 			DebugOut(const_cast<wchar_t *>(std::wstring(coord.begin(), coord.end()).c_str()));*/
 			 
 		}

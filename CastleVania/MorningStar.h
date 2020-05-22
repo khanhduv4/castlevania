@@ -30,7 +30,7 @@ protected:
 
 	bool isActive;
 	int level; 
-
+	int ani;
 	float leftBound;
 	float topBound;
 	float rightBound;

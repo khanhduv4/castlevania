@@ -12,6 +12,7 @@ MorningStar::MorningStar()
 	LPANIMATION_SET ani_set = animation_sets->Get(4);
 	level = 0;
 	currentFrame = 0;
+	isActive = 0;
 	this->SetAnimationSet(ani_set);
 
 }
@@ -45,13 +46,12 @@ void MorningStar::SetActiveBoundingBox(bool isActive) {
 void MorningStar::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
 	Weapon::Update(dt, coObjects);
-
 }
 
 void MorningStar::Render()
 {
 	if (!isActive) return;
-	int ani = 0;
+	ani = 0;
 	switch (level) {
 	case 0: {
 		ani = MORNINGSTAR_ANI_LEVEL0_LEFT;
@@ -75,7 +75,9 @@ void MorningStar::Render()
 
 	int alpha = 255;
 	currentFrame = animation_set->at(ani)->Render(x, y, alpha);
-	RenderBoundingBox();
+	if (animation_set->at(ani)->IsDone()) isHit = false;
+
+	//RenderBoundingBox();
 
 }
 

@@ -15,7 +15,9 @@ void CEnemy::Update(DWORD dt, vector<LPGAMEOBJECT>* listObject)
 	}
 	if (isFinish) return;
 	// Simple fall down
-	vy += 0.0007f * dt;
+	if (isGravity) {
+		vy += 0.0007f * dt;
+	}
 
 	CGameObject::Update(dt);
 

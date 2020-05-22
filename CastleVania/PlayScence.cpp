@@ -15,6 +15,7 @@
 #include "CBurningEffect.h"
 #include "Knight.h"
 #include "Bat.h"
+#include "HiddenObject.h"
 
 
 using namespace std;
@@ -44,6 +45,8 @@ CPlayScene::CPlayScene(int id, LPCWSTR filePath) :
 #define OBJECT_TYPE_TORCH	2
 #define OBJECT_TYPE_ENEMY_KNIGHT	3
 #define OBJECT_TYPE_ENEMY_BAT	4
+#define HIDDEN_OBJECT	999
+
 
 #define OBJECT_TYPE_PORTAL 99
 
@@ -177,9 +180,15 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 		dynamic_cast<CBrick*>(obj)->SetSize(atoi(tokens[4].c_str()), atoi(tokens[5].c_str()));
 		break;
 	case OBJECT_TYPE_TORCH: obj = new CTorch(); break;
-	case OBJECT_TYPE_ENEMY_KNIGHT: obj = new Knight(); break;
+	case OBJECT_TYPE_ENEMY_KNIGHT: obj = new Knight(atoi(tokens[4].c_str()), atoi(tokens[5].c_str())); break;
 	case OBJECT_TYPE_ENEMY_BAT: obj = new Bat(); break;
-
+	case HIDDEN_OBJECT: 
+		obj = new HiddenObject(atoi(tokens[6].c_str()));
+		dynamic_cast<HiddenObject*>(obj)->SetSize(atoi(tokens[4].c_str()), atoi(tokens[5].c_str()));
+		dynamic_cast<HiddenObject*>(obj)->SetStairHeight(atoi(tokens[7].c_str()));
+		dynamic_cast<HiddenObject*>(obj)->simonX = atoi(tokens[8].c_str());
+		dynamic_cast<HiddenObject*>(obj)->direction = atoi(tokens[9].c_str());
+		break;
 	case OBJECT_TYPE_PORTAL:
 	{
 		float r = atof(tokens[4].c_str());
@@ -271,19 +280,27 @@ void CPlayScene::Update(DWORD dt)
 
 	vector<LPGAMEOBJECT> coObjects;
 	vector<LPGAMEOBJECT> gridObjects;
-	_grid->GetListOfObjects(&coObjects, SCREEN_WIDTH, SCREEN_HEIGHT);
-	_grid->GetListOfObjects(&gridObjects, SCREEN_WIDTH, SCREEN_HEIGHT);
-//	DebugOut(L"Size of objects = %d", coObjects.size());
-	/*for (size_t i = 1; i < objects.size(); i++)
-	{
-		coObjects.push_back(objects[i]);
-	}*/
+	coObjects.clear();
+	gridObjects.clear();
+	
+	if (_grid != NULL) {
+		_grid->GetListOfObjects(&coObjects, SCREEN_WIDTH, SCREEN_HEIGHT);
+		_grid->GetListOfObjects(&gridObjects, SCREEN_WIDTH, SCREEN_HEIGHT);
+	}
+	 
+	
+	//	DebugOut(L"Size of objects = %d", coObjects.size());
+		/*for (size_t i = 1; i < objects.size(); i++)
+		{
+			coObjects.push_back(objects[i]);
+		}*/
 	player->Update(dt, &coObjects, &items);
+	if (_grid == NULL)
+		return;
 	for (size_t i = 0; i < gridObjects.size(); i++)
 	{
-		if (!dynamic_cast<CSimon*>(gridObjects[i])) {
-			gridObjects[i]->Update(dt, &coObjects);
-		}
+		if (dynamic_cast<CSimon*>(gridObjects[i])) continue;
+		gridObjects[i]->Update(dt, &coObjects);
 	}
 	for (int i = 0; i < items.size(); i++) {
 		if (!items[i]->isFinish || !dynamic_cast<CBurningEffect*>(gridObjects[i]))
@@ -320,7 +337,9 @@ void CPlayScene::Render()
 	CGameBoard::GetIntance()->Render();
 
 	vector<LPGAMEOBJECT> gridObjects;
-	_grid->GetListOfObjects(&gridObjects, SCREEN_WIDTH, SCREEN_HEIGHT);
+	gridObjects.clear();
+	if (_grid)
+		_grid->GetListOfObjects(&gridObjects, SCREEN_WIDTH, SCREEN_HEIGHT);
 	// Render game Object
 	int simon_Index = -1;
 	for (int i = 0; i < gridObjects.size(); i++) {
@@ -348,7 +367,8 @@ void CPlayScene::CheckCollisionWeaponWithObject(DWORD dt, vector<LPGAMEOBJECT>* 
 			if ((morStar->isCollision((*coObjects)[i])) && !((*coObjects)[i]->GetFinish()) && !dynamic_cast<CSimon*>((*coObjects)[i])) {
 				DebugOut(L"ID Object: %d \n", (*coObjects)[i]->id);
 				if (dynamic_cast<CEnemy*>((*coObjects)[i])) {
-					morStar->SetActive(0);
+					if (morStar->isHit) continue;
+					morStar->isHit = 1;
 					if (dynamic_cast<CTorch*>((*coObjects)[i])) {
 						auto torch = dynamic_cast<CTorch*>((*coObjects)[i]);
 						float x = 0, y = 0;
@@ -390,10 +410,16 @@ void CPlayScene::CheckCollisionWeaponWithObject(DWORD dt, vector<LPGAMEOBJECT>* 
 						if (knight->GetFinish())
 							items.push_back(new UpgradeMorningStar(x, y));
 					}
+					if (dynamic_cast<Bat*>((*coObjects)[i])) {
+						auto bat = dynamic_cast<Bat*>((*coObjects)[i]);
+						float x = 0, y = 0;
+						bat->GetPosition(x, y);
+						bat->SubHealth(1);
+						if (bat->GetFinish())
+							items.push_back(new UpgradeMorningStar(x, y));
+					}
 				}
-
 			}
-
 		}
 	}
 }
@@ -411,7 +437,7 @@ void CPlayScene::Unload()
 	objects.clear();
 	items.clear();
 	player = NULL;
-
+	_grid = NULL;
 	DebugOut(L"[INFO] Scene %s unloaded! \n", sceneFilePath);
 }
 void CPlayScenceKeyHandler::OnKeyDown(int KeyCode)
@@ -441,6 +467,9 @@ void CPlayScenceKeyHandler::OnKeyUp(int KeyCode) {
 	if (KeyCode == DIK_DOWN) {
 		simon->setSitting(0);
 	}
+	else if (KeyCode == DIK_UP) {
+		simon->isClimbing = 0;
+	}
 }
 void CPlayScenceKeyHandler::KeyState(BYTE* states)
 {
@@ -462,6 +491,14 @@ void CPlayScenceKeyHandler::KeyState(BYTE* states)
 		if (simon->IsJumping()) return;
 		simon->SetState(SIMON_STATE_SITTING);
 	}
-	else
-		simon->SetState(SIMON_STATE_IDLE);
+	else if (game->IsKeyDown(DIK_UP)) {
+
+		if(simon->isClimbableUp)
+			simon->SetState(SIMON_STATE_CLIMBING_UP);
+	}
+	else {
+		if (simon->isStair) simon->SetState(SIMON_STATE_ON_STAIR);
+		else simon->SetState(SIMON_STATE_IDLE);
+
+	}
 }

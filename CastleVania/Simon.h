@@ -1,6 +1,8 @@
 #pragma once
 #include "GameObject.h"
 #include "MorningStar.h"
+#include "HiddenObject.h"
+#include "HiddenObject.h"
 
 #define SIMON_WALKING_SPEED	0.12f 
 //0.1f
@@ -15,6 +17,9 @@
 #define SIMON_STATE_ATTACKING	3
 #define SIMON_STATE_JUMPING_ATTACK	4
 #define SIMON_STATE_SITTING	5
+#define SIMON_STATE_ON_STAIR	6
+#define SIMON_STATE_CLIMBING_UP	7
+#define SIMON_STATE_CLIMBING_DOWN	8
 
 #define SIMON_STATE_DIE	9
 
@@ -52,14 +57,13 @@ class CSimon : public CGameObject
 	int life;
 
 	// Check state var
-	bool isJumping;
-	bool isAttacking;
-	bool isSitting;
-	bool isOnGround = 0;
-	bool isDead;
+
 
 	int untouchable;
 	DWORD untouchable_start;
+
+
+	vector<LPGAMEOBJECT> stairHiddenObject;
 
 	MorningStar* morStar;
 	Weapon* currentSubWeapon;
@@ -67,6 +71,20 @@ class CSimon : public CGameObject
 	float start_x;// initial position of Mario at scene
 	float start_y; 
 public: 
+	bool isJumping;
+	bool isAttacking;
+	bool isSitting;
+	bool isStair;
+	bool isClimbableUp;
+	bool isClimbableDown;
+	bool isOnGround = 0;
+	bool isDead;
+	bool isClimbing;
+	float startYStair;
+	float endYStair;
+	float startXStair;
+	float endXStair;
+	int stairDirection;
 	CSimon(float x = 0.0f, float y = 0.0f);
 	virtual void Update(DWORD dt, vector<LPGAMEOBJECT> *colliable_objects = NULL, vector<LPGAMEOBJECT>* coItems = NULL);
 	virtual void Render();

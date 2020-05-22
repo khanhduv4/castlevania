@@ -5,6 +5,7 @@ class CEnemy :
 {
 public:
 	CEnemy();
+	int ani;
 	LPANIMATION_SET disappearingAnimSet;
 
 	void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects = NULL);

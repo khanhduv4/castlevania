@@ -18,14 +18,15 @@ CSimon::CSimon(float x, float y) : CGameObject()
 {
 	untouchable = 0;
 	SetState(SIMON_STATE_IDLE);
-
 	this->morStar = new MorningStar();
 	Health = 20;
 	start_x = x;
 	start_y = y;
 	this->x = x;
 	this->y = y;
-
+	isClimbableUp = 0;
+	isClimbing = 0;
+	isStair = 0;
 	_width = SIMON_BBOX_WIDTH;
 	_height = SIMON_BBOX_HEIGHT;
 }
@@ -56,7 +57,21 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects, vector<LPGAMEOBJE
 	CGameObject::Update(dt);
 	morStar->Update(dt, coObjects);
 	// Simple fall down
-	vy += SIMON_GRAVITY * dt;
+
+	//DebugOut(L"%d \n",(int)x);
+	
+	if (isStair && y >= endYStair) {
+		vy = 0;
+	}
+	else {
+		if (y <= endYStair) {
+			isStair = 0;
+			isClimbableUp = false;
+			isClimbing = 0;
+		}
+
+		vy += SIMON_GRAVITY * dt;
+	}
 
 	if (isAttacking && !isJumping) {
 		vx = 0;
@@ -65,19 +80,29 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects, vector<LPGAMEOBJE
 	vector<LPCOLLISIONEVENT> coEvents;
 	vector<LPCOLLISIONEVENT> coEventsResult;
 
-	//coEvents.clear();
+	coEvents.clear();
 
 	// turn off collision when die 
 	if (state != SIMON_STATE_DIE) {
 		CalcPotentialCollisions(coObjects, coEvents);
 		CalcPotentialCollisions(coItems, coEvents);
 	}
+
+	if (!isClimbing )
+		DebugOut(L"%d \n",(int)x);
+
 	
 	// No collision occured, proceed normally
 	if (coEvents.size() == 0)
 	{
-		x += dx;
-		y += dy;
+		if (isClimbing) {
+			x += stairDirection;
+			y -= 1;
+		}
+		if (!isStair) {
+			x += dx;
+			y += dy;
+		}
 	}
 	else
 	{
@@ -85,11 +110,27 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects, vector<LPGAMEOBJE
 		float rdx = 0;
 		float rdy = 0;
 
-		//Remove collision with torch event
+
+		//Remove collision with torch and hidden object event
 		auto begin = coEvents.begin();
 		while (begin != coEvents.end()) {
 			if (dynamic_cast<CTorch*>((*begin)->obj) || (*begin)->obj->GetFinish())
+			{
 				begin = coEvents.erase(begin);
+			}
+			else if (dynamic_cast<HiddenObject*>((*begin)->obj)) {
+				auto obj = dynamic_cast<HiddenObject*>((*begin)->obj);
+				if (obj->type == TYPE_STAIR_RIGHT_BEGIN) {
+					isClimbableUp = 1;
+					isClimbableDown = 0;
+					startYStair = obj->y;
+					endYStair = startYStair - obj->stairHeight;
+					startXStair = obj->simonX;
+					stairDirection = obj->direction;
+				}
+				begin = coEvents.erase(begin);
+
+			}
 			else
 				++begin;
 		}
@@ -123,7 +164,7 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects, vector<LPGAMEOBJE
 				}
 				this->setJumping(0);
 				continue;
-			} 
+			}  
 			else if (dynamic_cast<CItem*>(e->obj)) {
 				if (dynamic_cast<UpgradeMorningStar*>(e->obj))
 					morStar->UpgradeLevel();
@@ -175,6 +216,21 @@ void CSimon::Render()
 				else ani = SIMON_ANI_JUMPING_LEFT;
 			}
 		}
+		else if (isStair) {
+			if (!isClimbing) {
+				if (stairDirection == 1)
+					ani = 13;
+				else ani = 15;
+
+			}
+			else
+			{
+				if (stairDirection == 1)
+					ani = 12;
+				else ani = 14;
+
+			}
+		}
 		else if (isSitting) {
 			vx = 0;
 			if (isAttacking) {
@@ -208,7 +264,7 @@ void CSimon::Render()
 	if (untouchable) alpha = 128; 
 	animation_set->at(ani)->Render(x, y, alpha);
 	if (isAttacking && animation_set->at(ani)->IsDone()) { isAttacking = 0; morStar->SetActive(0); }
-	RenderBoundingBox();
+	//RenderBoundingBox();
 
 	morStar->Render();
 }
@@ -234,7 +290,8 @@ void CSimon::SetState(int state)
 		break;
 	case SIMON_STATE_ATTACKING:
 		if (this->isAttacking) return;
-		this->isAttacking = 1; 
+		this->isAttacking = 1;
+		morStar->isHit = 0;
 		morStar->ResetAnimation();
 		animation_set->at(SIMON_ANI_ATTACKING_LEFT)->Reset();
 		animation_set->at(SIMON_ANI_ATTACKING_RIGHT)->Reset();
@@ -246,8 +303,21 @@ void CSimon::SetState(int state)
 		y += 14;
 		this->isSitting = 1;
 		break;
+	case SIMON_STATE_ON_STAIR: {
+		isClimbing = 0;
+		isStair = 1;
+		break;
+	}
+	case SIMON_STATE_CLIMBING_UP: {
+		isClimbing = 1;
+		if (isStair) return;
+		x = startXStair;
+		isStair = 1;
+		break;
+	}
 	case SIMON_STATE_IDLE:
 		vx = 0;
+		//isClimbableUp = 0;
 		break;
 
 	case SIMON_STATE_DIE:

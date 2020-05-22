@@ -279,7 +279,8 @@
 99	1400	307	0	1430	340	2
 
 [TILEMAP]
-E:\CastleVania\CastleVania\Resources\maps\scene1_map.txt	E:\CastleVania\CastleVania\Resources\maps\scene1_map.png
+C:\Users\Admin\Desktop\GAME\CastleVania\Resources\maps\scene1_map.txt	C:\Users\Admin\Desktop\GAME\CastleVania\Resources\maps\scene1_map.png
+#C:\Users\Admin\Desktop\GAME\CastleVania\Resources\maps\scene4_map.txt	C:\Users\Admin\Desktop\GAME\CastleVania\Resources\maps\scene4_map.png
 #E:\CastleVania\CastleVania\Resources\maps\scene2_map.txt	E:\CastleVania\CastleVania\Resources\maps\scene2_map.png
 [GRID]
 136	12	5
