@@ -39,7 +39,7 @@ public:
 	MorningStar();
 	~MorningStar();
 
-	void SetActive(bool isVisible) { this->isActive = isVisible; }
+	void SetActive(bool isVisible);
 	void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects = NULL);
 	void Render();
 	bool isHit = 0;
@@ -49,8 +49,12 @@ public:
 	void Attack(float X, float Y, int Direction);
 
 	void ResetAnimation() {
-		animation_set->at(0)->Reset();
-		animation_set->at(1)->Reset(); 
+		animation_set->at(MORNINGSTAR_ANI_LEVEL0_LEFT)->Reset();
+		animation_set->at(MORNINGSTAR_ANI_LEVEL0_RIGHT)->Reset();
+		animation_set->at(MORNINGSTAR_ANI_LEVEL1_LEFT)->Reset();
+		animation_set->at(MORNINGSTAR_ANI_LEVEL1_RIGHT)->Reset();
+		animation_set->at(MORNINGSTAR_ANI_LEVEL2_LEFT)->Reset();
+		animation_set->at(MORNINGSTAR_ANI_LEVEL2_RIGHT)->Reset();
 		currentFrame = 0;
 	}
 	void SetActiveBoundingBox(bool isActive);

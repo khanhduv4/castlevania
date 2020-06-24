@@ -1,0 +1,379 @@
+# id	file_path	transparent_color_r	g	b
+[TEXTURES]
+0	resources\simon\simon.png	255	0	255
+1	resources\ground\0.png	255	0	255
+2	resources\simon\simondeath.png	255	0	255
+3	Resources\weapon\morningstar.png	255	0	255
+4	Resources\other\burning.png	255	0	255
+5	Resources\item\upMor.png	255	0	255
+6	Resources\item\heart-lg.png	255	0	255
+7	Resources\item\sword.png	255	0	255
+8	Resources\enemy\knight_left.png	255	0	255
+9	Resources\enemy\knight_right.png	255	0	255
+10	Resources\enemy\bat_left.png	255	0	255
+11	Resources\enemy\bat_right.png	255	0	255
+12	resources\ground\1.png	255	0	255
+13	Resources\item\axe.png	255	0	255
+14	Resources\item\chicken.png	255	0	255
+15	Resources\item\money.png	255	0	255
+16	Resources\item\boomerang.png	255	0	255
+17	Resources\item\blue.png	255	0	255
+18	Resources\item\II.png	255	0	255
+
+20	resources\textures\misc.png	176	224	248
+100	Resources\extra\blackboard.png	0	0	0
+
+# id	left	top	right	bottom	texture_id
+[SPRITES]
+# ========================SIMON========================
+# idle right
+10001	436	202	468	262	0
+
+# walk right
+10002	260	201	285	262	0
+10003	314	202	344	262	0
+10004	378	200	402	262	0
+
+# idle left
+10011	12	4	44	63	0
+
+#walk left
+10012	196	3	220	63	0
+10013	136	4	164	63	0
+10014	78	2	102	63	0
+
+# jump left
+10016	252	1	284	47	0
+
+# jump right
+10017	195	200	228	245	0
+
+# attack left
+10018	312	4	360	64	0
+10019	373	4	405	64	0
+10020	421	6	464	64	0
+
+#attack right
+10021	120	202	168	262	0
+10022	75	202	107	262	0
+10023	16	204	59	262	0
+
+#sitting attack left
+10024	432	67	480	113	0
+10025	11	133	43	179	0
+10026	61	135	105	179	0
+
+#sitting attack right
+10027	0	265	48	311	0
+10028	437	331	469	377	0
+10029	375	333	419	377	0
+#Climb UP right
+10030	191	266	221	328	0
+10031	134	266	158	328	0
+#Climb UP left
+10032	259	68	289	130	0
+10033	322	68	346	130	0
+#Climb DOWN right
+#10034	
+# die 
+10099	0	36	64	66	2
+
+#game board
+100100	0	0	520	80	100
+
+
+#====================BRICK==========================
+20001	408	225	424	241	20
+
+#====================TORCH=========================
+3000	0	0	32	64	1
+3001	32	0	64	64	1
+#===================CANDLE========================
+3002	0	0	16	32	12
+3003	16	0	32	32	12
+
+
+#====================WEAPON===========================
+#morning star left lv 0
+400	23	9	39	57	3
+401	69	10	101	48	3
+402	143	13	189	29	3
+#morningstar right lv 0
+403	376	8	392	56	3	
+404	314	9	346	47	3
+405	226	12	272	28	3
+#morning star left lv 1
+406	23	77	39	125	3
+407	69	78	101	116	3
+408	143	87	189	97	3
+#morning star right lv 1
+409	376	76	392	124	3
+410	314	77	346	115	3
+411	226	86	272	98	3
+#morning star left lv 2
+412	23	145	39	193	3
+413	69	146	101	184	3
+414	111	155	189	167	3
+#morning star right lv 2
+415	376	144	392	192	3
+416	314	145	346	183	3
+417	226	154	304	166	3
+	
+#====================EXTRA===========================
+#burn for new item
+
+500	18	10	24	36	4
+501	58	12	70	36	4
+502	98	6	114	36	4
+
+#======================ITEM========================
+#morning Star Upgrade
+600	0	0	32	32	5
+# Large Heart
+601	0	0	24	20	6
+# Sword
+602	0	0	32	18	7
+# Axe
+603	0	0	30	28	13
+#Chicken
+604	0	0	32	26	14
+#Boomerang
+605	0	0	30	28	16
+# Blue
+606	0	0	32	32	17
+# II
+607	0	0	42	42	18
+
+#=====================ENEMY========================
+#knight left
+700	0	0	32	64	8
+701	32	0	64	64	8
+702	64	0	96	64	8
+703	96	0	128	64	8
+#knight right
+704	0	0	32	64	9
+705	32	0	64	64	9
+706	64	0	96	64	9
+707	96	0	128	64	9
+#Bat left
+708	0	0	32	32	10
+709	32	0	64	32	10
+710	64	0	96	32	10
+711	96	0	128	32	10
+#Bat right
+712	0	0	32	32	11
+713	96	0	64	32	11
+714	64	0	96	32	11
+715	32	0	128	32	11
+
+# ani_id	sprite1_id	time1	sprite2_id	time2	...
+[ANIMATIONS]
+
+# ==== SIMON =========
+#idles right
+0	10001	100
+#idle left
+1	10011	100
+#walk right
+2	10002	200	10003	200	10004	200
+#walk left 
+3	10012	200	10013	200	10014	200
+
+#jump left
+4	10016	0
+
+#jump right
+5	10017	0
+
+#attack left
+6	10018	100	10019	100	10020	100
+#attack right
+7	10021	100	10022	100	10023	100
+#sitting left
+8	10016	100
+#sitting right
+9	10017	100
+
+#sitting attack left
+10	10024	100	10025	150	10026	100
+#sitting attack right
+11	10027	100	10028	100	10029	100
+#climb up right
+12	10030	100	10031	100
+#idle on stair right
+13	10030	100
+#climb up left
+14	10032	100	10033	100
+#climb up left Idle
+15	10032	100
+#die
+99	10099	100
+
+
+#=============MorningStar===================
+#=======LV0========
+#left
+50	400	100	401	100	402	100
+#right	
+51	403	100	404	100	405	100
+#========LV1=============
+#left
+52	406	100	407	100	408	100
+#right
+53	409	100	410	100	411	100
+
+#==========LV2==========
+#left
+54	412	100	413	100	414	100
+#right
+55	415	100	416	100	417	100
+
+#==================BACKGROUND ITEM ===============
+
+#===============candle==============
+301	3002	100	3003	100
+#================torch===================
+
+300	3000	200	3001	200
+
+#==================EXTRA=================
+#burning
+70	500	150	501	150	502	150
+
+#=================ITEMS==================
+#Morning Star Upgrade
+80	600	100
+#lARge Heart
+81	601	100
+# Sword
+82	602	100
+#Axe
+83	603	100
+#Chicken
+84	604	100
+# Boomerang
+85	605	100
+# Blue
+86	606	100
+# II
+87	607	100
+
+
+# ======== BRICK ========= START: 6x
+60	20001	100
+
+# ========= ENEMY =============
+
+#Knight
+#left
+90	700	150	701	150	702	150	703	150
+#right
+91	704	150	705	150	706	150	707	150
+
+#Bat
+#stand
+92	708	100
+#left
+93	709	150	710	150	711	150
+#right
+94	712	150	713	150	714	150
+
+#========================================================================================================
+#
+# id	ani1	ani2	ani3
+#
+[ANIMATION_SETS]
+# SIMON
+1	0	1	2	3	4	5	6	7	8	9	10	11	12	13	14	15
+# BRICK 
+2	60
+# TORCH
+3	300
+# MORNINGSTAR
+4	50	51	52	53	54	55
+# MORNINGSTAR UPGRADE
+5	80
+#BURNING
+6	70
+# LARGE HEART
+7	81
+# SWORD
+8	82
+# KNIGHT
+9	90	91
+#BAT
+10	92	93	94
+#CANDLE
+11	301
+# AXE
+12	83
+# CHICKEN
+13	84
+# BOOMERANG
+14	85
+# BLUE
+15	86
+# II
+16	87
+
+[OBJECTS]
+# type	x	y	ani_set_id	extra_settings per object type
+# type: 0 = SIMON , 1 = Brick, 
+# SIMON
+0	1380	300	1
+#0	130	300	1
+
+# GROUND 
+# --- platform (hint: I created the list using Excel!) ----
+#ground
+#1
+1	65	320	-1	63	33
+1	130	385	-1	125	33
+1	190	255	-1	190	33
+1	255	417	-1	1300	33
+1	575	320	-1	66	33
+1	835	320	-1	66	33
+1	1340	385	-1	160	33
+
+
+#candle
+5	450	350	11	2
+5	580	350	11	2
+5	710	350	11	2
+5	840	350	11	2
+5	970	350	11	6
+5	1100	350	11	2
+5	1210	350	11	2
+5	1325	350	11	5
+
+
+
+#wall
+1	50	100	-1	15	500
+
+
+
+#Hidden Object
+type	x	y	ani	width	height	type_hidden	height(stair)	SIMON_X	direction
+#stair 1 begin
+999	300	250	-1	50	20	2	165	310	-1
+
+
+#===============ENEMY====================
+#Knight
+3	190	150	9	2	190	290
+3	640	292	9	2	640	670
+
+#Bat
+#4	70	150	10	2	32	32
+
+
+
+# --- SCENE PORTAL ----
+# type	l	t	ani_set_id	r	b	scene_id
+99	200	100	0	250	110	5
+
+[TILEMAP]
+C:\Users\Admin\Desktop\GAME\CastleVania\Resources\maps\scene4_map.txt	C:\Users\Admin\Desktop\GAME\CastleVania\Resources\maps\scene4_map.png
+[GRID]
+136	12	10

@@ -1,7 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <ClCompile Include="main.cpp" />
     <ClCompile Include="PlayScence.cpp">
       <Filter>Framework\Scence</Filter>
     </ClCompile>
@@ -33,19 +32,13 @@
       <Filter>Object\Simon</Filter>
     </ClCompile>
     <ClCompile Include="Brick.cpp">
-      <Filter>Object\Background</Filter>
+      <Filter>Framework\UI\Background</Filter>
     </ClCompile>
     <ClCompile Include="Portal.cpp">
       <Filter>Object\Portal</Filter>
     </ClCompile>
-    <ClCompile Include="Goomba.cpp">
-      <Filter>Object\Enemy</Filter>
-    </ClCompile>
-    <ClCompile Include="Koopas.cpp">
-      <Filter>Object\Enemy</Filter>
-    </ClCompile>
     <ClCompile Include="Torch.cpp">
-      <Filter>Object\Background</Filter>
+      <Filter>Framework\UI\Background</Filter>
     </ClCompile>
     <ClCompile Include="Board.cpp">
       <Filter>Framework\Board</Filter>
@@ -98,6 +91,33 @@
     <ClCompile Include="HiddenObject.cpp">
       <Filter>Object\HiddenObject</Filter>
     </ClCompile>
+    <ClCompile Include="Candle.cpp">
+      <Filter>Framework\UI\Background</Filter>
+    </ClCompile>
+    <ClCompile Include="main.cpp">
+      <Filter>Object\Item</Filter>
+    </ClCompile>
+    <ClCompile Include="Axe.cpp">
+      <Filter>Object\Item\Axe</Filter>
+    </ClCompile>
+    <ClCompile Include="Chicken.cpp">
+      <Filter>Object\Item\Chicken</Filter>
+    </ClCompile>
+    <ClCompile Include="Money.cpp">
+      <Filter>Object\Item\Money</Filter>
+    </ClCompile>
+    <ClCompile Include="Blue.cpp">
+      <Filter>Object\Item\Blue</Filter>
+    </ClCompile>
+    <ClCompile Include="II.cpp">
+      <Filter>Object\Item\II</Filter>
+    </ClCompile>
+    <ClCompile Include="Boomerang.cpp">
+      <Filter>Object\Item\Boomerang</Filter>
+    </ClCompile>
+    <ClCompile Include="Elevator.cpp">
+      <Filter>Object\Elevator</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="KeyEventHandler.h">
@@ -134,19 +154,13 @@
       <Filter>Object\Simon</Filter>
     </ClInclude>
     <ClInclude Include="Brick.h">
-      <Filter>Object\Background</Filter>
+      <Filter>Framework\UI\Background</Filter>
     </ClInclude>
     <ClInclude Include="Portal.h">
       <Filter>Object\Portal</Filter>
     </ClInclude>
-    <ClInclude Include="Goomba.h">
-      <Filter>Object\Enemy</Filter>
-    </ClInclude>
-    <ClInclude Include="Koopas.h">
-      <Filter>Object\Enemy</Filter>
-    </ClInclude>
     <ClInclude Include="Torch.h">
-      <Filter>Object\Background</Filter>
+      <Filter>Framework\UI\Background</Filter>
     </ClInclude>
     <ClInclude Include="Define.h">
       <Filter>Object\Define</Filter>
@@ -202,6 +216,30 @@
     <ClInclude Include="HiddenObject.h">
       <Filter>Object\HiddenObject</Filter>
     </ClInclude>
+    <ClInclude Include="Candle.h">
+      <Filter>Framework\UI\Background</Filter>
+    </ClInclude>
+    <ClInclude Include="Axe.h">
+      <Filter>Object\Item\Axe</Filter>
+    </ClInclude>
+    <ClInclude Include="Chicken.h">
+      <Filter>Object\Item\Chicken</Filter>
+    </ClInclude>
+    <ClInclude Include="Money.h">
+      <Filter>Object\Item\Money</Filter>
+    </ClInclude>
+    <ClInclude Include="Blue.h">
+      <Filter>Object\Item\Blue</Filter>
+    </ClInclude>
+    <ClInclude Include="II.h">
+      <Filter>Object\Item\II</Filter>
+    </ClInclude>
+    <ClInclude Include="Boomerang.h">
+      <Filter>Object\Item\Boomerang</Filter>
+    </ClInclude>
+    <ClInclude Include="Elevator.h">
+      <Filter>Object\Elevator</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Framework">
@@ -239,9 +277,6 @@
     </Filter>
     <Filter Include="Object\Portal">
       <UniqueIdentifier>{c2eed75f-3e43-4a0e-bb8d-4048baecab14}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Object\Background">
-      <UniqueIdentifier>{0d989f83-eb6b-47dd-a4ef-2d2d7e9c89f0}</UniqueIdentifier>
     </Filter>
     <Filter Include="Object\Define">
       <UniqueIdentifier>{e95f3cf7-7a56-471e-9920-2cbe274dc877}</UniqueIdentifier>
@@ -290,6 +325,30 @@
     </Filter>
     <Filter Include="Object\HiddenObject">
       <UniqueIdentifier>{c4e1c7ad-5858-4dcf-8c08-fa6e5bf240a5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object\Item\Axe">
+      <UniqueIdentifier>{7439d26c-d4e5-45bb-a36c-00374a1a6730}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object\Item\Chicken">
+      <UniqueIdentifier>{1becf36d-6e00-4e6d-8b3f-d64b6f303f96}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object\Item\Money">
+      <UniqueIdentifier>{e6c92634-326b-4120-80f5-a8ff56777ddc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object\Item\Blue">
+      <UniqueIdentifier>{9a64fe12-519a-47ec-bbfd-8d7a24272970}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object\Item\II">
+      <UniqueIdentifier>{de61a589-d982-4eaf-bfb4-b6386d4b9693}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object\Item\Boomerang">
+      <UniqueIdentifier>{7c9b012a-247b-4dcc-b08c-bdfa92c49822}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object\Elevator">
+      <UniqueIdentifier>{dd5e3dbe-3c6b-4183-8429-c57d17683df9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Framework\UI\Background">
+      <UniqueIdentifier>{0d989f83-eb6b-47dd-a4ef-2d2d7e9c89f0}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

@@ -22,7 +22,6 @@
 
 #include "Simon.h"
 #include "Brick.h"
-#include "Goomba.h"
 
 #include "PlayScence.h"
 

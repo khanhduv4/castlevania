@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 
 #include <Windows.h>
 #include <d3dx9.h>
@@ -65,6 +65,8 @@ public:
 
 	int nx;
 
+	int itemId = -1;
+
 	int state;
 
 	DWORD dt;
@@ -72,6 +74,8 @@ public:
 	LPANIMATION_SET animation_set;
 
 	int objLife;
+
+	bool isCollisionWithSimon = 1;
 
 	int _width;
 	int _height;
@@ -139,6 +143,8 @@ public:
 	~CGameObject();
 	bool checkAABB(CGameObject* obj);
 	void SubHealth(int th);
+	virtual bool isCollision(CGameObject* obj); // kiểm tra vũ khí này có va chạm với object kia hay không?
+
 	bool isCollitionObjectWithObject(CGameObject* obj);
 	bool GetFinish();
 	void SetFinish(bool b);

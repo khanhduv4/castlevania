@@ -1,18 +1,8 @@
-﻿#pragma once
-#include <algorithm>
+﻿#include <algorithm>
 #include <assert.h>
 #include "Utils.h"
 
 #include "Simon.h"
-#include "Game.h"
-#include "Torch.h"
-#include "Brick.h"
-
-#include "UpgradeMorningStar.h"
-#include "LargeHeart.h"
-#include "Portal.h"
-
-#include "MorningStar.h"
 
 CSimon::CSimon(float x, float y) : CGameObject()
 {
@@ -35,7 +25,7 @@ int CSimon::getDirection() {
 	return this->nx;
 }
 
-void CSimon::setSitting(bool status) { 
+void CSimon::setSitting(bool status) {
 	isSitting = status;
 	if (isSitting == 0) {
 		y -= 15;
@@ -53,30 +43,22 @@ void CSimon::setDirection(int direction) {
 
 void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects, vector<LPGAMEOBJECT>* coItems)
 {
+	UpdateHurting();
 	// Calculate dx, dy 
 	CGameObject::Update(dt);
-	morStar->Update(dt, coObjects);
-	// Simple fall down
 
-	//DebugOut(L"%d \n",(int)x);
-	
-	if (isStair && y >= endYStair) {
-		vy = 0;
+	morStar->Update(dt, coObjects);
+
+	if (stair) {
+		if (!this->isCollision(stair)) {
+			isClimbableUp = isClimbableDown = 0;
+		}
 	}
 	else {
-		if (y <= endYStair) {
-			isStair = 0;
-			isClimbableUp = false;
-			isClimbing = 0;
-		}
-
-		vy += SIMON_GRAVITY * dt;
+		isClimbableUp = isClimbableDown = 0;
 	}
 
-	if (isAttacking && !isJumping) {
-		vx = 0;
-	};
-	
+
 	vector<LPCOLLISIONEVENT> coEvents;
 	vector<LPCOLLISIONEVENT> coEventsResult;
 
@@ -87,49 +69,76 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects, vector<LPGAMEOBJE
 		CalcPotentialCollisions(coObjects, coEvents);
 		CalcPotentialCollisions(coItems, coEvents);
 	}
-
-	if (!isClimbing )
-		DebugOut(L"%d \n",(int)x);
-
-	
 	// No collision occured, proceed normally
 	if (coEvents.size() == 0)
 	{
-		if (isClimbing) {
-			x += stairDirection;
-			y -= 1;
+		if (GetTickCount() - untouchable_start > SIMON_UNTOUCHABLE_TIME)
+		{
+			untouchable_start = 0;
+			untouchable = false;
+			isHurting = 0;
 		}
-		if (!isStair) {
-			x += dx;
-			y += dy;
+
+		if (isAttacking && !isJumping) {
+			vx = 0;
+		};
+		if (isStair) {
+			isClimbableDown = isClimbableUp = 1;
+			if (isClimbing)
+			{
+				vx = stairXDirection * SIMON_CLIMBING_SPEED;
+				dx = vx * dt;
+				nx = stairXDirection;
+				vy = stairYDirection * SIMON_CLIMBING_SPEED;
+				dy = vy * dt;
+			}
+			else {
+				vy = 0;
+				vx = 0;
+			}
 		}
+		else {
+			vy += SIMON_GRAVITY * dt;
+		}
+
+		x += dx;
+		y += dy;
 	}
 	else
 	{
 		float min_tx, min_ty, nx = 0, ny;
 		float rdx = 0;
 		float rdy = 0;
-
-
 		//Remove collision with torch and hidden object event
 		auto begin = coEvents.begin();
 		while (begin != coEvents.end()) {
-			if (dynamic_cast<CTorch*>((*begin)->obj) || (*begin)->obj->GetFinish())
-			{
-				begin = coEvents.erase(begin);
-			}
-			else if (dynamic_cast<HiddenObject*>((*begin)->obj)) {
+			if (dynamic_cast<HiddenObject*>((*begin)->obj)) {
 				auto obj = dynamic_cast<HiddenObject*>((*begin)->obj);
-				if (obj->type == TYPE_STAIR_RIGHT_BEGIN) {
+				if (obj->type == TYPE_STAIR_BEGIN) {
+					isStair = 0;
+					isClimbing = 0;
 					isClimbableUp = 1;
 					isClimbableDown = 0;
-					startYStair = obj->y;
-					endYStair = startYStair - obj->stairHeight;
 					startXStair = obj->simonX;
-					stairDirection = obj->direction;
+					stairXDirection = obj->direction;
+					stairYDirection = -1;
+					stair = obj;
 				}
-				begin = coEvents.erase(begin);
+				if (obj->type == TYPE_STAIR_END) {
+					isStair = 0;
+					isClimbing = 0;
+					isClimbableUp = 0;
+					isClimbableDown = 1;
+					startXStair = obj->simonX;
+					stairXDirection = -obj->direction;
+					stairYDirection = 1;
+					stair = obj;
 
+				}
+			}
+			if (!(*begin)->obj->isCollisionWithSimon || (*begin)->obj->GetFinish())
+			{
+				begin = coEvents.erase(begin);
 			}
 			else
 				++begin;
@@ -150,21 +159,31 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects, vector<LPGAMEOBJE
 		if (ny != 0) {
 			vy = 0;
 		}
-		 
 		// 
 		// Collision logic with other objects
 		//
 		for (UINT i = 0; i < coEventsResult.size(); i++)
 		{
 			LPCOLLISIONEVENT e = coEventsResult[i];
-			if (dynamic_cast<CBrick*>(e->obj)) {
+			if (dynamic_cast<CPortal*>(e->obj))
+			{
+				CPortal* p = dynamic_cast<CPortal*>((e)->obj);
+				CGame::GetInstance()->SwitchScene(p->GetSceneId());
+				return;
+			}
+			else if (dynamic_cast<CBrick*>(e->obj) || dynamic_cast<Elevator*>(e->obj))
+			{
 				// Kéo simon lên sau khi nhảy
 				if (isJumping) {
 					y -= 15;
 				}
 				this->setJumping(0);
 				continue;
-			}  
+			}
+			else if (dynamic_cast<CEnemy*>(e->obj)) {
+				if (!untouchable)
+					SetHurt(e);
+			}
 			else if (dynamic_cast<CItem*>(e->obj)) {
 				if (dynamic_cast<UpgradeMorningStar*>(e->obj))
 					morStar->UpgradeLevel();
@@ -176,16 +195,12 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects, vector<LPGAMEOBJE
 				continue;
 
 			}
-			else if (dynamic_cast<CPortal*>(e->obj))
-			{
-				CPortal* p = dynamic_cast<CPortal*>(e->obj);
-				CGame::GetInstance()->SwitchScene(p->GetSceneId());
-				return;
-
-			}
 		}
 	}
-
+	//if (nx != 0)
+	//{
+	//	isHurting = 0;
+	//}
 	// clean up collision events
 	for (UINT i = 0; i < coEvents.size(); i++) delete coEvents[i];
 
@@ -204,7 +219,10 @@ void CSimon::Render()
 		ani = SIMON_ANI_DIE;
 	else
 	{
-		if (isJumping) {
+		if (isHurting) {
+			ani = SIMON_ANI_HURTING;
+		}
+		else if (isJumping) {
 			if (isAttacking) {
 				if (nx > 0)
 					ani = SIMON_ANI_ATTACKING_RIGHT;
@@ -217,19 +235,64 @@ void CSimon::Render()
 			}
 		}
 		else if (isStair) {
-			if (!isClimbing) {
-				if (stairDirection == 1)
-					ani = 13;
-				else ani = 15;
-
+			if (isAttacking) {
+				if (stairYDirection == 1) {
+					if (stairXDirection == 1) {
+						ani = SIMON_ANI_STAIR_DOWN_ATTACK_RIGHT;
+					}
+					else {
+						ani = SIMON_ANI_STAIR_DOWN_ATTACK_LEFT;
+					}
+				}
+				else {
+					if (stairXDirection == 1) {
+						ani = SIMON_ANI_STAIR_UP_ATTACK_RIGHT;
+					}
+					else {
+						ani = SIMON_ANI_STAIR_UP_ATTACK_LEFT;
+					}
+				}
+			} else if (!isClimbing) {
+				if (stairYDirection == 1) {
+					if (stairXDirection == 1) {
+						ani = SIMON_ANI_STAIR_IDLE_DOWN_RIGHT;
+					}
+					else {
+						ani = SIMON_ANI_STAIR_IDLE_DOWN_LEFT;
+					}
+				}
+				else {
+					if (stairXDirection == 1) {
+						ani = SIMON_ANI_STAIR_IDLE_UP_RIGHT;
+					}
+					else {
+						ani = SIMON_ANI_STAIR_IDLE_UP_LEFT;
+					}
+				}
 			}
 			else
 			{
-				if (stairDirection == 1)
-					ani = 12;
-				else ani = 14;
+				if (stairYDirection == 1) {
+					if (stairXDirection == 1) {
+						ani = SIMON_ANI_STAIR_CLIMB_DOWN_RIGHT;
+					}
+
+					else {
+						ani = SIMON_ANI_STAIR_CLIMB_DOWN_LEFT;
+					}
+				}
+				else {
+					if (stairXDirection == 1) {
+						ani = SIMON_ANI_STAIR_CLIMB_UP_RIGHT;
+					}
+
+					else {
+						ani = SIMON_ANI_STAIR_CLIMB_UP_LEFT;
+					}
+				}
 
 			}
+
 		}
 		else if (isSitting) {
 			vx = 0;
@@ -261,16 +324,19 @@ void CSimon::Render()
 	}
 
 	int alpha = 255;
-	if (untouchable) alpha = 128; 
+	if (untouchable) alpha = 180;
+
 	animation_set->at(ani)->Render(x, y, alpha);
 	if (isAttacking && animation_set->at(ani)->IsDone()) { isAttacking = 0; morStar->SetActive(0); }
-	//RenderBoundingBox();
 
 	morStar->Render();
 }
 
-void CSimon::Attack() { 
-	morStar->Attack(x, y, nx); 
+void CSimon::Attack() {
+	if (isStair)
+		isClimbing = 0;
+	morStar->Attack(x, y, nx);
+	DebugOut(L"Attack");
 }
 
 void CSimon::SetState(int state)
@@ -291,12 +357,11 @@ void CSimon::SetState(int state)
 	case SIMON_STATE_ATTACKING:
 		if (this->isAttacking) return;
 		this->isAttacking = 1;
+		ResetAttackAni();
+		isClimbing = 0;
 		morStar->isHit = 0;
 		morStar->ResetAnimation();
-		animation_set->at(SIMON_ANI_ATTACKING_LEFT)->Reset();
-		animation_set->at(SIMON_ANI_ATTACKING_RIGHT)->Reset();
-		animation_set->at(SIMON_ANI_SITTING_ATTACK_LEFT)->Reset();
-		animation_set->at(SIMON_ANI_SITTING_ATTACK_RIGHT)->Reset();
+
 		break;
 	case SIMON_STATE_SITTING:
 		if (this->isSitting) return;
@@ -310,14 +375,25 @@ void CSimon::SetState(int state)
 	}
 	case SIMON_STATE_CLIMBING_UP: {
 		isClimbing = 1;
+		stairYDirection = -1;
+		stairXDirection = 1;
+		if (isStair) return;
+		x = startXStair;
+		isStair = 1;
+		break;
+	}
+	case SIMON_STATE_CLIMBING_DOWN: {
+		isClimbing = 1;
+		stairYDirection = 1;
+		stairXDirection = -1;
 		if (isStair) return;
 		x = startXStair;
 		isStair = 1;
 		break;
 	}
 	case SIMON_STATE_IDLE:
-		vx = 0;
-		//isClimbableUp = 0;
+		if(!isHurting)
+			vx = 0;
 		break;
 
 	case SIMON_STATE_DIE:
@@ -344,9 +420,58 @@ void CSimon::GetBoundingBox(float& left, float& top, float& right, float& bottom
 
 }
 
+void CSimon::UpdateHurting() {
+	if (isHurting && GetTickCount() - hurtingTimeCount > SIMON_HURTING_TIME) {
+		isHurting = false;
+		vx = 0;
+		vy = 0;
+	}
+}
+
+void CSimon::SetHurt(LPCOLLISIONEVENT e)
+{
+	
+	if (isHurting == true)
+		return;
+
+	if (e->nx == 0 && e->ny == 0) // ko có va chạm
+		return;
+
+	isAttacking = 0;
+	isJumping = 0;
+	morStar->SetActive(0);
+
+	if (!isStair) // ko "đang tự đi" và ko "đang trên thang" thì bật ra
+	{
+		hurtingTimeCount = GetTickCount();
+		if (e->nx != 0)
+		{
+			vx = SIMON_WALKING_SPEED * e->nx;
+			vy = -SIMON_VJUMP_HURTING;
+			isHurting = 1;
+		}
+
+		if (e->ny != 0)
+		{
+			vy = -SIMON_VJUMP_HURTING;
+			isHurting = 1;
+		}
+	}
+	else
+	{
+		isHurting = 1;
+	}
+
+	StartUntouchable(); // không cho các object đụng tiếp
+
+
+	SubHealth(2); // chạm enemy -2 máu
+}
+
 /*
 	Reset Mario status to the beginning state of a scene
 */
+
 void CSimon::Reset()
 {
 	SetState(SIMON_STATE_IDLE);
@@ -354,11 +479,30 @@ void CSimon::Reset()
 	SetSpeed(0, 0);
 }
 
-void CSimon::Idle() {
-	isSitting = isAttacking = isJumping = 0;
+void CSimon::ResetAttackAni() {
+
+	if (isStair) {
+		animation_set->at(SIMON_ANI_STAIR_UP_ATTACK_RIGHT)->Reset();
+		animation_set->at(SIMON_ANI_STAIR_UP_ATTACK_LEFT)->Reset();
+		animation_set->at(SIMON_ANI_STAIR_DOWN_ATTACK_RIGHT)->Reset();
+		animation_set->at(SIMON_ANI_STAIR_DOWN_ATTACK_LEFT)->Reset();
+	}
+	else {
+		animation_set->at(SIMON_ANI_ATTACKING_LEFT)->Reset();
+		animation_set->at(SIMON_ANI_ATTACKING_RIGHT)->Reset();
+		animation_set->at(SIMON_ANI_SITTING_ATTACK_LEFT)->Reset();
+		animation_set->at(SIMON_ANI_SITTING_ATTACK_RIGHT)->Reset();
+	}
+
 }
 
 void CSimon::AddHeart() {
 	heart++;
 	DebugOut(L"Heart: %d \n", heart);
+}
+
+void CSimon::InvertClimbDirection()
+{
+	stairXDirection = -stairXDirection;
+	stairYDirection = -stairYDirection;
 }

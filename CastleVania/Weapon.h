@@ -27,7 +27,6 @@ public:
   	
 	virtual void Render(); 
 	virtual void UpdatePositionFitSimon(); 
-	virtual bool isCollision(CGameObject* obj); // kiểm tra vũ khí này có va chạm với object kia hay không?
 	virtual void RenderIcon(float X, float Y) = 0;
 	
 	void SetFinish(bool b);

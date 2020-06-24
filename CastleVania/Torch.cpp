@@ -6,6 +6,7 @@ CTorch::CTorch()
 	isEnable = true;
 	_width = TORCH_BBOX_WIDTH;
 	_height = TORCH_BBOX_HEIGHT;
+	isCollisionWithSimon = 0;
 }
 
 
@@ -15,7 +16,7 @@ void CTorch::Render()
 	if (!objLife) {
 		int ani = 0;
 		animation_set->at(ani)->Render(x, y, 255);
-		RenderBoundingBox();
+		//RenderBoundingBox();
 	}
 	else {
 		CEnemy::Render();

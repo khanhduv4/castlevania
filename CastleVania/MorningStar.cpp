@@ -7,7 +7,6 @@
 
 MorningStar::MorningStar()
 {
-
 	CAnimationSets* animation_sets = CAnimationSets::GetInstance();
 	LPANIMATION_SET ani_set = animation_sets->Get(4);
 	level = 0;
@@ -41,6 +40,12 @@ void MorningStar::SetActiveBoundingBox(bool isActive) {
 		rightBound = 0;
 		bottomBound = 0;
 	}
+}
+
+void MorningStar::SetActive(bool isVisible) { 
+	this->isActive = isVisible; 
+	if (!isVisible)
+		ResetAnimation();
 }
 
 void MorningStar::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
@@ -157,8 +162,6 @@ void MorningStar::UpgradeLevel()
 	if (isActive == false) // nếu chưa đánh xong mà update thì phải update lại frame để sau khi Freezed xong sẽ chạy tiếp
 	{
 	}
-
-
 }
 
 int MorningStar::GetLevel()

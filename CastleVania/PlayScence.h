@@ -11,7 +11,7 @@
 class CPlayScene: public CScene
 {
 protected: 
-	CSimon *player;// A play scene has to have player, right? 
+	CSimon *player = NULL;// A play scene has to have player, right? 
 	static CPlayScene* __instance;
 
 	vector<LPGAMEOBJECT> objects;
@@ -40,7 +40,7 @@ public:
 	virtual void Update(DWORD dt);
 	virtual void Render();
 	void CheckCollisionWeaponWithObject(DWORD dt, vector<LPGAMEOBJECT>* coObjects);
-
+	void GetNewItem(int x, int y, int id);
 	virtual void Unload();
 
 	CSimon * GetPlayer() { return player; } 

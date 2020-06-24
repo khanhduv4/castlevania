@@ -11,10 +11,18 @@
 #include "Sword.h"
 #include "UpgradeMorningStar.h"
 #include "LargeHeart.h"
+#include "Axe.h"
+#include "Boomerang.h"
+#include "II.h"
+#include "Chicken.h"
+#include "Money.h"
+#include "Blue.h"
 #include "GameBoard.h"
 #include "CBurningEffect.h"
 #include "Knight.h"
 #include "Bat.h"
+#include "Candle.h"
+#include "Elevator.h"
 #include "HiddenObject.h"
 
 
@@ -45,6 +53,10 @@ CPlayScene::CPlayScene(int id, LPCWSTR filePath) :
 #define OBJECT_TYPE_TORCH	2
 #define OBJECT_TYPE_ENEMY_KNIGHT	3
 #define OBJECT_TYPE_ENEMY_BAT	4
+#define OBJECT_TYPE_CANDLE	5
+#define OBJECT_TYPE_ELEVATOR 6
+#define OBJECT_TYPE_STAIR_BEGIN 7
+#define OBJECT_TYPE_STAIR_END 8
 #define HIDDEN_OBJECT	999
 
 
@@ -168,26 +180,30 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 	case OBJECT_TYPE_SIMON:
 		if (player != NULL)
 		{
-			DebugOut(L"[ERROR] MARIO object was created before!\n");
-			return;
+			player->SetPosition(x, y);
 		}
-		obj = new CSimon(x, y);
-		player = (CSimon*)obj;
-
-		DebugOut(L"[INFO] Player object created!\n");
+		else {
+			obj = new CSimon(x, y);
+			player = (CSimon*)obj;
+			DebugOut(L"[INFO] Player object created!\n");
+		}
 		break;
 	case OBJECT_TYPE_BRICK: obj = new CBrick();
 		dynamic_cast<CBrick*>(obj)->SetSize(atoi(tokens[4].c_str()), atoi(tokens[5].c_str()));
 		break;
 	case OBJECT_TYPE_TORCH: obj = new CTorch(); break;
-	case OBJECT_TYPE_ENEMY_KNIGHT: obj = new Knight(atoi(tokens[4].c_str()), atoi(tokens[5].c_str())); break;
+	case OBJECT_TYPE_ENEMY_KNIGHT: obj = new Knight(atoi(tokens[5].c_str()), atoi(tokens[6].c_str())); break;
 	case OBJECT_TYPE_ENEMY_BAT: obj = new Bat(); break;
+	case OBJECT_TYPE_CANDLE: obj = new Candle(); break;
+	case OBJECT_TYPE_ELEVATOR: obj = new Elevator(); break;
 	case HIDDEN_OBJECT: 
 		obj = new HiddenObject(atoi(tokens[6].c_str()));
+		if (atoi(tokens[6].c_str())) {
+			dynamic_cast<HiddenObject*>(obj)->simonX = atoi(tokens[8].c_str());
+			dynamic_cast<HiddenObject*>(obj)->direction = atoi(tokens[9].c_str());
+		}
 		dynamic_cast<HiddenObject*>(obj)->SetSize(atoi(tokens[4].c_str()), atoi(tokens[5].c_str()));
-		dynamic_cast<HiddenObject*>(obj)->SetStairHeight(atoi(tokens[7].c_str()));
-		dynamic_cast<HiddenObject*>(obj)->simonX = atoi(tokens[8].c_str());
-		dynamic_cast<HiddenObject*>(obj)->direction = atoi(tokens[9].c_str());
+
 		break;
 	case OBJECT_TYPE_PORTAL:
 	{
@@ -203,6 +219,8 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 	}
 
 	// General object setup
+	if(dynamic_cast<CEnemy*>(obj)) 
+		obj->itemId = atoi(tokens[4].c_str());
 	obj->SetPosition(x, y);
 	if (ani_set_id != -1) {
 		LPANIMATION_SET ani_set = animation_sets->Get(ani_set_id);
@@ -369,59 +387,60 @@ void CPlayScene::CheckCollisionWeaponWithObject(DWORD dt, vector<LPGAMEOBJECT>* 
 				if (dynamic_cast<CEnemy*>((*coObjects)[i])) {
 					if (morStar->isHit) continue;
 					morStar->isHit = 1;
-					if (dynamic_cast<CTorch*>((*coObjects)[i])) {
-						auto torch = dynamic_cast<CTorch*>((*coObjects)[i]);
-						float x = 0, y = 0;
-						torch->GetPosition(x, y);
-						torch->SubHealth(1);
-						if (torch->GetFinish()) {
-							CItem* item = NULL;
-							switch (torch->GetObjId())
-							{
-							case 4:
-							case 7: {
-								item = new LargeHeart(x, y);
-								break;
-							}
-							case 5:
-							case 6: {
-								item = new UpgradeMorningStar(x, y);
-								break;
-							}
-							case 8: {
-								item = new Sword(x, y);
-								break;
-							}
-
-							default:
-								item = new UpgradeMorningStar(x, y);
-
-								break;
-							}
-							DebugOut(L"ID Items: %d \n", (*coObjects)[i]->id);
-							items.push_back(item);
-						}
-					}
-					if (dynamic_cast<Knight*>((*coObjects)[i])) {
-						auto knight = dynamic_cast<Knight*>((*coObjects)[i]);
-						float x = 0, y = 0;
-						knight->GetPosition(x, y);
-						knight->SubHealth(1);
-						if (knight->GetFinish())
-							items.push_back(new UpgradeMorningStar(x, y));
-					}
-					if (dynamic_cast<Bat*>((*coObjects)[i])) {
-						auto bat = dynamic_cast<Bat*>((*coObjects)[i]);
-						float x = 0, y = 0;
-						bat->GetPosition(x, y);
-						bat->SubHealth(1);
-						if (bat->GetFinish())
-							items.push_back(new UpgradeMorningStar(x, y));
+					CGameObject* object = (*coObjects)[i];
+					float x = 0, y = 0;
+					object->GetPosition(x, y);
+					object->SubHealth(1);
+					if (object->GetFinish()) {
+						GetNewItem(x, y, object->itemId);
 					}
 				}
 			}
 		}
 	}
+}
+
+void CPlayScene::GetNewItem(int x, int y, int id)
+{
+	CItem* item = NULL;
+	switch (id) {
+	case 1: {
+		item = new UpgradeMorningStar(x,y);
+		break;
+	}
+	case 2: {
+		item = new LargeHeart(x, y);
+		break;
+	}
+	case 3: {
+		item = new Sword(x, y);
+		break;
+	}
+	case 4: {
+		item = new Boomerang(x, y);
+		break;
+	}
+	case 5: {
+		item = new II(x, y);
+		break;
+	}
+	case 6: {
+		item = new Blue(x, y);
+		break;
+	}
+	case 7: {
+		item = new Chicken(x, y);
+		break;
+	}
+	case 8: {
+		item = new Axe(x, y);
+		break;
+	}
+	default: {
+		return;
+	}
+	}
+	items.push_back(item);
 }
 
 /*
@@ -436,7 +455,7 @@ void CPlayScene::Unload()
 	delete _grid;
 	objects.clear();
 	items.clear();
-	player = NULL;
+	//player = NULL;
 	_grid = NULL;
 	DebugOut(L"[INFO] Scene %s unloaded! \n", sceneFilePath);
 }
@@ -465,7 +484,8 @@ void CPlayScenceKeyHandler::OnKeyDown(int KeyCode)
 void CPlayScenceKeyHandler::OnKeyUp(int KeyCode) {
 	CSimon* simon = ((CPlayScene*)scence)->GetPlayer();
 	if (KeyCode == DIK_DOWN) {
-		simon->setSitting(0);
+		if (!simon->isStair)
+			simon->setSitting(0);
 	}
 	else if (KeyCode == DIK_UP) {
 		simon->isClimbing = 0;
@@ -478,27 +498,29 @@ void CPlayScenceKeyHandler::KeyState(BYTE* states)
 
 	// disable control key when SIMON
 	if (simon->GetState() == SIMON_STATE_DIE) return;
+	if (simon->IsAttacking()) return;
 
 	if (game->IsKeyDown(DIK_RIGHT) || game->IsKeyDown(DIK_LEFT)) {
-		if (simon->IsAttacking()) return;
-
+		if (simon->IsAttacking() || simon->isStair || simon->isHurting) return;
 		simon->SetState(SIMON_STATE_WALKING);
 		if (game->IsKeyDown(DIK_RIGHT)) simon->setDirection(1);
 		else simon->setDirection(-1);
 	}
-	else if (game->IsKeyDown(DIK_DOWN))
+	else if (game->IsKeyDown(DIK_DOWN) && !simon->IsJumping())
 	{
-		if (simon->IsJumping()) return;
+		if (simon->isClimbableDown) {
+			simon->SetState(SIMON_STATE_CLIMBING_DOWN);
+			return;
+		}
+		else if (simon->IsJumping()) return;
 		simon->SetState(SIMON_STATE_SITTING);
 	}
-	else if (game->IsKeyDown(DIK_UP)) {
-
+	else if (game->IsKeyDown(DIK_UP) && !simon->IsJumping()) {
 		if(simon->isClimbableUp)
 			simon->SetState(SIMON_STATE_CLIMBING_UP);
 	}
 	else {
 		if (simon->isStair) simon->SetState(SIMON_STATE_ON_STAIR);
 		else simon->SetState(SIMON_STATE_IDLE);
-
 	}
 }

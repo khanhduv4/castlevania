@@ -45,10 +45,7 @@ void Weapon::UpdatePositionFitSimon()
 }
 
 
-bool Weapon::isCollision(CGameObject* obj)
-{	
-	return isCollitionObjectWithObject(obj);
-}
+
 
 void Weapon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects) { 
 	if (!isActive)
@@ -71,12 +68,3 @@ DWORD Weapon::GetLastTimeAttack()
 	return LastTimeAttack;
 }
 
-bool CGameObject::isCollitionObjectWithObject(CGameObject* obj)	// kiểm tra bằng AABB và Sweept AABB
-{
-	if (checkAABB(obj)) // kiểm tra va chạm bằng AABB trước
-		return true;
-
-	LPCOLLISIONEVENT e = SweptAABBEx(obj); // kt va chạm giữa 2 object bằng sweptAABB
-	bool res = e->t > 0 && e->t <= 1.0f; // ĐK va chạm
-	return res;
-}
