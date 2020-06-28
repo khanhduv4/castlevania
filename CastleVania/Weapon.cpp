@@ -5,7 +5,8 @@
 
 Weapon::Weapon()
 {
-	isActive = 0;
+	isFinish = 0;
+	damage = 1;
 }
 
 
@@ -26,7 +27,7 @@ void Weapon::Attack(float X, float Y, int Direction)
 	this->x = X;
 	this->y = Y;
 
-	isActive = false; // chưa kết thúc
+	isFinish = false; // chưa kết thúc
 	direction = Direction;
 
 	LastTimeAttack = GetTickCount(); // lưu lại thời điểm lúc vừa tấn công, làm đánh dấu tránh 1 hit đánh nhiều lần cho các object, có health >1.
@@ -34,7 +35,7 @@ void Weapon::Attack(float X, float Y, int Direction)
 
 void Weapon::Render()
 {
-	if (!isActive)
+	if (!isFinish)
 		return;
 
 }
@@ -48,7 +49,7 @@ void Weapon::UpdatePositionFitSimon()
 
 
 void Weapon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects) { 
-	if (!isActive)
+	if (!isFinish)
 		return;
 	vector<LPCOLLISIONEVENT> coEvents;
 	vector<LPCOLLISIONEVENT> coEventsResult;
@@ -60,7 +61,7 @@ void Weapon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects) {
 
 void Weapon::SetFinish(bool b)
 {
-	isActive = b;
+	isFinish = b;
 }
 
 DWORD Weapon::GetLastTimeAttack()

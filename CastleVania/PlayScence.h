@@ -11,7 +11,7 @@
 class CPlayScene: public CScene
 {
 protected: 
-	CSimon *player = NULL;// A play scene has to have player, right? 
+	CSimon *player;// A play scene has to have player, right? 
 	static CPlayScene* __instance;
 
 	vector<LPGAMEOBJECT> objects;

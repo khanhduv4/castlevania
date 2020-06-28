@@ -1,0 +1,32 @@
+
+[OBJECTS]
+# type	x	y	ani_set_id	extra_settings per object type
+# type: 0 = SIMON , 1 = Brick, 
+# SIMON
+0	50	270	1
+
+# GROUND 
+# --- platform (hint: I created the list using Excel!) ----
+1	0	370	-1	1536	50
+1	0	0	-1	10	370
+1	1500	0	-1	1	370
+#TORCH
+
+2	170	307	3	2
+2	450	307	3	1
+2	700	307	3	1
+2	950	307	3	2
+2	1200	307	3	3
+
+
+# --- SCENE PORTAL ----
+# type	l	t	ani_set_id	r	b	scene_id
+99	1400	307	0	1430	340	2
+
+[TILEMAP]
+C:\Users\Admin\Desktop\GAME\CastleVania\Resources\maps\scene1_map.txt	C:\Users\Admin\Desktop\GAME\CastleVania\Resources\maps\scene1_map.png
+#C:\Users\Admin\Desktop\GAME\CastleVania\Resources\maps\scene4_map.txt	C:\Users\Admin\Desktop\GAME\CastleVania\Resources\maps\scene4_map.png
+#E:\CastleVania\CastleVania\Resources\maps\scene2_map.txt	E:\CastleVania\CastleVania\Resources\maps\scene2_map.png
+[GRID]
+136	12	5
+#Sua map cua scene tiep theo

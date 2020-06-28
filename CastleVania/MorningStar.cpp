@@ -7,21 +7,19 @@
 
 MorningStar::MorningStar()
 {
-	CAnimationSets* animation_sets = CAnimationSets::GetInstance();
-	LPANIMATION_SET ani_set = animation_sets->Get(4);
 	level = 0;
 	currentFrame = 0;
-	isActive = 0;
-	this->SetAnimationSet(ani_set);
-
+	isFinish = 0;
 }
+
+
 
 MorningStar::~MorningStar()
 {
 }
 
-void MorningStar::SetActiveBoundingBox(bool isActive) {
-	if (isActive) {
+void MorningStar::SetActiveBoundingBox(bool isFinish) {
+	if (isFinish) {
 		leftBound = x;
 		topBound = y;
 		if (level == 2) {
@@ -42,8 +40,16 @@ void MorningStar::SetActiveBoundingBox(bool isActive) {
 	}
 }
 
-void MorningStar::SetActive(bool isVisible) { 
-	this->isActive = isVisible; 
+void MorningStar::ResetAniSet()
+{
+	CAnimationSets* animation_sets = CAnimationSets::GetInstance();
+	LPANIMATION_SET ani_set = animation_sets->Get(4);
+	this->SetAnimationSet(ani_set);
+
+}
+
+void MorningStar::SetActive(bool isVisible) {
+	this->isFinish = isVisible; 
 	if (!isVisible)
 		ResetAnimation();
 }
@@ -55,7 +61,7 @@ void MorningStar::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 void MorningStar::Render()
 {
-	if (!isActive) return;
+	if (!isFinish) return;
 	ani = 0;
 	switch (level) {
 	case 0: {
@@ -75,7 +81,6 @@ void MorningStar::Render()
 		if (direction == 1)
 			ani = MORNINGSTAR_ANI_LEVEL2_RIGHT;
 	}
-
 	}
 
 	int alpha = 255;
@@ -88,7 +93,7 @@ void MorningStar::Render()
 
 void MorningStar::Attack(float X, float Y, int Direction)
 {
-	isActive = 1;
+	isFinish = 1;
 	Weapon::Attack(X, Y, Direction);
 	switch (currentFrame) {
 
@@ -159,7 +164,7 @@ void MorningStar::UpgradeLevel()
 	if (level >= 2)
 		return;
 	level++;
-	if (isActive == false) // nếu chưa đánh xong mà update thì phải update lại frame để sau khi Freezed xong sẽ chạy tiếp
+	if (isFinish == false) // nếu chưa đánh xong mà update thì phải update lại frame để sau khi Freezed xong sẽ chạy tiếp
 	{
 	}
 }

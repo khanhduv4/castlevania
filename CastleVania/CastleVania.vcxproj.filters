@@ -94,9 +94,6 @@
     <ClCompile Include="Candle.cpp">
       <Filter>Framework\UI\Background</Filter>
     </ClCompile>
-    <ClCompile Include="main.cpp">
-      <Filter>Object\Item</Filter>
-    </ClCompile>
     <ClCompile Include="Axe.cpp">
       <Filter>Object\Item\Axe</Filter>
     </ClCompile>
@@ -117,6 +114,12 @@
     </ClCompile>
     <ClCompile Include="Elevator.cpp">
       <Filter>Object\Elevator</Filter>
+    </ClCompile>
+    <ClCompile Include="wSword.cpp">
+      <Filter>Object\Weapon\Sword</Filter>
+    </ClCompile>
+    <ClCompile Include="main.cpp">
+      <Filter>Framework</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -213,9 +216,6 @@
     <ClInclude Include="Bat.h">
       <Filter>Object\Enemy\Bat</Filter>
     </ClInclude>
-    <ClInclude Include="HiddenObject.h">
-      <Filter>Object\HiddenObject</Filter>
-    </ClInclude>
     <ClInclude Include="Candle.h">
       <Filter>Framework\UI\Background</Filter>
     </ClInclude>
@@ -239,6 +239,12 @@
     </ClInclude>
     <ClInclude Include="Elevator.h">
       <Filter>Object\Elevator</Filter>
+    </ClInclude>
+    <ClInclude Include="wSword.h">
+      <Filter>Object\Weapon\Sword</Filter>
+    </ClInclude>
+    <ClInclude Include="HiddenObject.h">
+      <Filter>Object\HiddenObject</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -349,6 +355,9 @@
     </Filter>
     <Filter Include="Framework\UI\Background">
       <UniqueIdentifier>{0d989f83-eb6b-47dd-a4ef-2d2d7e9c89f0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object\Weapon\Sword">
+      <UniqueIdentifier>{3cf7aa71-5777-432c-8233-18d266383a61}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

@@ -159,10 +159,6 @@ void CPlayScene::_ParseSection_ANIMATION_SETS(string line)
 void CPlayScene::_ParseSection_OBJECTS(string line)
 {
 	vector<string> tokens = split(line);
-	if (tokens.size() == 6)
-	{
-		int i = 100;
-	}
 	if (tokens.size() < 3) return; // skip invalid lines - an object set must have at least id, x, y
 
 	int object_type = atoi(tokens[0].c_str());
@@ -178,15 +174,9 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 	switch (object_type)
 	{
 	case OBJECT_TYPE_SIMON:
-		if (player != NULL)
-		{
-			player->SetPosition(x, y);
-		}
-		else {
-			obj = new CSimon(x, y);
-			player = (CSimon*)obj;
-			DebugOut(L"[INFO] Player object created!\n");
-		}
+		obj = CSimon::getInstance(x, y);
+		player = (CSimon*)obj;
+		player->getMorningStar()->ResetAniSet();
 		break;
 	case OBJECT_TYPE_BRICK: obj = new CBrick();
 		dynamic_cast<CBrick*>(obj)->SetSize(atoi(tokens[4].c_str()), atoi(tokens[5].c_str()));
@@ -195,8 +185,10 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 	case OBJECT_TYPE_ENEMY_KNIGHT: obj = new Knight(atoi(tokens[5].c_str()), atoi(tokens[6].c_str())); break;
 	case OBJECT_TYPE_ENEMY_BAT: obj = new Bat(); break;
 	case OBJECT_TYPE_CANDLE: obj = new Candle(); break;
-	case OBJECT_TYPE_ELEVATOR: obj = new Elevator(); break;
-	case HIDDEN_OBJECT: 
+	case OBJECT_TYPE_ELEVATOR: obj = new Elevator();
+		dynamic_cast<Elevator*>(obj)->SetSize(atoi(tokens[4].c_str()), atoi(tokens[5].c_str()));
+		break;
+	case HIDDEN_OBJECT:
 		obj = new HiddenObject(atoi(tokens[6].c_str()));
 		if (atoi(tokens[6].c_str())) {
 			dynamic_cast<HiddenObject*>(obj)->simonX = atoi(tokens[8].c_str());
@@ -219,7 +211,7 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 	}
 
 	// General object setup
-	if(dynamic_cast<CEnemy*>(obj)) 
+	if (dynamic_cast<CEnemy*>(obj))
 		obj->itemId = atoi(tokens[4].c_str());
 	obj->SetPosition(x, y);
 	if (ani_set_id != -1) {
@@ -228,6 +220,9 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 	}
 
 	obj->SetObjId(objects.size());
+	if (dynamic_cast<CSimon*>(obj)) {
+		return;
+	}
 	objects.push_back(obj);
 }
 void CPlayScene::Load()
@@ -285,6 +280,11 @@ void CPlayScene::Load()
 
 	f.close();
 
+	if (player != NULL) {
+		player->setSceneSwitching(false);
+	}
+
+
 	CTextures::GetInstance()->Add(ID_TEX_BBOX, L"Resources\\textures\\bbox.png", D3DCOLOR_XRGB(255, 255, 255));
 
 	//Load UI
@@ -300,13 +300,12 @@ void CPlayScene::Update(DWORD dt)
 	vector<LPGAMEOBJECT> gridObjects;
 	coObjects.clear();
 	gridObjects.clear();
-	
+
 	if (_grid != NULL) {
 		_grid->GetListOfObjects(&coObjects, SCREEN_WIDTH, SCREEN_HEIGHT);
 		_grid->GetListOfObjects(&gridObjects, SCREEN_WIDTH, SCREEN_HEIGHT);
 	}
-	 
-	
+
 	//	DebugOut(L"Size of objects = %d", coObjects.size());
 		/*for (size_t i = 1; i < objects.size(); i++)
 		{
@@ -321,13 +320,15 @@ void CPlayScene::Update(DWORD dt)
 		gridObjects[i]->Update(dt, &coObjects);
 	}
 	for (int i = 0; i < items.size(); i++) {
-		if (!items[i]->isFinish || !dynamic_cast<CBurningEffect*>(gridObjects[i]))
+		if (!items[i]->isFinish || !dynamic_cast<CBurningEffect*>(items[i]))
 			items[i]->Update(dt, &coObjects);
 	}
 
 	// skip the rest if scene was already unloaded (Mario::Update might trigger PlayScene::Unload)
 	if (player == NULL) return;
 
+
+	//Refactor Move to weapon update
 	CheckCollisionWeaponWithObject(dt, &coObjects);
 
 	// Update camera to follow mario
@@ -351,6 +352,7 @@ void CPlayScene::Update(DWORD dt)
 
 void CPlayScene::Render()
 {
+	
 	TiledMap::GetCurrentMap()->Render();
 	CGameBoard::GetIntance()->Render();
 
@@ -375,7 +377,7 @@ void CPlayScene::Render()
 		items[i]->Render();
 	}
 }
-
+//Refactor
 void CPlayScene::CheckCollisionWeaponWithObject(DWORD dt, vector<LPGAMEOBJECT>* coObjects) {
 
 	auto morStar = player->getMorningStar();
@@ -399,13 +401,13 @@ void CPlayScene::CheckCollisionWeaponWithObject(DWORD dt, vector<LPGAMEOBJECT>* 
 		}
 	}
 }
-
+//Refactor
 void CPlayScene::GetNewItem(int x, int y, int id)
 {
 	CItem* item = NULL;
 	switch (id) {
 	case 1: {
-		item = new UpgradeMorningStar(x,y);
+		item = new UpgradeMorningStar(x, y);
 		break;
 	}
 	case 2: {
@@ -448,8 +450,11 @@ void CPlayScene::GetNewItem(int x, int y, int id)
 */
 void CPlayScene::Unload()
 {
-	for (int i = 0; i < objects.size(); i++)
+	for (int i = 0; i < objects.size(); i++) {
+
 		delete objects[i];
+	}
+
 	for (int i = 0; i < items.size(); i++)
 		delete items[i];
 	delete _grid;
@@ -468,12 +473,16 @@ void CPlayScenceKeyHandler::OnKeyDown(int KeyCode)
 	switch (KeyCode)
 	{
 	case DIK_SPACE:
-		if (simon->IsSitting()) return;
+		if (simon->IsSitting() || simon->isStair) return;
 		simon->SetState(SIMON_STATE_JUMPING);
 		break;
 	case DIK_S:
 		simon->SetState(SIMON_STATE_ATTACKING);
-		simon->Attack();
+		simon->Attack(SIMON_ATTACK_MAIN_WEAPON);
+		break;
+	case DIK_D:
+		simon->SetState(SIMON_STATE_ATTACKING);
+		simon->Attack(SIMON_ATTACK_SUB_WEAPON);
 		break;
 
 	case DIK_A:
@@ -516,7 +525,7 @@ void CPlayScenceKeyHandler::KeyState(BYTE* states)
 		simon->SetState(SIMON_STATE_SITTING);
 	}
 	else if (game->IsKeyDown(DIK_UP) && !simon->IsJumping()) {
-		if(simon->isClimbableUp)
+		if (simon->isClimbableUp)
 			simon->SetState(SIMON_STATE_CLIMBING_UP);
 	}
 	else {

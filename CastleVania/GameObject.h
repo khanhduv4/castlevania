@@ -4,6 +4,7 @@
 #include <d3dx9.h>
 #include <vector>
 
+#include"Utils.h"
 #include "Sprites.h"
 #include "Animations.h"
 
@@ -86,8 +87,8 @@ public:
 
 
 public:
-	void SetPosition(float x, float y) { this->x = x, this->y = y; }
-	void SetSpeed(float vx, float vy) { this->vx = vx, this->vy = vy; }
+	void SetPosition(float x, float y) { DebugOut(L"Set simon position:%f %f",this->x,this->y); this->x = x; this->y = y; }
+	void SetSpeed(float vx, float vy) { this->vx = vx; this->vy = vy; }
 	void GetPosition(float& x, float& y) { x = this->x; y = this->y; }
 	void GetSpeed(float& vx, float& vy) { vx = this->vx; vy = this->vy; }
 

@@ -11,8 +11,9 @@ class Weapon : public CGameObject
 {
 protected:   
 
-	bool isActive;
-	int direction;  
+	bool isFinish;
+	int direction;
+	int damage;
 	DWORD LastTimeAttack; // Thời điểm tấn công cuối cùng 
 	int currentFrame;
 public:

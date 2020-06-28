@@ -1,0 +1,65 @@
+
+
+[OBJECTS]
+# type	x	y	ani_set_id	extra_settings per object type
+# type: 0 = SIMON , 1 = Brick, 
+# SIMON
+#0	1380	300	1
+0	200	300	1
+
+# GROUND 
+# --- platform (hint: I created the list using Excel!) ----
+#ground
+#1
+1	65	320	-1	63	33
+1	130	385	-1	125	33
+1	190	255	-1	190	33
+1	255	417	-1	1300	33
+1	575	320	-1	66	33
+1	835	320	-1	66	33
+1	1340	385	-1	160	33
+
+
+#candle
+5	450	350	11	2
+5	580	350	11	2
+5	710	350	11	2
+5	840	350	11	2
+5	970	350	11	6
+5	1100	350	11	2
+5	1210	350	11	2
+5	1325	350	11	5
+
+
+
+#wall
+1	50	100	-1	15	500
+
+
+
+#Hidden Object
+#type	x	y	ani	width	height	type_hidden	height(stair)	SIMON_X	direction
+#stair 1 begin
+999	300	240	-1	50	20	1	165	310	-1
+#stair 1 end
+#999	900	220	-1	50	10	2	165	332	1
+
+
+#===============ENEMY====================
+#Knight
+3	190	150	9	2	190	290
+3	640	292	9	2	640	670
+
+#Bat
+#4	70	150	10	2	32	32
+
+
+
+# --- SCENE PORTAL ----
+# type	l	t	ani_set_id	r	b	scene_id
+99	200	100	0	250	110	5
+
+[TILEMAP]
+C:\Users\Admin\Desktop\GAME\CastleVania\Resources\maps\scene4_map.txt	C:\Users\Admin\Desktop\GAME\CastleVania\Resources\maps\scene4_map.png
+[GRID]
+136	12	10

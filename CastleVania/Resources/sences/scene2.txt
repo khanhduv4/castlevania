@@ -1,4 +1,4 @@
-﻿# id	file_path	transparent_color_r	g	b
+# id	file_path	transparent_color_r	g	b
 [TEXTURES]
 0	resources\simon\simon.png	255	0	255
 1	resources\ground\0.png	255	0	255
@@ -19,6 +19,8 @@
 16	Resources\item\boomerang.png	255	0	255
 17	Resources\item\blue.png	255	0	255
 18	Resources\item\II.png	255	0	255
+
+19	resources\ground\elevator.png	255	0	255
 
 20	resources\textures\misc.png	176	224	248
 100	Resources\extra\blackboard.png	0	0	0
@@ -107,6 +109,7 @@
 
 #====================BRICK==========================
 20001	408	225	424	241	20
+20002	0	0	64	16	19
 
 #====================TORCH=========================
 3000	0	0	32	64	1
@@ -276,9 +279,13 @@
 
 #===============candle==============
 301	3002	100	3003	100
-#================torch===================
+#===============torch===================
 
 300	3000	200	3001	200
+
+#===============elevator============
+
+302	20002	100
 
 #==================EXTRA=================
 #burning
@@ -359,7 +366,8 @@
 15	86
 # II
 16	87
-
+# Elevator
+17	302﻿
 [OBJECTS]
 # type	x	y	ani_set_id	extra_settings per object type
 # type: 0 = SIMON , 1 = Brick, 
@@ -380,7 +388,7 @@
 1	350	288	-1	70	1
 
 #Hidden Object type hidden: 1: stair begin, 2: stair end
-type	x	y	ani	width	height	type_hidden	height(stair)	SIMON_X	direction
+#type	x	y	ani	width	height	type_hidden	height(stair)	SIMON_X	direction
 #stair 1 begin
 999	210	400	-1	50	20	1	165	206	1
 #stair 2 begin

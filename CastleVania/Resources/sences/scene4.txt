@@ -20,6 +20,8 @@
 17	Resources\item\blue.png	255	0	255
 18	Resources\item\II.png	255	0	255
 
+19	resources\ground\elevator.png	255	0	255
+
 20	resources\textures\misc.png	176	224	248
 100	Resources\extra\blackboard.png	0	0	0
 
@@ -74,7 +76,30 @@
 10032	259	68	289	130	0
 10033	322	68	346	130	0
 #Climb DOWN right
-#10034	
+10034	318	266	350	328	0
+10035	266	266	290	328	0
+#climb down left
+10036	130	68	162	130	0
+10037	190	68	214	130	0
+#stair down attacking right
+10038	302	332	350	394	0
+10039	258	332	290	394	0
+10040	198	334	239	394	0
+#stair down attacking left
+10041	130	134	178	196	0
+10042	190	134	222	196	0
+10043	241	136	282	196	0
+#stair up attacking right
+10044	120	332	161	394	0
+10045	69	332	101	394	0
+10046	9	334	53	394	0
+#stair up attacking left
+10047	319	134	360	196	0
+10048	379	134	411	196	0
+10049	427	136	471	196	0
+# Hurting
+10050	438	270	470	328	0
+
 # die 
 10099	0	36	64	66	2
 
@@ -84,6 +109,7 @@
 
 #====================BRICK==========================
 20001	408	225	424	241	20
+20002	0	0	64	16	19
 
 #====================TORCH=========================
 3000	0	0	32	64	1
@@ -198,14 +224,35 @@
 10	10024	100	10025	150	10026	100
 #sitting attack right
 11	10027	100	10028	100	10029	100
+
 #climb up right
 12	10030	100	10031	100
-#idle on stair right
+#idle on stair up right
 13	10030	100
 #climb up left
 14	10032	100	10033	100
 #climb up left Idle
 15	10032	100
+#climb down right
+16	10034	100	10035	100
+#climb down right idle
+17	10035	100
+#climb down right
+18	10036	100	10037	100
+#climb down right idle
+19	10036	100
+#up stair attack right
+20	10044	100	10045	100	10046	100
+#up stair attack left
+21	10047	100	10048	100	10049	100
+#down stair attack right
+22	10038	100	10039	100	10040	100
+#down stair attack left
+23	10041	100	10042	100	10043	100
+
+#hurting
+24	10050	100
+
 #die
 99	10099	100
 
@@ -232,9 +279,13 @@
 
 #===============candle==============
 301	3002	100	3003	100
-#================torch===================
+#===============torch===================
 
 300	3000	200	3001	200
+
+#===============elevator============
+
+302	20002	100
 
 #==================EXTRA=================
 #burning
@@ -284,7 +335,7 @@
 #
 [ANIMATION_SETS]
 # SIMON
-1	0	1	2	3	4	5	6	7	8	9	10	11	12	13	14	15
+1	0	1	2	3	4	5	6	7	8	9	10	11	12	13	14	15	16	17	18	19	20	21	22	23	24
 # BRICK 
 2	60
 # TORCH
@@ -315,13 +366,15 @@
 15	86
 # II
 16	87
+# Elevator
+17	302
 
 [OBJECTS]
 # type	x	y	ani_set_id	extra_settings per object type
 # type: 0 = SIMON , 1 = Brick, 
 # SIMON
-0	1380	300	1
-#0	130	300	1
+#0	1380	300	1
+0	200	300	1
 
 # GROUND 
 # --- platform (hint: I created the list using Excel!) ----
@@ -354,9 +407,11 @@
 
 
 #Hidden Object
-type	x	y	ani	width	height	type_hidden	height(stair)	SIMON_X	direction
+#type	x	y	ani	width	height	type_hidden	height(stair)	SIMON_X	direction
 #stair 1 begin
-999	300	250	-1	50	20	2	165	310	-1
+999	300	240	-1	50	20	1	165	310	-1
+#stair 1 end
+#999	900	220	-1	50	10	2	165	332	1
 
 
 #===============ENEMY====================

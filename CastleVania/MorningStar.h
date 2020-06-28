@@ -28,7 +28,7 @@ class MorningStar : public Weapon
 {
 protected:
 
-	bool isActive;
+	bool isFinish;
 	int level; 
 	int ani;
 	float leftBound;
@@ -39,12 +39,13 @@ public:
 	MorningStar();
 	~MorningStar();
 
+	void ResetAniSet();
 	void SetActive(bool isVisible);
 	void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects = NULL);
 	void Render();
 	bool isHit = 0;
 
-	bool IsActive() { return isActive; }
+	bool IsActive() { return isFinish; }
 
 	void Attack(float X, float Y, int Direction);
 
@@ -57,7 +58,7 @@ public:
 		animation_set->at(MORNINGSTAR_ANI_LEVEL2_RIGHT)->Reset();
 		currentFrame = 0;
 	}
-	void SetActiveBoundingBox(bool isActive);
+	void SetActiveBoundingBox(bool isFinish);
 	void UpdatePositionFitSimon();
 	void GetBoundingBox(float& left, float& top, float& right, float& bottom);
 	void RenderIcon(float X, float Y);

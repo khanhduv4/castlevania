@@ -4,16 +4,14 @@
 
 #include "Simon.h"
 
-CSimon::CSimon(float x, float y) : CGameObject()
+CSimon* CSimon::_Instance = NULL;
+CSimon::CSimon() : CGameObject()
 {
 	untouchable = 0;
 	SetState(SIMON_STATE_IDLE);
-	this->morStar = new MorningStar();
+	morStar = new MorningStar();
+	DebugOut(L"Ctor simon ");
 	Health = 20;
-	start_x = x;
-	start_y = y;
-	this->x = x;
-	this->y = y;
 	isClimbableUp = 0;
 	isClimbing = 0;
 	isStair = 0;
@@ -43,6 +41,8 @@ void CSimon::setDirection(int direction) {
 
 void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects, vector<LPGAMEOBJECT>* coItems)
 {
+	if (isSceneSwitching)
+		return;
 	UpdateHurting();
 	// Calculate dx, dy 
 	CGameObject::Update(dt);
@@ -57,7 +57,6 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects, vector<LPGAMEOBJE
 	else {
 		isClimbableUp = isClimbableDown = 0;
 	}
-
 
 	vector<LPCOLLISIONEVENT> coEvents;
 	vector<LPCOLLISIONEVENT> coEventsResult;
@@ -130,10 +129,9 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects, vector<LPGAMEOBJE
 					isClimbableUp = 0;
 					isClimbableDown = 1;
 					startXStair = obj->simonX;
-					stairXDirection = -obj->direction;
+					stairXDirection = obj->direction;
 					stairYDirection = 1;
 					stair = obj;
-
 				}
 			}
 			if (!(*begin)->obj->isCollisionWithSimon || (*begin)->obj->GetFinish())
@@ -168,10 +166,11 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects, vector<LPGAMEOBJE
 			if (dynamic_cast<CPortal*>(e->obj))
 			{
 				CPortal* p = dynamic_cast<CPortal*>((e)->obj);
+				this->setSceneSwitching(true);
 				CGame::GetInstance()->SwitchScene(p->GetSceneId());
 				return;
 			}
-			else if (dynamic_cast<CBrick*>(e->obj) || dynamic_cast<Elevator*>(e->obj))
+			else if ((dynamic_cast<CBrick*>(e->obj) && e->nx==0) || dynamic_cast<Elevator*>(e->obj))
 			{
 				// Kéo simon lên sau khi nhảy
 				if (isJumping) {
@@ -187,6 +186,9 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects, vector<LPGAMEOBJE
 			else if (dynamic_cast<CItem*>(e->obj)) {
 				if (dynamic_cast<UpgradeMorningStar*>(e->obj))
 					morStar->UpgradeLevel();
+				else if (dynamic_cast<Sword*>(e->obj)) {
+					currentSubWeapon = new wSword();
+				}
 				else if (dynamic_cast<LargeHeart*>(e->obj))
 					AddHeart();
 
@@ -208,12 +210,17 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects, vector<LPGAMEOBJE
 
 void CSimon::Render()
 {
+	if (isSceneSwitching) {
+		return;
+	}
 	if (isAttacking) {
-		Attack();
+		Attack(0);
 	}
 	else {
 		morStar->SetFinish(1);
+		//currentSubWeapon->SetFinish(1);
 	}
+
 	int ani = -1;
 	if (state == SIMON_STATE_DIE)
 		ani = SIMON_ANI_DIE;
@@ -252,7 +259,8 @@ void CSimon::Render()
 						ani = SIMON_ANI_STAIR_UP_ATTACK_LEFT;
 					}
 				}
-			} else if (!isClimbing) {
+			}
+			else if (!isClimbing) {
 				if (stairYDirection == 1) {
 					if (stairXDirection == 1) {
 						ani = SIMON_ANI_STAIR_IDLE_DOWN_RIGHT;
@@ -330,13 +338,20 @@ void CSimon::Render()
 	if (isAttacking && animation_set->at(ani)->IsDone()) { isAttacking = 0; morStar->SetActive(0); }
 
 	morStar->Render();
+	/*if (currentSubWeapon)
+		currentSubWeapon->Render();*/
 }
 
-void CSimon::Attack() {
+void CSimon::Attack(int weapon) {
 	if (isStair)
 		isClimbing = 0;
-	morStar->Attack(x, y, nx);
-	DebugOut(L"Attack");
+	if (weapon == SIMON_ATTACK_MAIN_WEAPON)
+		morStar->Attack(x, y, nx);
+	else {
+		if (currentSubWeapon)
+			currentSubWeapon->Attack(x, y, nx);
+
+	}
 }
 
 void CSimon::SetState(int state)
@@ -374,25 +389,15 @@ void CSimon::SetState(int state)
 		break;
 	}
 	case SIMON_STATE_CLIMBING_UP: {
-		isClimbing = 1;
-		stairYDirection = -1;
-		stairXDirection = 1;
-		if (isStair) return;
-		x = startXStair;
-		isStair = 1;
+		Climbing(SIMON_STATE_CLIMBING_UP);
 		break;
 	}
 	case SIMON_STATE_CLIMBING_DOWN: {
-		isClimbing = 1;
-		stairYDirection = 1;
-		stairXDirection = -1;
-		if (isStair) return;
-		x = startXStair;
-		isStair = 1;
+		Climbing(SIMON_STATE_CLIMBING_DOWN);
 		break;
 	}
 	case SIMON_STATE_IDLE:
-		if(!isHurting)
+		if (!isHurting)
 			vx = 0;
 		break;
 
@@ -400,6 +405,22 @@ void CSimon::SetState(int state)
 		vy = -SIMON_DIE_DEFLECT_SPEED;
 		break;
 	}
+}
+
+void CSimon::Climbing(int state) {
+	isClimbing = 1;
+	if (state == SIMON_STATE_CLIMBING_UP) {
+		stairXDirection = stair->direction;
+		stairYDirection = -1;
+	}
+	else {
+		stairXDirection = -(stair->direction);
+		stairYDirection = 1;
+	}
+
+	if (isStair) return;
+	x = startXStair;
+	isStair = 1;
 }
 
 void CSimon::GetBoundingBox(float& left, float& top, float& right, float& bottom)
@@ -430,7 +451,7 @@ void CSimon::UpdateHurting() {
 
 void CSimon::SetHurt(LPCOLLISIONEVENT e)
 {
-	
+
 	if (isHurting == true)
 		return;
 

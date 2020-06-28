@@ -34,7 +34,7 @@
 
 #define MAX_FRAME_RATE 120
 
-CGame *game;
+CGame *game; 
 
 LRESULT CALLBACK WinProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
