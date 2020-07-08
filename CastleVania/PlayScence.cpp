@@ -89,7 +89,7 @@ void CPlayScene::_ParseSection_GRID(string line) {
 	vector<string> tokens = split(line);
 	if (tokens.size() != 3)
 		return;
-	_grid = new Grid(atoi(tokens[0].c_str()), atoi(tokens[1].c_str()), atoi(tokens[2].c_str()), &objects);
+	_grid = Grid::Create(atoi(tokens[0].c_str()), atoi(tokens[1].c_str()), atoi(tokens[2].c_str()), &objects);
 	DebugOut(L"Loaded map");
 }
 void CPlayScene::_ParseSection_SPRITES(string line)
@@ -295,7 +295,7 @@ void CPlayScene::Update(DWORD dt)
 {
 	// We know that Mario is the first object in the list hence we won't add him into the colliable object list
 	// TO-DO: This is a "dirty" way, need a more organized way 
-
+	//Refactor Item list 
 	vector<LPGAMEOBJECT> coObjects;
 	vector<LPGAMEOBJECT> gridObjects;
 	coObjects.clear();
@@ -317,7 +317,10 @@ void CPlayScene::Update(DWORD dt)
 	for (size_t i = 0; i < gridObjects.size(); i++)
 	{
 		if (dynamic_cast<CSimon*>(gridObjects[i])) continue;
-		gridObjects[i]->Update(dt, &coObjects);
+		if (dynamic_cast<Weapon*> (gridObjects[i])) { (dynamic_cast<Weapon*> (gridObjects[i]))->Update(dt, &coObjects, &items); }
+		else {
+			gridObjects[i]->Update(dt, &coObjects);
+		}
 	}
 	for (int i = 0; i < items.size(); i++) {
 		if (!items[i]->isFinish || !dynamic_cast<CBurningEffect*>(items[i]))
@@ -352,7 +355,7 @@ void CPlayScene::Update(DWORD dt)
 
 void CPlayScene::Render()
 {
-	
+
 	TiledMap::GetCurrentMap()->Render();
 	CGameBoard::GetIntance()->Render();
 
@@ -380,26 +383,28 @@ void CPlayScene::Render()
 //Refactor
 void CPlayScene::CheckCollisionWeaponWithObject(DWORD dt, vector<LPGAMEOBJECT>* coObjects) {
 
-	auto morStar = player->getMorningStar();
+	//auto morStar = player->getMorningStar();
 
-	if (morStar->IsActive()) {
-		for (UINT i = 0; i < coObjects->size(); i++) {
-			if ((morStar->isCollision((*coObjects)[i])) && !((*coObjects)[i]->GetFinish()) && !dynamic_cast<CSimon*>((*coObjects)[i])) {
-				DebugOut(L"ID Object: %d \n", (*coObjects)[i]->id);
-				if (dynamic_cast<CEnemy*>((*coObjects)[i])) {
-					if (morStar->isHit) continue;
-					morStar->isHit = 1;
-					CGameObject* object = (*coObjects)[i];
-					float x = 0, y = 0;
-					object->GetPosition(x, y);
-					object->SubHealth(1);
-					if (object->GetFinish()) {
-						GetNewItem(x, y, object->itemId);
-					}
-				}
-			}
-		}
-	}
+	//if (morStar->IsActive()) {
+	//	for (UINT i = 0; i < coObjects->size(); i++) {
+	//		if ((morStar->isCollision((*coObjects)[i])) 
+	//			&& !((*coObjects)[i]->GetFinish()) 
+	//			&& !dynamic_cast<CSimon*>((*coObjects)[i])) {
+	//			DebugOut(L"ID Object: %d \n", (*coObjects)[i]->id);
+	//			if (dynamic_cast<CEnemy*>((*coObjects)[i])) {
+	//				if (morStar->isHit) continue;
+	//				morStar->isHit = 1;
+	//				CGameObject* object = (*coObjects)[i];
+	//				float x = 0, y = 0;
+	//				object->GetPosition(x, y);
+	//				object->SubHealth(1);
+	//				if (object->GetFinish()) {
+	//					GetNewItem(x, y, object->itemId);
+	//				}
+	//			}
+	//		}
+	//	}
+	//}
 }
 //Refactor
 void CPlayScene::GetNewItem(int x, int y, int id)
@@ -477,12 +482,12 @@ void CPlayScenceKeyHandler::OnKeyDown(int KeyCode)
 		simon->SetState(SIMON_STATE_JUMPING);
 		break;
 	case DIK_S:
+		simon->setWeapon(SIMON_ATTACK_MAIN_WEAPON);
 		simon->SetState(SIMON_STATE_ATTACKING);
-		simon->Attack(SIMON_ATTACK_MAIN_WEAPON);
 		break;
 	case DIK_D:
+		simon->setWeapon(SIMON_ATTACK_SUB_WEAPON);
 		simon->SetState(SIMON_STATE_ATTACKING);
-		simon->Attack(SIMON_ATTACK_SUB_WEAPON);
 		break;
 
 	case DIK_A:

@@ -1,4 +1,8 @@
 #pragma once
+#include <algorithm>
+#include <assert.h>
+#include "define.h"
+#include "Utils.h"
 #include "GameObject.h"
 #include "MorningStar.h"
 #include "wSword.h"
@@ -24,51 +28,6 @@
 #define SIMON_GRAVITY	0.0007f
 #define SIMON_DIE_DEFLECT_SPEED	 0.5f
 
-#define SIMON_STATE_IDLE	0
-#define SIMON_STATE_WALKING	1
-#define SIMON_STATE_JUMPING	2
-#define SIMON_STATE_ATTACKING	3
-#define SIMON_STATE_JUMPING_ATTACK	4
-#define SIMON_STATE_SITTING	5
-#define SIMON_STATE_ON_STAIR	6
-#define SIMON_STATE_CLIMBING_UP	7
-#define SIMON_STATE_CLIMBING_DOWN	8
-#define SIMON_STATE_HURTING	9
-#define SIMON_STATE_DIE	9
-
-#define SIMON_ANI_IDLE_RIGHT		0
-#define SIMON_ANI_IDLE_LEFT			1
-
-#define SIMON_ANI_WALKING_RIGHT			2
-#define SIMON_ANI_WALKING_LEFT			3
-
-#define SIMON_ANI_JUMPING_LEFT	4
-#define SIMON_ANI_JUMPING_RIGHT 5
-
-#define SIMON_ANI_ATTACKING_LEFT	6
-#define SIMON_ANI_ATTACKING_RIGHT	7
-
-#define SIMON_ANI_SITTING_LEFT	8
-#define SIMON_ANI_SITTING_RIGHT 9
-#define SIMON_ANI_SITTING_ATTACK_LEFT	10
-#define SIMON_ANI_SITTING_ATTACK_RIGHT	11
-
-#define SIMON_ANI_STAIR_CLIMB_UP_RIGHT	12
-#define SIMON_ANI_STAIR_CLIMB_UP_LEFT	14
-#define SIMON_ANI_STAIR_IDLE_UP_RIGHT	13
-#define SIMON_ANI_STAIR_IDLE_UP_LEFT	15
-#define SIMON_ANI_STAIR_CLIMB_DOWN_RIGHT	16
-#define SIMON_ANI_STAIR_CLIMB_DOWN_LEFT	18
-#define SIMON_ANI_STAIR_IDLE_DOWN_RIGHT	17
-#define SIMON_ANI_STAIR_IDLE_DOWN_LEFT	19
-#define SIMON_ANI_STAIR_UP_ATTACK_RIGHT	20
-#define SIMON_ANI_STAIR_UP_ATTACK_LEFT	21
-#define SIMON_ANI_STAIR_DOWN_ATTACK_RIGHT	22
-#define SIMON_ANI_STAIR_DOWN_ATTACK_LEFT	23
-
-#define SIMON_ANI_HURTING 24
-#define SIMON_ANI_DIE	99
-
 #define SIMON_BBOX_WIDTH  32
 #define SIMON_BBOX_HEIGHT 59
 #define SIMON_BBOX_SITTING_HEIGHT 45
@@ -89,6 +48,7 @@ class CSimon : public CGameObject
 	// Simon Spec
 	int heart;
 	int life;
+	int weapon;
 	int untouchable;
 	DWORD untouchable_start;
 
@@ -119,6 +79,7 @@ public:
 
 	float startXStair;
 	int directionOnStair;
+	int stairDirection;
 	int stairXDirection;
 	int stairYDirection;
 
@@ -169,6 +130,8 @@ public:
 	void setSitting(bool status);
 
 	void setJumping(bool status);
+
+	void setWeapon(int weapon) { this->weapon = weapon; }
 
 	void StartUntouchable() { untouchable = 1; untouchable_start = GetTickCount(); }
 

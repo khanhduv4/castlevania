@@ -1,5 +1,6 @@
 ﻿#include "Weapon.h"
 #include "Utils.h"
+#include "Enemy.h"
 
 
 
@@ -48,16 +49,43 @@ void Weapon::UpdatePositionFitSimon()
 
 
 
-void Weapon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects) { 
+void Weapon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects, vector<LPGAMEOBJECT>* coItems) {
 	if (!isFinish)
 		return;
+	//Refactor Xu ly va cham weapon voi enemy
 	vector<LPCOLLISIONEVENT> coEvents;
 	vector<LPCOLLISIONEVENT> coEventsResult;
-	coEvents.clear();  
-	CalcPotentialCollisions(coObjects, coEvents);  
 
+
+	coEvents.clear();
+	GetAABBCollisions(coObjects, coEvents);
+	if (coEvents.size() > 0)
+	{
+		auto begin = coEvents.begin();
+		while (begin != coEvents.end()) {
+			CGameObject* object = (*begin)->obj;
+			if (dynamic_cast<CEnemy*>(object)) {
+				CEnemy* enemy = (CEnemy*)(object);
+				++begin;
+				if (this->isHit) continue;
+				this->isHit = 1;
+				float x = 0, y = 0;
+				enemy->GetPosition(x, y);
+				enemy->SubHealth(damage,coObjects,coItems);
+
+			}
+			
+		}
+	}
 }
 
+void Weapon::SetHit(bool isHit) {
+	this->isHit = isHit;
+}
+
+bool Weapon::IsHit() {
+	return isHit;
+}
 
 void Weapon::SetFinish(bool b)
 {

@@ -80,7 +80,7 @@
       <Filter>Object\Enemy\Base</Filter>
     </ClCompile>
     <ClCompile Include="Sword.cpp">
-      <Filter>Object\Item\Sword</Filter>
+      <Filter>Object\Item\Money\Sword</Filter>
     </ClCompile>
     <ClCompile Include="Knight.cpp">
       <Filter>Object\Enemy\Knight</Filter>
@@ -208,7 +208,7 @@
       <Filter>Object\Enemy\Base</Filter>
     </ClInclude>
     <ClInclude Include="Sword.h">
-      <Filter>Object\Item\Sword</Filter>
+      <Filter>Object\Item\Money\Sword</Filter>
     </ClInclude>
     <ClInclude Include="Knight.h">
       <Filter>Object\Enemy\Knight</Filter>
@@ -320,9 +320,6 @@
     <Filter Include="Object\Enemy\Base">
       <UniqueIdentifier>{15508b01-be3f-4804-9e3c-2ad552db30cc}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Object\Item\Sword">
-      <UniqueIdentifier>{8c3059b2-a874-4fb1-8a3e-60cae64596d3}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Object\Enemy\Knight">
       <UniqueIdentifier>{73cff7e4-4c1e-460a-bfe3-4496003255c3}</UniqueIdentifier>
     </Filter>
@@ -358,6 +355,9 @@
     </Filter>
     <Filter Include="Object\Weapon\Sword">
       <UniqueIdentifier>{3cf7aa71-5777-432c-8233-18d266383a61}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object\Item\Money\Sword">
+      <UniqueIdentifier>{8c3059b2-a874-4fb1-8a3e-60cae64596d3}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

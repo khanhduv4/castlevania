@@ -1,34 +1,58 @@
-﻿  PlayScence.cpp
+﻿  Axe.cpp
+  Bat.cpp
+  Blue.cpp
+  Board.cpp
+  BoardHealth.cpp
+  Boomerang.cpp
+  Candle.cpp
+  Chicken.cpp
+  Enemy.cpp
+  Font.cpp
+  Game.cpp
+  II.cpp
+  Item.cpp
+  Knight.cpp
+C:\Users\Admin\Desktop\GAME\CastleVania\Knight.cpp(71,2): warning C4060: switch statement contains no 'case' or 'default' labels
+  LargeHeart.cpp
+  Money.cpp
+  MorningStar.cpp
+  PlayScence.cpp
 C:\Users\Admin\Desktop\GAME\CastleVania\PlayScence.cpp(128,20): warning C4018: '<': signed/unsigned mismatch
 C:\Users\Admin\Desktop\GAME\CastleVania\PlayScence.cpp(149,20): warning C4018: '<': signed/unsigned mismatch
 C:\Users\Admin\Desktop\GAME\CastleVania\PlayScence.cpp(165,10): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
 C:\Users\Admin\Desktop\GAME\CastleVania\PlayScence.cpp(166,10): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
 C:\Users\Admin\Desktop\GAME\CastleVania\PlayScence.cpp(202,11): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
 C:\Users\Admin\Desktop\GAME\CastleVania\PlayScence.cpp(203,11): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
-C:\Users\Admin\Desktop\GAME\CastleVania\PlayScence.cpp(322,20): warning C4018: '<': signed/unsigned mismatch
-C:\Users\Admin\Desktop\GAME\CastleVania\PlayScence.cpp(339,17): warning C4244: 'initializing': conversion from 'int' to 'float', possible loss of data
-C:\Users\Admin\Desktop\GAME\CastleVania\PlayScence.cpp(365,20): warning C4018: '<': signed/unsigned mismatch
-C:\Users\Admin\Desktop\GAME\CastleVania\PlayScence.cpp(376,20): warning C4018: '<': signed/unsigned mismatch
-C:\Users\Admin\Desktop\GAME\CastleVania\PlayScence.cpp(397,21): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
-C:\Users\Admin\Desktop\GAME\CastleVania\PlayScence.cpp(397,18): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
-C:\Users\Admin\Desktop\GAME\CastleVania\PlayScence.cpp(410,36): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-C:\Users\Admin\Desktop\GAME\CastleVania\PlayScence.cpp(410,33): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-C:\Users\Admin\Desktop\GAME\CastleVania\PlayScence.cpp(414,28): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-C:\Users\Admin\Desktop\GAME\CastleVania\PlayScence.cpp(414,25): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-C:\Users\Admin\Desktop\GAME\CastleVania\PlayScence.cpp(418,23): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-C:\Users\Admin\Desktop\GAME\CastleVania\PlayScence.cpp(418,20): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-C:\Users\Admin\Desktop\GAME\CastleVania\PlayScence.cpp(422,27): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-C:\Users\Admin\Desktop\GAME\CastleVania\PlayScence.cpp(422,24): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-C:\Users\Admin\Desktop\GAME\CastleVania\PlayScence.cpp(426,20): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-C:\Users\Admin\Desktop\GAME\CastleVania\PlayScence.cpp(426,17): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-C:\Users\Admin\Desktop\GAME\CastleVania\PlayScence.cpp(430,22): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-C:\Users\Admin\Desktop\GAME\CastleVania\PlayScence.cpp(430,19): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-C:\Users\Admin\Desktop\GAME\CastleVania\PlayScence.cpp(434,25): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-C:\Users\Admin\Desktop\GAME\CastleVania\PlayScence.cpp(434,22): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-C:\Users\Admin\Desktop\GAME\CastleVania\PlayScence.cpp(438,21): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-C:\Users\Admin\Desktop\GAME\CastleVania\PlayScence.cpp(438,18): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-C:\Users\Admin\Desktop\GAME\CastleVania\PlayScence.cpp(453,20): warning C4018: '<': signed/unsigned mismatch
+C:\Users\Admin\Desktop\GAME\CastleVania\PlayScence.cpp(325,20): warning C4018: '<': signed/unsigned mismatch
+C:\Users\Admin\Desktop\GAME\CastleVania\PlayScence.cpp(342,17): warning C4244: 'initializing': conversion from 'int' to 'float', possible loss of data
+C:\Users\Admin\Desktop\GAME\CastleVania\PlayScence.cpp(368,20): warning C4018: '<': signed/unsigned mismatch
+C:\Users\Admin\Desktop\GAME\CastleVania\PlayScence.cpp(379,20): warning C4018: '<': signed/unsigned mismatch
+C:\Users\Admin\Desktop\GAME\CastleVania\PlayScence.cpp(415,36): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\Users\Admin\Desktop\GAME\CastleVania\PlayScence.cpp(415,33): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\Users\Admin\Desktop\GAME\CastleVania\PlayScence.cpp(419,28): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\Users\Admin\Desktop\GAME\CastleVania\PlayScence.cpp(419,25): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\Users\Admin\Desktop\GAME\CastleVania\PlayScence.cpp(423,23): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\Users\Admin\Desktop\GAME\CastleVania\PlayScence.cpp(423,20): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\Users\Admin\Desktop\GAME\CastleVania\PlayScence.cpp(427,27): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\Users\Admin\Desktop\GAME\CastleVania\PlayScence.cpp(427,24): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\Users\Admin\Desktop\GAME\CastleVania\PlayScence.cpp(431,20): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\Users\Admin\Desktop\GAME\CastleVania\PlayScence.cpp(431,17): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\Users\Admin\Desktop\GAME\CastleVania\PlayScence.cpp(435,22): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\Users\Admin\Desktop\GAME\CastleVania\PlayScence.cpp(435,19): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\Users\Admin\Desktop\GAME\CastleVania\PlayScence.cpp(439,25): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\Users\Admin\Desktop\GAME\CastleVania\PlayScence.cpp(439,22): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\Users\Admin\Desktop\GAME\CastleVania\PlayScence.cpp(443,21): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\Users\Admin\Desktop\GAME\CastleVania\PlayScence.cpp(443,18): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
 C:\Users\Admin\Desktop\GAME\CastleVania\PlayScence.cpp(458,20): warning C4018: '<': signed/unsigned mismatch
+C:\Users\Admin\Desktop\GAME\CastleVania\PlayScence.cpp(463,20): warning C4018: '<': signed/unsigned mismatch
+  Simon.cpp
+C:\Users\Admin\Desktop\GAME\CastleVania\Simon.cpp(123,23): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+  Sword.cpp
+  Generating Code...
+  Compiling...
+  Torch.cpp
+  UpgradeMorningStar.cpp
+  Weapon.cpp
   main.cpp
 C:\Users\Admin\Desktop\GAME\CastleVania\main.cpp(32,1): warning C4005: 'SCREEN_WIDTH': macro redefinition
 C:\Users\Admin\Desktop\GAME\CastleVania\define.h(28): message : see previous definition of 'SCREEN_WIDTH'

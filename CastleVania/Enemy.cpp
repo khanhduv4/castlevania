@@ -1,5 +1,36 @@
 ﻿#include "Enemy.h"
 #include "Brick.h"
+#include "Portal.h"
+#include"Tilemap.h"
+#include "Torch.h"
+#include "Sword.h"
+#include "UpgradeMorningStar.h"
+#include "LargeHeart.h"
+#include "Axe.h"
+#include "Boomerang.h"
+#include "II.h"
+#include "Chicken.h"
+#include "Money.h"
+#include "Blue.h"
+#include "GameBoard.h"
+#include "CBurningEffect.h"
+#include "Knight.h"
+#include "Bat.h"
+#include "Candle.h"
+#include "Elevator.h"
+#include "HiddenObject.h"
+#include"Grid.h"
+
+
+#define ITEM_ID_UPGRADEMORNINGSTAR 1
+#define ITEM_ID_LARGEHEART 2
+#define ITEM_ID_SWORD 3
+#define ITEM_ID_BOOMERANG 4
+#define ITEM_ID_II 5
+#define ITEM_ID_BLUE 6
+#define ITEM_ID_CHICKEN 7
+#define ITEM_ID_AXE 8
+
 CEnemy::CEnemy()
 {
 	objLife = OBJ_LIFE_LIVE;
@@ -71,6 +102,57 @@ void CEnemy::Render()
 		}
 	}
 	else return;
+}
+
+
+void CEnemy::SubHealth(int th, vector<LPGAMEOBJECT>* coObjects, vector<LPGAMEOBJECT>* coItems) {
+	CGameObject::SubHealth(th);
+	if (isFinish)
+	{
+		coItems->push_back(SpawnItem());
+	}
+}
+
+CItem* CEnemy::SpawnItem() {
+	CItem* item = NULL;
+	switch (id) {
+	case ITEM_ID_UPGRADEMORNINGSTAR: {
+		item = new UpgradeMorningStar(x, y);
+		break;
+	}
+	case ITEM_ID_LARGEHEART: {
+		item = new LargeHeart(x, y);
+		break;
+	}
+	case ITEM_ID_SWORD: {
+		item = new Sword(x, y);
+		break;
+	}
+	case ITEM_ID_BOOMERANG: {
+		item = new Boomerang(x, y);
+		break;
+	}
+	case ITEM_ID_II: {
+		item = new II(x, y);
+		break;
+	}
+	case ITEM_ID_BLUE: {
+		item = new Blue(x, y);
+		break;
+	}
+	case ITEM_ID_CHICKEN: {
+		item = new Chicken(x, y);
+		break;
+	}
+	case ITEM_ID_AXE: {
+		item = new Axe(x, y);
+		break;
+	}
+	default: {
+		item = new UpgradeMorningStar(x, y);
+	}
+	}
+	return item;
 }
 
 void CEnemy::Disappear()

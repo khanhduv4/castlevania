@@ -13,6 +13,8 @@ using namespace std;
 #define GRID_SECTION_SETTINGS 0
 #define GRID_SECTION_OBJECTS 2
 
+
+ Grid* Grid::_currentInstance = NULL;
 void Grid::LoadSetting(string line)
 {
 	vector<string> tokens = split(line);
@@ -79,6 +81,14 @@ void Grid::UpdateGrid() {
 		Insert(allGridObjects[i]);
 	}
 }
+
+Grid* Grid::Create(int cellSize, int numXCell, int numYCell, vector<LPGAMEOBJECT>* listObject) {
+	_currentInstance = new Grid(cellSize, numXCell, numYCell, listObject);
+	return _currentInstance;
+}
+Grid* Grid::GetCurrentInstance() {
+	return _currentInstance;
+}
 void Grid::LoadObject(string line)
 {
 	vector<string> tokens = split(line);
@@ -123,6 +133,8 @@ Grid::Grid(int cellSize, int numXCell, int numYCell, vector <LPGAMEOBJECT>* list
 		this->Insert(listObject->at(i));
 
 }
+
+
 
 Grid::~Grid()
 {

@@ -4,22 +4,22 @@
 #include "Sprites.h" 
 #include "GameObject.h"
 
-
-
-
 class Weapon : public CGameObject
 {
-protected:   
+protected:
 
 	bool isFinish;
 	int direction;
 	int damage;
 	DWORD LastTimeAttack; // Thời điểm tấn công cuối cùng 
 	int currentFrame;
+
+	bool isHit = 0;
+
 public:
 	Weapon();
 	~Weapon();			  
-	void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects = NULL);
+	void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects , vector<LPGAMEOBJECT>* coItems);
 	int GetDirection();
 	void SetDirection(int Direction);
 
@@ -31,7 +31,12 @@ public:
 	virtual void RenderIcon(float X, float Y) = 0;
 	
 	void SetFinish(bool b);
-	  
+	bool IsFinish() { return isFinish; }
+	
+	void SetHit(bool isHit);
+
+	bool IsHit();
+
 	DWORD GetLastTimeAttack(); 
 };
 

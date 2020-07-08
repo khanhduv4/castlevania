@@ -48,6 +48,7 @@ struct CCollisionEvent
 
 class CGameObject
 {
+	//Refactor
 public:
 	int id;
 
@@ -80,14 +81,17 @@ public:
 
 	int _width;
 	int _height;
-	
+
 
 
 	bool isFinish;
 
 
+
+	void SubHealth(int th);
+
 public:
-	void SetPosition(float x, float y) { DebugOut(L"Set simon position:%f %f",this->x,this->y); this->x = x; this->y = y; }
+	void SetPosition(float x, float y) { DebugOut(L"Set simon position:%f %f", this->x, this->y); this->x = x; this->y = y; }
 	void SetSpeed(float vx, float vy) { this->vx = vx; this->vy = vy; }
 	void GetPosition(float& x, float& y) { x = this->x; y = this->y; }
 	void GetSpeed(float& vx, float& vy) { vx = this->vx; vy = this->vy; }
@@ -142,12 +146,13 @@ public:
 	virtual void SetState(int state) { this->state = state; }
 
 	~CGameObject();
+	void GetAABBCollisions(vector<LPGAMEOBJECT>* coObjects, vector<LPCOLLISIONEVENT>& coEvents);
 	bool checkAABB(CGameObject* obj);
-	void SubHealth(int th);
 	virtual bool isCollision(CGameObject* obj); // kiểm tra vũ khí này có va chạm với object kia hay không?
 
-	bool isCollitionObjectWithObject(CGameObject* obj);
+	bool isCollisionObjectWithObject(CGameObject* obj);
 	bool GetFinish();
 	void SetFinish(bool b);
+
 };
 

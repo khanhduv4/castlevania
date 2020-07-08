@@ -18,6 +18,16 @@ MorningStar::~MorningStar()
 {
 }
 
+inline void MorningStar::ResetAnimation() {
+	animation_set->at(MORNINGSTAR_ANI_LEVEL0_LEFT)->Reset();
+	animation_set->at(MORNINGSTAR_ANI_LEVEL0_RIGHT)->Reset();
+	animation_set->at(MORNINGSTAR_ANI_LEVEL1_LEFT)->Reset();
+	animation_set->at(MORNINGSTAR_ANI_LEVEL1_RIGHT)->Reset();
+	animation_set->at(MORNINGSTAR_ANI_LEVEL2_LEFT)->Reset();
+	animation_set->at(MORNINGSTAR_ANI_LEVEL2_RIGHT)->Reset();
+	currentFrame = 0;
+}
+
 void MorningStar::SetActiveBoundingBox(bool isFinish) {
 	if (isFinish) {
 		leftBound = x;
@@ -48,20 +58,20 @@ void MorningStar::ResetAniSet()
 
 }
 
-void MorningStar::SetActive(bool isVisible) {
+void MorningStar::SetFinish(bool isVisible) {
 	this->isFinish = isVisible; 
 	if (!isVisible)
 		ResetAnimation();
 }
-
-void MorningStar::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
-{
-	Weapon::Update(dt, coObjects);
-}
+//
+//void MorningStar::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
+//{
+//	Weapon::Update(dt, coObjects);
+//}
 
 void MorningStar::Render()
 {
-	if (!isFinish) return;
+	if (isFinish) return;
 	ani = 0;
 	switch (level) {
 	case 0: {
@@ -85,15 +95,16 @@ void MorningStar::Render()
 
 	int alpha = 255;
 	currentFrame = animation_set->at(ani)->Render(x, y, alpha);
-	if (animation_set->at(ani)->IsDone()) isHit = false;
-
-	//RenderBoundingBox();
+	if (animation_set->at(ani)->IsDone()) {
+		isFinish = 1;
+		isHit = false;
+	}
 
 }
 
 void MorningStar::Attack(float X, float Y, int Direction)
 {
-	isFinish = 1;
+
 	Weapon::Attack(X, Y, Direction);
 	switch (currentFrame) {
 
@@ -164,6 +175,7 @@ void MorningStar::UpgradeLevel()
 	if (level >= 2)
 		return;
 	level++;
+	damage = 2;
 	if (isFinish == false) // nếu chưa đánh xong mà update thì phải update lại frame để sau khi Freezed xong sẽ chạy tiếp
 	{
 	}

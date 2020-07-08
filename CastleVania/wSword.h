@@ -2,14 +2,13 @@
 
 #include "Weapon.h"
 
-#define DAGGER_SPEED 0.45f
+#define SWORD_SPEED 0.45f
 
 class wSword : 	public Weapon
 {
-private:
-	//Camera * camera;
-	bool isFinish;
+
 public:
+
 	wSword();
 	~wSword();
 
