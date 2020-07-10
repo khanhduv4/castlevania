@@ -90,29 +90,34 @@ extern D3DCOLOR D3DCOLOR_BACKGROUND; // màu nền game
 
 #pragma endregion
 
+#pragma region SIMON PROP
 
+#define SIMON_WALKING_SPEED	0.12f 
+#define SIMON_CLIMBING_SPEED 0.09f 
 
+//0.1f
+#define SIMON_JUMP_SPEED_Y	0.27f
+#define SIMON_VJUMP_HURTING 0.15f
+#define SIMON_JUMP_DEFLECT_SPEED 0.2f
+#define SIMON_GRAVITY	0.0007f
+#define SIMON_DIE_DEFLECT_SPEED	 0.5f
 
+#define SIMON_BBOX_WIDTH  32
+#define SIMON_BBOX_HEIGHT 59
+#define SIMON_BBOX_SITTING_HEIGHT 45
+#define SIMON_BBOX_JUMPING_HEIGHT 45
 
+#define SIMON_UNTOUCHABLE_TIME 2000
+#define SIMON_HURTING_TIME 400
 
-
-
-
-
+#pragma endregion
 
 typedef D3DXVECTOR3 GVector3;
 typedef D3DXVECTOR2 GVector2;
 #define VECTOR2ZERO GVector2(0.0f, 0.0f)
 
-
-
-
-
 #define GAMEOVER_SELECT_CONTINUE 0
 #define GAMEOVER_SELECT_END 1
-
-
-
 
 #ifndef CHECK_OBJECT_IN_CAMERA // Kiểm tra GameObject có nằm trong camera ko?
 #define CHECK_OBJECT_IN_CAMERA(obj) \

@@ -5,6 +5,8 @@
 wSword::wSword()
 {
 	damage = 1;
+	aniIndex = 8;
+	ResetAniSet();
 }
 
 
@@ -13,20 +15,17 @@ wSword::~wSword()
 }
 
 void wSword::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
-{  
-	CGameObject::Update(dt); // update dt,dx,dy 
-	x += dx; 
-} 
+{
+
+}
 
 void wSword::Attack(float X, float Y, int Direction)
 {
 	Weapon::Attack(X, Y + 10, Direction);
-	vx = SWORD_SPEED * direction;
+	vx = WEAPON_SPEED * direction;
 }
 
-void wSword::Render() {
 
-}
 
 void wSword::GetBoundingBox(float& left, float& top, float& right, float& bottom)
 {

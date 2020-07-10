@@ -17,25 +17,6 @@
 #include "Portal.h"
 #include "Elevator.h"
 
-
-#define SIMON_WALKING_SPEED	0.12f 
-#define SIMON_CLIMBING_SPEED 0.09f 
-
-//0.1f
-#define SIMON_JUMP_SPEED_Y	0.27f
-#define SIMON_VJUMP_HURTING 0.15f
-#define SIMON_JUMP_DEFLECT_SPEED 0.2f
-#define SIMON_GRAVITY	0.0007f
-#define SIMON_DIE_DEFLECT_SPEED	 0.5f
-
-#define SIMON_BBOX_WIDTH  32
-#define SIMON_BBOX_HEIGHT 59
-#define SIMON_BBOX_SITTING_HEIGHT 45
-#define SIMON_BBOX_JUMPING_HEIGHT 45
-
-#define SIMON_UNTOUCHABLE_TIME 2000
-#define SIMON_HURTING_TIME 400
-
 #define SIMON_ATTACK_MAIN_WEAPON	0
 #define SIMON_ATTACK_SUB_WEAPON	1
 
@@ -54,8 +35,9 @@ class CSimon : public CGameObject
 
 	HiddenObject* stair;
 
+	vector<Weapon*> subWeapons;
 	MorningStar* morStar;
-	Weapon* currentSubWeapon;
+	int currentSubWeapon;
 
 	int hurtingTimeCount = 0;
 

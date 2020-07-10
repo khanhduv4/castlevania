@@ -24,6 +24,7 @@
 #include "Brick.h"
 
 #include "PlayScence.h"
+#include "GameBoard.h"
 
 #define WINDOW_CLASS_NAME L"SampleWindow"
 #define MAIN_WINDOW_TITLE L"Castle Vania"
@@ -72,11 +73,12 @@ void Render()
 		// Clear back buffer with a color
 		d3ddv->ColorFill(bb, NULL, BACKGROUND_COLOR);
 
-		spriteHandler->Begin(D3DXSPRITE_ALPHABLEND);
+	
 
 		CGame::GetInstance()->GetCurrentScene()->Render();
 
-		spriteHandler->End();
+		 
+
 		d3ddv->EndScene();
 	}
 

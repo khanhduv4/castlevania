@@ -7,6 +7,7 @@
 
 MorningStar::MorningStar()
 {
+	aniIndex = 4;
 	level = 0;
 	currentFrame = 0;
 	isFinish = 0;
@@ -18,7 +19,7 @@ MorningStar::~MorningStar()
 {
 }
 
-inline void MorningStar::ResetAnimation() {
+void MorningStar::ResetAnimation() {
 	animation_set->at(MORNINGSTAR_ANI_LEVEL0_LEFT)->Reset();
 	animation_set->at(MORNINGSTAR_ANI_LEVEL0_RIGHT)->Reset();
 	animation_set->at(MORNINGSTAR_ANI_LEVEL1_LEFT)->Reset();
@@ -50,28 +51,24 @@ void MorningStar::SetActiveBoundingBox(bool isFinish) {
 	}
 }
 
-void MorningStar::ResetAniSet()
-{
-	CAnimationSets* animation_sets = CAnimationSets::GetInstance();
-	LPANIMATION_SET ani_set = animation_sets->Get(4);
-	this->SetAnimationSet(ani_set);
 
-}
 
 void MorningStar::SetFinish(bool isVisible) {
 	this->isFinish = isVisible; 
 	if (!isVisible)
 		ResetAnimation();
 }
-//
-//void MorningStar::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
-//{
-//	Weapon::Update(dt, coObjects);
-//}
+
+void MorningStar::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects, vector<LPGAMEOBJECT>* coItems)
+{
+	Weapon::Update(dt, coObjects, coItems);
+}
 
 void MorningStar::Render()
 {
 	if (isFinish) return;
+	UpdatePositionFitSimon();
+
 	ani = 0;
 	switch (level) {
 	case 0: {
@@ -104,18 +101,23 @@ void MorningStar::Render()
 
 void MorningStar::Attack(float X, float Y, int Direction)
 {
-
 	Weapon::Attack(X, Y, Direction);
+	simonX = X;
+	simonY = Y;
+}
+
+void MorningStar::UpdatePositionFitSimon()
+{
 	switch (currentFrame) {
 
 	case 0: {
 		if (direction == -1) {
-			x += (SIMON_WIDTH + 10);
+			x = simonX + (SIMON_WIDTH + 10);
 		}
 		else {
-			x -= (13);
+			x = simonX - (13);
 		}
-		y += 12;
+		y = simonY + 12;
 
 		SetActiveBoundingBox(false);
 
@@ -123,38 +125,32 @@ void MorningStar::Attack(float X, float Y, int Direction)
 	}
 	case 1: {
 		if (direction == -1) {
-			x += (SIMON_WIDTH - 2);
+			x = simonX + (SIMON_WIDTH - 2);
 		}
 		else {
-			x -= 30;
+			x = simonX - 30;
 		}
-		y += 7;
+		y = simonY + 7;
 		SetActiveBoundingBox(false);
 		break;
 	}
 	case 2: {
 		if (direction == 1) {
-			x += (SIMON_WIDTH + 10);
+			x = simonX + (SIMON_WIDTH + 10);
 		}
 		else {
 			if (level == 2) {
-				x -= (SIMON_WIDTH + 12 + 34);
+				x = simonX - (SIMON_WIDTH + 12 + 34);
 			}
-			else x -= (SIMON_WIDTH + 12);
+			else x = simonX - (SIMON_WIDTH + 12);
 		}
-		if (level == 1 || level == 2) y += 5;
+		if (level == 1 || level == 2) y = simonY + 5;
 
-		y += 10;
+		y = simonY + 10;
 		SetActiveBoundingBox(true);
 		break;
 	}
 	}
-	UpdatePositionFitSimon();
-}
-
-void MorningStar::UpdatePositionFitSimon()
-{
-
 }
 
 void MorningStar::GetBoundingBox(float& left, float& top, float& right, float& bottom)

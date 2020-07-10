@@ -7,6 +7,7 @@
 Weapon::Weapon()
 {
 	isFinish = 0;
+	isHit = 0;
 	damage = 1;
 }
 
@@ -36,8 +37,11 @@ void Weapon::Attack(float X, float Y, int Direction)
 
 void Weapon::Render()
 {
-	if (!isFinish)
+	if (isFinish)
 		return;
+	else {
+		animation_set->at(0)->Render(x, y, 255);
+	}
 
 }
 
@@ -46,16 +50,22 @@ void Weapon::UpdatePositionFitSimon()
 
 }
 
-
-
-
 void Weapon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects, vector<LPGAMEOBJECT>* coItems) {
-	if (!isFinish)
+	if (isFinish)
 		return;
+	CGameObject::Update(dt); // update dt,dx,dy 
+	x += dx;
+	float cx, cy;
+	CGame::GetInstance()->GetCamPos(cx, cy);
+	if (x < cx || x > cx + SCREEN_WIDTH) {
+		isFinish = 1;
+		DebugOut(L"off");
+		return;
+	}
+
 	//Refactor Xu ly va cham weapon voi enemy
 	vector<LPCOLLISIONEVENT> coEvents;
 	vector<LPCOLLISIONEVENT> coEventsResult;
-
 
 	coEvents.clear();
 	GetAABBCollisions(coObjects, coEvents);
@@ -69,14 +79,16 @@ void Weapon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects, vector<LPGAMEOBJE
 				++begin;
 				if (this->isHit) continue;
 				this->isHit = 1;
+
 				float x = 0, y = 0;
 				enemy->GetPosition(x, y);
 				enemy->SubHealth(damage,coObjects,coItems);
-
 			}
-			
+			else {
+				++begin;
+			}
 		}
-	}
+	} 
 }
 
 void Weapon::SetHit(bool isHit) {

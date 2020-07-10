@@ -85,8 +85,7 @@ public:
 
 
 	bool isFinish;
-
-
+	int aniIndex;
 
 	void SubHealth(int th);
 
@@ -115,6 +114,8 @@ public:
 	int GetObjId() { return this->id; }
 
 	int GetState() { return this->state; }
+
+	void ResetAniSet();
 
 	void RenderBoundingBox();
 

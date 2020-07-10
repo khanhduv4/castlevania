@@ -355,15 +355,14 @@ void CPlayScene::Update(DWORD dt)
 
 void CPlayScene::Render()
 {
-
+	
 	TiledMap::GetCurrentMap()->Render();
-	CGameBoard::GetIntance()->Render();
 
 	vector<LPGAMEOBJECT> gridObjects;
 	gridObjects.clear();
 	if (_grid)
 		_grid->GetListOfObjects(&gridObjects, SCREEN_WIDTH, SCREEN_HEIGHT);
-	// Render game Object
+	//Render game Object
 	int simon_Index = -1;
 	for (int i = 0; i < gridObjects.size(); i++) {
 		if (dynamic_cast<CSimon*>(gridObjects[i]))
@@ -378,7 +377,10 @@ void CPlayScene::Render()
 	// Render Items
 	for (int i = 0; i < items.size(); i++) {
 		items[i]->Render();
-	}
+	} 
+
+	CGameBoard::GetIntance()->Render();
+
 }
 //Refactor
 void CPlayScene::CheckCollisionWeaponWithObject(DWORD dt, vector<LPGAMEOBJECT>* coObjects) {

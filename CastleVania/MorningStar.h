@@ -24,6 +24,7 @@
 
 
 
+
 class MorningStar : public Weapon
 {
 protected:
@@ -34,14 +35,15 @@ protected:
 	float topBound;
 	float rightBound;
 	float bottomBound;
+	float simonX, simonY;
 
 public:
 	MorningStar();
 	~MorningStar();
 
-	void ResetAniSet();
+
 	void SetFinish(bool isVisible);
-	//void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects = NULL);
+	void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects, vector<LPGAMEOBJECT>* coItems);
 	void Render();
 	
 

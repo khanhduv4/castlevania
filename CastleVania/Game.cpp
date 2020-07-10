@@ -54,9 +54,41 @@ void CGame::Init(HWND hWnd)
 
 	d3ddv->GetBackBuffer(0, 0, D3DBACKBUFFER_TYPE_MONO, &backBuffer);
 
+
+	/*HRESULT result = D3DXCreateFont(
+		d3ddv, 16, 0, FW_BOLD, 1, false,
+		DEFAULT_CHARSET, OUT_DEFAULT_PRECIS,
+		DEFAULT_QUALITY, FF_DONTCARE, L"ArcadeClassic", &font);*/
+	AddFontResourceEx(
+		FONT_DIRECTORY, 		// font file name
+		FR_PRIVATE,    	// font characteristics
+		NULL);
+	HRESULT hr = D3DXCreateFontW(d3ddv,     //D3D Device
+
+		22,               //Font height
+
+		0,                //Font width
+
+		FW_NORMAL,        //Font Weight
+
+		1,                //MipLevels
+
+		false,            //Italic
+
+		DEFAULT_CHARSET,  //CharSet
+
+		OUT_DEFAULT_PRECIS, //OutputPrecision
+
+		ANTIALIASED_QUALITY, //Quality
+
+		FF_DONTCARE,//PitchAndFamily
+
+		L"Press Start",          //pFacename,
+
+		&this->fontHandler);
+
 	// Initialize sprite helper from Direct3DX helper library
 	D3DXCreateSprite(d3ddv, &spriteHandler);
-
 	OutputDebugString(L"[INFO] InitGame done;\n");
 }
 
@@ -65,6 +97,7 @@ void CGame::Init(HWND hWnd)
 */
 void CGame::Draw(float x, float y, LPDIRECT3DTEXTURE9 texture, int left, int top, int right, int bottom, int alpha, bool isUI)
 {
+	spriteHandler->Begin(D3DXSPRITE_ALPHABLEND);
 	float _cam_x = cam_x;
 	float _cam_y = cam_y;
 	if (isUI)
@@ -79,8 +112,28 @@ void CGame::Draw(float x, float y, LPDIRECT3DTEXTURE9 texture, int left, int top
 	r.right = right;
 	r.bottom = bottom;
 	spriteHandler->Draw(texture, &r, NULL, &p, D3DCOLOR_ARGB(alpha, 255, 255, 255));
+	spriteHandler->End();
 }
+void CGame::Draw(string text, int left, int top, int right, int bottom, D3DCOLOR color) {
+	//Need to end sprite handler before rendering fonts
+	RECT r;
+	r.left = left;
+	r.top = top;
+	r.right = right;
+	r.bottom = bottom;
 
+	fontHandler->DrawTextW(NULL, ToLPCWSTR(text), -1, &r, DT_LEFT, color);
+}
+void CGame::Draw(wstring text, int left, int top, int right, int bottom, D3DCOLOR color) {
+	//Need to end sprite handler before rendering fonts
+	RECT r;
+	r.left = left;
+	r.top = top;
+	r.right = right;
+	r.bottom = bottom;
+
+	fontHandler->DrawTextW(NULL, text.c_str(), -1, &r, DT_LEFT, color);
+}
 int CGame::IsKeyDown(int KeyCode)
 {
 	return (keyStates[KeyCode] & 0x80) > 0;
@@ -209,6 +262,7 @@ CGame::~CGame()
 	if (backBuffer != NULL) backBuffer->Release();
 	if (d3ddv != NULL) d3ddv->Release();
 	if (d3d != NULL) d3d->Release();
+	if (fontHandler != NULL) fontHandler->Release();
 }
 
 /*

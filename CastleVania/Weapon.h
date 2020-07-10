@@ -3,6 +3,10 @@
 #include "Textures.h"
 #include "Sprites.h" 
 #include "GameObject.h"
+#include "Game.h"
+#include "Brick.h"
+
+#define WEAPON_SPEED 0.45f
 
 class Weapon : public CGameObject
 {

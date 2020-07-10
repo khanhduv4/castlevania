@@ -16,8 +16,6 @@ public:
 
 	void Attack(float X, float Y, int Direction);
 
-	void Render();
-
 	void GetBoundingBox(float& left, float& top, float& right, float& bottom);
 
  	void RenderIcon(float X, float Y);

@@ -1,13 +1,17 @@
 #pragma once
 #include "Sprites.h"
 
+#include <d3d9.h>
+#include <d3dx9.h>
+
 #define GAMEBOARD_SPRITE_ID 100100
 
 class CGameBoard
 {
-public : 
+public:
 	~CGameBoard();
 	static CGameBoard* GetIntance() {
+
 		if (_instance == NULL)
 			_instance = new CGameBoard();
 		return _instance;
@@ -15,11 +19,28 @@ public :
 	void Render();
 	void SetPosition(float x, float y);
 	void Load();
+	void SetInitialHP(int HP) {
+		this->initHP = HP;
+	}
+	void SetHP(int HP) {
+		this->hp = HP;
+	}
+	void SetScore(int score) {
+		this->score = score;
+	}
+	void ResetBoard(int hp, int initHP, int score) {
+		this->hp = hp;
+		this->score = score;
+		this->initHP = initHP;
+	}
 private:
 	CGameBoard();
 	static CGameBoard* _instance;
-	CSprite *_sprite;
+	CSprite* _sprite;
 	float _x;
 	float _y;
+	int score = 99999;
+	int hp = 7;
+	int initHP = 10;
 };
 

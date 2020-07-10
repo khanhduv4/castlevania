@@ -7,7 +7,7 @@ CSimon::CSimon() : CGameObject()
 	untouchable = 0;
 	SetState(SIMON_STATE_IDLE);
 	morStar = new MorningStar();
-	currentSubWeapon = new wSword();
+	currentSubWeapon = 0;
 	Health = 20;
 	isClimbableUp = 0;
 	isClimbing = 0;
@@ -44,19 +44,30 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects, vector<LPGAMEOBJE
 	// Calculate dx, dy 
 	CGameObject::Update(dt);
 
+	// Check Attacking
+
+	if (isAttacking) {
+		Attack(weapon);
+	}
+	else {
+		morStar->SetFinish(1);
+	}
+
 	// Update Weapon
 
 	this->morStar->Update(dt, coObjects,coItems);
-	this->currentSubWeapon->Update(dt, coObjects, coItems);
+
+	if (subWeapons.size() >= 1) {
+		for (int i = 0; i < subWeapons.size(); i++) {
+			subWeapons[i]->Update(dt, coObjects, coItems);
+		}
+	}
 
 	// check Climbable
 	if (stair) {
 		if (!this->isCollision(stair)) {
 			isClimbableUp = isClimbableDown = 0;
 		}
-	}
-	else {
-		isClimbableUp = isClimbableDown = 0;
 	}
 
 	vector<LPCOLLISIONEVENT> coEvents;
@@ -126,21 +137,16 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects, vector<LPGAMEOBJE
 					stairDirection = obj->direction;
 					stair = obj; 
 					if (obj->type == TYPE_STAIR_BEGIN) {
-
 						isClimbableUp = 1;
 						isClimbableDown = 0;
 						stairYDirection = -1;
-
 					}
 					else {
-
 						isClimbableUp = 0;
 						isClimbableDown = 1;
 						stairYDirection = 1;
-
 					}
 				}
-				
 			}
 			if (!(*begin)->obj->isCollisionWithSimon || (*begin)->obj->GetFinish())
 			{
@@ -149,7 +155,6 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects, vector<LPGAMEOBJE
 			else
 				++begin;
 		}
-
 		// TODO: This is a very ugly designed function!!!!
 		FilterCollision(coEvents, coEventsResult, min_tx, min_ty, nx, ny, rdx, rdy);
 
@@ -195,7 +200,7 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects, vector<LPGAMEOBJE
 				if (dynamic_cast<UpgradeMorningStar*>(e->obj))
 					morStar->UpgradeLevel();
 				else if (dynamic_cast<Sword*>(e->obj)) {
-					currentSubWeapon = new wSword();
+					//currentSubWeapon = new wSword();
 				}
 				else if (dynamic_cast<LargeHeart*>(e->obj))
 					AddHeart();
@@ -207,10 +212,7 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects, vector<LPGAMEOBJE
 			}
 		}
 	}
-	//if (nx != 0)
-	//{
-	//	isHurting = 0;
-	//}
+
 	// clean up collision events
 	for (UINT i = 0; i < coEvents.size(); i++) delete coEvents[i];
 
@@ -220,14 +222,6 @@ void CSimon::Render()
 {
 	if (isSceneSwitching) {
 		return;
-	}
-	if (isAttacking) {
-		Attack(weapon);
-	}
-	else {
-		morStar->SetFinish(1);
-		if (currentSubWeapon)
-			currentSubWeapon->SetFinish(1);
 	}
 
 	int ani = -1;
@@ -309,7 +303,6 @@ void CSimon::Render()
 				}
 
 			}
-
 		}
 		else if (isSitting) {
 			vx = 0;
@@ -348,13 +341,13 @@ void CSimon::Render()
 
 	if (!morStar->IsFinish()) {
 		morStar->Render();
-
 	}
-	if (currentSubWeapon) {
-		if (currentSubWeapon->IsFinish()) {
-			currentSubWeapon->Render();
+	if (subWeapons.size() >= 1) {
+		for (int i = 0; i < subWeapons.size(); i++) {
+			subWeapons[i]->Render();
 		}
 	}
+
 }
 
 void CSimon::Attack(int weapon) {
@@ -363,9 +356,9 @@ void CSimon::Attack(int weapon) {
 	if (weapon == SIMON_ATTACK_MAIN_WEAPON)
 		morStar->Attack(x, y, nx);
 	else {
-		if (currentSubWeapon)
-			currentSubWeapon->Attack(x, y, nx);
-
+		Weapon* subWeapon = new wSword();
+		subWeapon->Attack(x, y, nx);
+		subWeapons.push_back(subWeapon);
 	}
 }
 
@@ -386,11 +379,12 @@ void CSimon::SetState(int state)
 		break;
 	case SIMON_STATE_ATTACKING:
 		if (this->isAttacking) return;
-		this->isAttacking = 1;
-		ResetAttackAni();
 		isClimbing = 0;
+		ResetAttackAni();
 		morStar->SetHit(0);
 		morStar->ResetAnimation();
+		this->Attack(weapon);
+		this->isAttacking = 1;
 		break;
 	case SIMON_STATE_SITTING:
 		if (this->isSitting) return;

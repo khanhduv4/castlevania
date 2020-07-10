@@ -22,7 +22,6 @@ void CGameObject::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	this->dt = dt;
 	dx = vx * dt;
 	dy = vy * dt;
-
 }
 
 /*
@@ -79,7 +78,6 @@ void CGameObject::CalcPotentialCollisions(
 		else
 			delete e;
 	}
-
 	std::sort(coEvents.begin(), coEvents.end(), CCollisionEvent::compare);
 }
 
@@ -116,6 +114,13 @@ void CGameObject::FilterCollision(
 	if (min_iy >= 0) coEventsResult.push_back(coEvents[min_iy]);
 }
 
+
+void CGameObject::ResetAniSet()
+{
+	CAnimationSets* animation_sets = CAnimationSets::GetInstance();
+	LPANIMATION_SET ani_set = animation_sets->Get(aniIndex);
+	this->SetAnimationSet(ani_set);
+}
 
 void CGameObject::RenderBoundingBox()
 {

@@ -8,6 +8,8 @@
 
 
 #define DIRECTINPUT_VERSION 0x0800
+#define FONT_DIRECTORY L"C:\\Users\\Admin\\Desktop\\GAME\\CastleVania\\Resources\\font\\prstart.ttf"
+
 #include <dinput.h>
 
 #include "Scence.h"
@@ -29,6 +31,8 @@ class CGame
 
 	LPDIRECTINPUT8       di;		// The DirectInput object         
 	LPDIRECTINPUTDEVICE8 didv;		// The keyboard device 
+
+	ID3DXFont *fontHandler;
 
 	BYTE  keyStates[256];			// DirectInput keyboard state buffer 
 	DIDEVICEOBJECTDATA keyEvents[KEYBOARD_BUFFER_SIZE];		// Buffered keyboard data
@@ -91,6 +95,10 @@ public:
 	bool checkAABB(float b1left, float b1top, float b1right, float b1bottom, float b2left, float b2top, float b2right, float b2bottom);
 
 	static CGame * GetInstance();
+
+	void Draw(string text, int left, int top,int right, int bottom, D3DCOLOR color);
+
+	void Draw(wstring text, int left, int top, int right, int bottom, D3DCOLOR color);
 
 	~CGame();
 };
