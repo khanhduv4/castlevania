@@ -1,22 +1,20 @@
 #include "Bat.h"
+#include "Simon.h"
 #include "Define.h"
 #include "Utils.h"
 
-
 Bat::Bat()
 {
-	//this->startX = startX;
-	//this->startY = startY;
 
-	//this->hp = VAMPIRE_BAT_HP;
-	//isEnable = true;
-
-	//SetState(VAMPIRE_BAT_STATE_IDLE);
-	SetAnimation(11);
-	this->Health = 2;
+	this->Health = 1;
 	isGravity = 0;
 	isFinish = 0;
-	ani = 0;
+
+	isFront = true;
+	damage = VAMPIRE_BAT_DAMAGE;
+
+	SetAnimation(11);
+	SetState(VAMPIRE_BAT_STATE_IDLE);
 }
 
 Bat::~Bat()
@@ -25,73 +23,105 @@ Bat::~Bat()
 
 void Bat::GetBoundingBox(float& left, float& top, float& right, float& bottom)
 {
-
+	if (isFinish) {
+		left = 0;
+		top = 0;
+		right = left + 0;
+		bottom = top + 0;
+	}
+	else {
 		left = x;
+		right = left + VAMPIRE_BAT_BBOX_WIDTH;
 		top = y;
-		right = left + (isFinish ? 0 : 32);
-		bottom = top + (isFinish ? 0 : 32);
-
+		bottom = top + VAMPIRE_BAT_BBOX_HEIGHT;
+	}
 }
 
 void Bat::Update(DWORD dt, vector<LPGAMEOBJECT>* coObject)
 {
 	CEnemy::Update(dt, coObject);
+	if (!isFinish) {
 
+		x += dx;
+		y += dy;
 
-	//if (!isFinish) {
-	//	x += dx;
-	//	y += dy;
+		float simonX, simonY;
 
-	//	float simonX, simonY;
+		CSimon::getInstance()->GetPosition(simonX, simonY);
 
+		if (state == VAMPIRE_BAT_STATE_IDLE)
+		if (abs(this->x - simonX) < VAMPIRE_BAT_DISTANCE_ATTACK_X && abs(this->y - simonY) < VAMPIRE_BAT_DISTANCE_ATTACK_Y) {
+			SetState(VAMPIRE_BAT_STATE_FLYING);
+		}
 
-	//	nx = this->x >= simonX ? -1 : 1;
+		if (state == VAMPIRE_BAT_STATE_FLYING)
+		{
+			if (this->x - simonX > 100) {
+				nx = -1;
+				SetState(VAMPIRE_BAT_STATE_FLYING);
+			}
+			if (this->x - simonX < -100) {
+				nx = 1;
+				SetState(VAMPIRE_BAT_STATE_FLYING);
 
-	//	if (state == VAMPIRE_BAT_STATE_FLYING)
-	//	{
-	//		x += dx;
-	//		y += dy;
-	//		if (this->y - simonY >= SIMON_BBOX_HEIGHT / 2 - 5)
-	//		{
-	//			vy = 0;
-	//			y = simonY + SIMON_BBOX_HEIGHT / 2 - 5;
-	//		}
-	//	}
-	//	else if (state == VAMPIRE_BAT_STATE_IDLE) {
-	//		if (abs(this->x - simonX) < VAMPIRE_BAT_DISTANCE_ATTACK_X && abs(this->y - simonY) < SIMON_BBOX_HEIGHT) {
-	//			SetState(VAMPIRE_BAT_STATE_FLYING);
-	//		}
-	//	}
-	//}
+			}
+			if (y - simonY > 15)
+			{
+				vy = 0;
+			}
+		}
+	}
 }
 
 void Bat::Render()
 {
-	if (!objLife) {
-		animation_set->at(ani)->Render(x, y, 255);
+	if (!isFinish) {
+		int ani = 0;
+		switch (state)
+		{
+		case VAMPIRE_BAT_STATE_IDLE:
+		{
+			ani = VAMPIRE_BAT_ANI_IDLE;
+		}
+		break;
+		case VAMPIRE_BAT_STATE_FLYING:
+		{
+			if (nx > 0) {
+				ani = VAMPIRE_BAT_ANI_BLACK_FLYING_RIGHT;
+			}
+			else {
+				ani = VAMPIRE_BAT_ANI_BLACK_FLYING_LEFT;
+			}
+		}
+		break;
+		default:
+			break;
+		}
+
+		animation_set->at(ani)->Render(x, y);
+
 		RenderBoundingBox();
 	}
-	else
-		CEnemy::Render();
+	CEnemy::Render();
 }
 
 
 void Bat::SetState(int state)
 {
-	//Enemy::SetState(state);
-	//switch (state)
-	//{
-	//case VAMPIRE_BAT_STATE_IDLE:
-	//	break;
-	//case VAMPIRE_BAT_STATE_FLYING:
-	//	if (nx > 0) {
-	//		vx = BLACK_KNIGHT_FLYING_SPEED_X;
-	//	}
-	//	else {
-	//		vx = -BLACK_KNIGHT_FLYING_SPEED_X;
-	//	}
+	CEnemy::SetState(state);
 
-	//	vy = BLACK_KNIGHT_FLYING_SPEED_y;
-	//	break;
-	//}
+	switch (state)
+	{
+	case VAMPIRE_BAT_STATE_IDLE:
+		break;
+	case VAMPIRE_BAT_STATE_FLYING:
+		if (nx == 1) {
+			vx = VAMPIRE_BAT_FLYING_SPEED_X;
+		}
+		else {
+			vx = -VAMPIRE_BAT_FLYING_SPEED_X;
+		}
+		vy = VAMPIRE_BAT_FLYING_SPEED_Y;
+		break;
+	}
 }

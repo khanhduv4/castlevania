@@ -5,6 +5,7 @@
 #include "GameObject.h"
 #include "Game.h"
 #include "Brick.h"
+#include "Define.h"
 
 #define WEAPON_SPEED 0.45f
 

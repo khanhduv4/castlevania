@@ -133,17 +133,19 @@
   <ItemGroup>
     <ClCompile Include="Animations.cpp" />
     <ClCompile Include="Bat.cpp" />
-    <ClCompile Include="Board.cpp" />
-    <ClCompile Include="BoardHealth.cpp" />
     <ClCompile Include="Boomerang.cpp" />
     <ClCompile Include="Brick.cpp" />
     <ClCompile Include="Candle.cpp" />
     <ClCompile Include="CBurningEffect.cpp" />
     <ClCompile Include="Cell.cpp" />
+    <ClCompile Include="Ghost.cpp" />
+    <ClCompile Include="HunchBack.cpp" />
+    <ClCompile Include="Skeleton.cpp" />
+    <ClCompile Include="wAxe.cpp" />
+    <ClCompile Include="wBoomerang.cpp" />
     <ClCompile Include="wSword.cpp" />
     <ClCompile Include="Elevator.cpp" />
     <ClCompile Include="Enemy.cpp" />
-    <ClCompile Include="Font.cpp" />
     <ClCompile Include="GameBoard.cpp" />
     <ClCompile Include="Grid.cpp" />
     <ClCompile Include="HiddenObject.cpp" />
@@ -175,18 +177,20 @@
   <ItemGroup>
     <ClInclude Include="Animations.h" />
     <ClInclude Include="Bat.h" />
-    <ClInclude Include="Board.h" />
-    <ClInclude Include="BoardHealth.h" />
     <ClInclude Include="Boomerang.h" />
     <ClInclude Include="Brick.h" />
     <ClInclude Include="Candle.h" />
     <ClInclude Include="CBurningEffect.h" />
     <ClInclude Include="Cell.h" />
+    <ClInclude Include="Ghost.h" />
+    <ClInclude Include="HunchBack.h" />
+    <ClInclude Include="Skeleton.h" />
+    <ClInclude Include="wAxe.h" />
+    <ClInclude Include="wBoomerang.h" />
     <ClInclude Include="wSword.h" />
     <ClInclude Include="Define.h" />
     <ClInclude Include="Elevator.h" />
     <ClInclude Include="Enemy.h" />
-    <ClInclude Include="Font.h" />
     <ClInclude Include="GameBoard.h" />
     <ClInclude Include="Grid.h" />
     <ClInclude Include="HiddenObject.h" />

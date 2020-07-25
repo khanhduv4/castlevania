@@ -90,7 +90,7 @@ extern D3DCOLOR D3DCOLOR_BACKGROUND; // màu nền game
 
 #pragma endregion
 
-#pragma region SIMON PROP
+#pragma region SIMON PROPs
 
 #define SIMON_WALKING_SPEED	0.12f 
 #define SIMON_CLIMBING_SPEED 0.09f 
@@ -109,30 +109,137 @@ extern D3DCOLOR D3DCOLOR_BACKGROUND; // màu nền game
 
 #define SIMON_UNTOUCHABLE_TIME 2000
 #define SIMON_HURTING_TIME 400
+#define SIMON_FREEZE_TIME 400
+
 
 #pragma endregion
 
-typedef D3DXVECTOR3 GVector3;
-typedef D3DXVECTOR2 GVector2;
-#define VECTOR2ZERO GVector2(0.0f, 0.0f)
+#pragma region WEAPON ANI SET ID
+#define WEAPON_ANI_SET_SWORD	8
+#define WEAPON_ANI_SET_BOOMERANG	14
+#define WEAPON_ANI_SET_AXE	12
+#pragma endregion
 
-#define GAMEOVER_SELECT_CONTINUE 0
-#define GAMEOVER_SELECT_END 1
+#pragma region ITEM ID
 
-#ifndef CHECK_OBJECT_IN_CAMERA // Kiểm tra GameObject có nằm trong camera ko?
-#define CHECK_OBJECT_IN_CAMERA(obj) \
-checkObjectInCamera(obj->GetX(), obj->GetY(), (float)obj->GetWidth(),  (float)obj->GetHeight())
-#endif
+#define ITEM_ID_UPGRADEMORNINGSTAR 1
+#define ITEM_ID_LARGEHEART 2
+#define ITEM_ID_SWORD 3
+#define ITEM_ID_BOOMERANG 4
+#define ITEM_ID_II 5
+#define ITEM_ID_BLUE 6
+#define ITEM_ID_CHICKEN 7
+#define ITEM_ID_AXE 8
+
+#pragma endregion
+
+#pragma region PLAY SCENCE
+
+#define SCENE_SECTION_UNKNOWN -1
+#define SCENE_SECTION_TEXTURES 2
+#define SCENE_SECTION_SPRITES 3
+#define SCENE_SECTION_ANIMATIONS 4
+#define SCENE_SECTION_ANIMATION_SETS	5
+#define SCENE_SECTION_OBJECTS	6
+#define SCENE_SECTION_TILEMAP 7 
+#define SCENE_SECION_GRID 8
+
+#define OBJECT_TYPE_SIMON	0
+#define OBJECT_TYPE_BRICK	1
+#define OBJECT_TYPE_TORCH	2
+#define OBJECT_TYPE_ENEMY_KNIGHT	3
+#define OBJECT_TYPE_ENEMY_BAT	4
+#define OBJECT_TYPE_ENEMY_HUNCH_BACK	9
+#define OBJECT_TYPE_ENEMY_SKELETON	10
+#define OBJECT_TYPE_ENEMY_GHOST	11
+
+#define OBJECT_TYPE_CANDLE	5
+#define OBJECT_TYPE_ELEVATOR 6
+#define OBJECT_TYPE_STAIR_BEGIN 7
+#define OBJECT_TYPE_STAIR_END 8
+#define HIDDEN_OBJECT	999
 
 
-#ifndef SAFE_DELETE
-#define SAFE_DELETE(ptr) \
-if(ptr) \
-{\
-	delete (ptr); \
-	ptr = nullptr; \
-} \
+#define OBJECT_TYPE_PORTAL 99
 
-#endif
+#define MAX_SCENE_LINE 1024
+#pragma endregion
+
+#pragma region ENEMY Props
+//Ghost
+#define GHOST_HP 2
+#define GHOST_DAMAGE 1
+#define GHOST_DISTANCE_ATTACK_X 100
+#define GHOST_DISTANCE_WAITING_X 30
+
+#define GHOST_STATE_DIE 0
+#define GHOST_STATE_HIDE 1
+#define GHOST_STATE_FLYING 2
+#define GHOST_STATE_WAITTING 3
+
+#define GHOST_BBOX_WIDTH 28
+#define GHOST_BBOX_HEIGHT 28
+
+#define GHOST_ANI_FLYING_LEFT 0
+#define GHOST_ANI_FLYING_RIGHT 1
+
+#define GHOST_FLYING_SPEED_X 0.04
+
+//Raven
+#define RAVEN_DISTANCE_X 30
+#define RAVEN_DISTANCE_ATTACK_X 80
+#define RAVEN_DISTANCE_WAITING_X 60
+
+#define RAVEN_ANI_IDLE_LEFT 0
+#define RAVEN_ANI_IDLE_RIGHT 1
+#define RAVEN_ANI_FLY_LEFT 2
+#define RAVEN_ANI_FLY_RIGHT 3
+
+#define RAVEN_STATE_DIE 0
+#define RAVEN_STATE_IDLE 1
+#define RAVEN_STATE_FLY 2
+#define RAVEN_STATE_WAIT 3
+#define RAVEN_STATE_ATTACK 4
+
+#define RAVEN_FLYING_SPEED_X 0.05f
+#define RAVEN_FLYING_SPEED_Y 0.05f
+
+//Zoombie
+#define ZOOMBIE_ANI_WALKING_RIGHT 0
+#define ZOOMBIE_ANI_WALKING_LEFT 1
+#define ZOOMBIE_ANI_IDLE_RIGHT 2
+#define ZOOMBIE_ANI_IDLE_LEFT 3
+
+#define ZOOMBIE_STATE_IDLE 0
+#define ZOOMBIE_STATE_WALKING 1
+
+#define ZOOMBIE_WALKING_SPEED 0.05f
+
+#define ZOOMBIE_BBOX_WIDTH 16
+#define ZOOMBIE_BBOX_HEIGHT 32
+
+
+//Phantom bat
+#define PHANTOM_BAT_HP 16
+#define PHANTOM_BAT_DAMAGE 2
+
+#define PHANTOM_BAT_FLYING_SPEED_X 0.05f
+#define PHANTOM_BAT_FLYING_SPEED_Y 0.05f
+
+#define PHANTOM_BAT_STATE_IDLE 0
+#define PHANTOM_BAT_STATE_FLYING  1
+#define PHANTOM_BAT_STATE_HURT 2
+
+#define PHANTOM_BAT_ANI_IDLE 0
+#define PHANTOM_BAT_ANI_FLYING 1
+
+#define PHANTOM_BAT_HURT_TIME	10
+#define PHANTOM_BAT_WAIT_TIME	750
+#define PHANTOM_BAT_CHASE_TIME	50
+#pragma endregion
+
+
+
+
 
 #endif 

@@ -177,8 +177,6 @@ bool CGameObject::isCollision(CGameObject* obj)
 	return isCollisionObjectWithObject(obj);
 }
 
-
-
 bool CGameObject::isCollisionObjectWithObject(CGameObject* obj)	// kiểm tra bằng AABB và Sweept AABB
 {
 	if (checkAABB(obj)) // kiểm tra va chạm bằng AABB trước

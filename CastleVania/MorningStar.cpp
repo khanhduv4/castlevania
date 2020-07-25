@@ -29,19 +29,18 @@ void MorningStar::ResetAnimation() {
 	currentFrame = 0;
 }
 
-void MorningStar::SetActiveBoundingBox(bool isFinish) {
-	if (isFinish) {
+void MorningStar::SetActiveBoundingBox(bool isActive) {
+	if (isActive) {
 		leftBound = x;
 		topBound = y;
 		if (level == 2) {
 			rightBound = x + MORNINGSTAR_LV2_BBOX_WIDTH;
 			bottomBound = y + MORNINGSTAR_LV2_BBOX_HEIGHT;
 		}
-		else { 
+		else {
 			rightBound = x + MORNINGSTAR_LV0_BBOX_WIDTH;
 			bottomBound = y + MORNINGSTAR_LV0_BBOX_HEIGHT;
 		}
-
 	}
 	else {
 		leftBound = 0;
@@ -54,22 +53,23 @@ void MorningStar::SetActiveBoundingBox(bool isFinish) {
 
 
 void MorningStar::SetFinish(bool isVisible) {
-	this->isFinish = isVisible; 
-	if (!isVisible)
+	this->isFinish = isVisible;
+	if (isVisible)
 		ResetAnimation();
 }
 
 void MorningStar::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects, vector<LPGAMEOBJECT>* coItems)
 {
 	Weapon::Update(dt, coObjects, coItems);
+
+	UpdatePositionFitSimon();
 }
 
 void MorningStar::Render()
 {
 	if (isFinish) return;
-	UpdatePositionFitSimon();
 
-	ani = 0;
+	int lastAni = ani;
 	switch (level) {
 	case 0: {
 		ani = MORNINGSTAR_ANI_LEVEL0_LEFT;
@@ -87,14 +87,19 @@ void MorningStar::Render()
 		ani = MORNINGSTAR_ANI_LEVEL2_LEFT;
 		if (direction == 1)
 			ani = MORNINGSTAR_ANI_LEVEL2_RIGHT;
+		break;
 	}
+	default: 
+		ani = 0;
 	}
-
 	int alpha = 255;
 	currentFrame = animation_set->at(ani)->Render(x, y, alpha);
+	RenderBoundingBox();
 	if (animation_set->at(ani)->IsDone()) {
 		isFinish = 1;
 		isHit = false;
+		SetActiveBoundingBox(false);
+		currentFrame = -1;
 	}
 
 }
@@ -104,10 +109,13 @@ void MorningStar::Attack(float X, float Y, int Direction)
 	Weapon::Attack(X, Y, Direction);
 	simonX = X;
 	simonY = Y;
+	_width = 50;
+	_height = 10;
 }
 
 void MorningStar::UpdatePositionFitSimon()
 {
+
 	switch (currentFrame) {
 
 	case 0: {
@@ -131,6 +139,7 @@ void MorningStar::UpdatePositionFitSimon()
 			x = simonX - 30;
 		}
 		y = simonY + 7;
+
 		SetActiveBoundingBox(false);
 		break;
 	}
@@ -146,10 +155,12 @@ void MorningStar::UpdatePositionFitSimon()
 		}
 		if (level == 1 || level == 2) y = simonY + 5;
 
-		y = simonY + 10;
+		y = simonY + 14;
 		SetActiveBoundingBox(true);
 		break;
 	}
+	default:
+		SetActiveBoundingBox(false);
 	}
 }
 
@@ -172,9 +183,7 @@ void MorningStar::UpgradeLevel()
 		return;
 	level++;
 	damage = 2;
-	if (isFinish == false) // nếu chưa đánh xong mà update thì phải update lại frame để sau khi Freezed xong sẽ chạy tiếp
-	{
-	}
+
 }
 
 int MorningStar::GetLevel()

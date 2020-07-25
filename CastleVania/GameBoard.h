@@ -1,5 +1,6 @@
 #pragma once
 #include "Sprites.h"
+#include "Simon.h"
 
 #include <d3d9.h>
 #include <d3dx9.h>
@@ -39,8 +40,9 @@ private:
 	CSprite* _sprite;
 	float _x;
 	float _y;
-	int score = 99999;
-	int hp = 7;
+	int score;
+	int hp;
+	int heart;
 	int initHP = 10;
 };
 

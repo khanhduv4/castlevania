@@ -3,6 +3,7 @@
 #include "HiddenObject.h"
 Knight::Knight(int maxLeft, int maxRight)
 {
+	isFront = true;
 	this->Health = 2;
 	isFinish = 0;
 	objLife = 0;

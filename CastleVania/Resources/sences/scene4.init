@@ -4,8 +4,14 @@
 # type	x	y	ani_set_id	extra_settings per object type
 # type: 0 = SIMON , 1 = Brick, 
 # SIMON
-#0	1380	300	1
-0	200	300	1
+0	1380	300	1
+#0	200	300	1
+#hunchback
+9	300	300	18	1
+#skeleton
+10	340	300	19	1
+#ghost
+11	1180	360	20	1
 
 # GROUND 
 # --- platform (hint: I created the list using Excel!) ----

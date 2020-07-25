@@ -5,7 +5,7 @@
 wSword::wSword()
 {
 	damage = 1;
-	aniIndex = 8;
+	aniIndex = WEAPON_ANI_SET_SWORD;
 	ResetAniSet();
 }
 
@@ -21,8 +21,11 @@ void wSword::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 void wSword::Attack(float X, float Y, int Direction)
 {
-	Weapon::Attack(X, Y + 10, Direction);
+
+	// Tai sao bo vx = ... vao ham attack k duoc 
+	Weapon::Attack(X+20, Y + 10, Direction);
 	vx = WEAPON_SPEED * direction;
+
 }
 
 
@@ -31,8 +34,8 @@ void wSword::GetBoundingBox(float& left, float& top, float& right, float& bottom
 {
 	left = x;
 	top = y;
-	right = x + 20;
-	bottom = y + 30;
+	right = x + SWORD_WIDTH;
+	bottom = y + SWORD_HEIGHT;
 }
  
 

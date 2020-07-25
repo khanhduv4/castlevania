@@ -7,6 +7,10 @@ class CEnemy :
 public:
 	CEnemy();
 	int ani;
+	int isEnable;
+	int damage;
+	bool isFront = false;
+
 	LPANIMATION_SET disappearingAnimSet;
 
 	void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects = NULL);

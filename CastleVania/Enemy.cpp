@@ -21,23 +21,13 @@
 #include "HiddenObject.h"
 #include"Grid.h"
 
-
-#define ITEM_ID_UPGRADEMORNINGSTAR 1
-#define ITEM_ID_LARGEHEART 2
-#define ITEM_ID_SWORD 3
-#define ITEM_ID_BOOMERANG 4
-#define ITEM_ID_II 5
-#define ITEM_ID_BLUE 6
-#define ITEM_ID_CHICKEN 7
-#define ITEM_ID_AXE 8
-
 CEnemy::CEnemy()
 {
 	objLife = OBJ_LIFE_LIVE;
+	this->damage = 2;
+	isEnable = 1;
 	disappearingAnimSet = CAnimationSets::GetInstance()->Get(6);
 }
-
-
 
 void CEnemy::Update(DWORD dt, vector<LPGAMEOBJECT>* listObject)
 {
@@ -98,12 +88,10 @@ void CEnemy::Render()
 			objLife = OBJ_LIFE_OUT;
 			isFinish = 1;
 			disappearingAnimSet->at(0)->Reset();
-
 		}
 	}
 	else return;
 }
-
 
 void CEnemy::SubHealth(int th, vector<LPGAMEOBJECT>* coObjects, vector<LPGAMEOBJECT>* coItems) {
 	CGameObject::SubHealth(th);
@@ -115,7 +103,7 @@ void CEnemy::SubHealth(int th, vector<LPGAMEOBJECT>* coObjects, vector<LPGAMEOBJ
 
 CItem* CEnemy::SpawnItem() {
 	CItem* item = NULL;
-	switch (id) {
+	switch (itemId) {
 	case ITEM_ID_UPGRADEMORNINGSTAR: {
 		item = new UpgradeMorningStar(x, y);
 		break;
@@ -149,7 +137,7 @@ CItem* CEnemy::SpawnItem() {
 		break;
 	}
 	default: {
-		item = new UpgradeMorningStar(x, y);
+		item = new LargeHeart(x, y);
 	}
 	}
 	return item;

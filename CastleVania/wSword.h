@@ -2,7 +2,9 @@
 
 #include "Weapon.h"
 
-#define SWORD_SPEED 0.45f
+#define SWORD_WIDTH 32
+#define SWORD_HEIGHT 18
+
 
 class wSword : 	public Weapon
 {

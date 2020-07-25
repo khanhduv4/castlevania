@@ -21,6 +21,9 @@
 #include "CBurningEffect.h"
 #include "Knight.h"
 #include "Bat.h"
+#include "HunchBack.h"
+#include "Skeleton.h"
+#include "Ghost.h"
 #include "Candle.h"
 #include "Elevator.h"
 #include "HiddenObject.h"
@@ -39,30 +42,6 @@ CPlayScene::CPlayScene(int id, LPCWSTR filePath) :
 	See scene1.txt, scene2.txt for detail format specification
 */
 
-#define SCENE_SECTION_UNKNOWN -1
-#define SCENE_SECTION_TEXTURES 2
-#define SCENE_SECTION_SPRITES 3
-#define SCENE_SECTION_ANIMATIONS 4
-#define SCENE_SECTION_ANIMATION_SETS	5
-#define SCENE_SECTION_OBJECTS	6
-#define SCENE_SECTION_TILEMAP 7 
-#define SCENE_SECION_GRID 8
-
-#define OBJECT_TYPE_SIMON	0
-#define OBJECT_TYPE_BRICK	1
-#define OBJECT_TYPE_TORCH	2
-#define OBJECT_TYPE_ENEMY_KNIGHT	3
-#define OBJECT_TYPE_ENEMY_BAT	4
-#define OBJECT_TYPE_CANDLE	5
-#define OBJECT_TYPE_ELEVATOR 6
-#define OBJECT_TYPE_STAIR_BEGIN 7
-#define OBJECT_TYPE_STAIR_END 8
-#define HIDDEN_OBJECT	999
-
-
-#define OBJECT_TYPE_PORTAL 99
-
-#define MAX_SCENE_LINE 1024
 
 
 void CPlayScene::_ParseSection_TEXTURES(string line)
@@ -183,7 +162,10 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 		break;
 	case OBJECT_TYPE_TORCH: obj = new CTorch(); break;
 	case OBJECT_TYPE_ENEMY_KNIGHT: obj = new Knight(atoi(tokens[5].c_str()), atoi(tokens[6].c_str())); break;
+	case OBJECT_TYPE_ENEMY_HUNCH_BACK: obj = new Hunchback(); break;
 	case OBJECT_TYPE_ENEMY_BAT: obj = new Bat(); break;
+	case OBJECT_TYPE_ENEMY_SKELETON: obj = new Skeleton(); break;
+	case OBJECT_TYPE_ENEMY_GHOST: obj = new Ghost(); break;
 	case OBJECT_TYPE_CANDLE: obj = new Candle(); break;
 	case OBJECT_TYPE_ELEVATOR: obj = new Elevator();
 		dynamic_cast<Elevator*>(obj)->SetSize(atoi(tokens[4].c_str()), atoi(tokens[5].c_str()));
@@ -355,29 +337,37 @@ void CPlayScene::Update(DWORD dt)
 
 void CPlayScene::Render()
 {
-	
+
 	TiledMap::GetCurrentMap()->Render();
 
 	vector<LPGAMEOBJECT> gridObjects;
+	vector<LPGAMEOBJECT> enemyObjs;
 	gridObjects.clear();
+	enemyObjs.clear();
 	if (_grid)
 		_grid->GetListOfObjects(&gridObjects, SCREEN_WIDTH, SCREEN_HEIGHT);
-	//Render game Object
-	int simon_Index = -1;
+	//Render game Object 
 	for (int i = 0; i < gridObjects.size(); i++) {
-		if (dynamic_cast<CSimon*>(gridObjects[i]))
-		{
-			simon_Index = i;
+		if (gridObjects[i]->isFinish && !gridObjects[i]->objLife)
 			continue;
+		if (dynamic_cast<CEnemy*>(gridObjects[i]))
+		{
+			if (dynamic_cast<CEnemy*>(gridObjects[i])->isFront)
+			{
+				enemyObjs.push_back(gridObjects[i]);
+				continue;
+			}
 		}
-		if (!gridObjects[i]->isFinish || gridObjects[i]->objLife)
-			gridObjects[i]->Render();
+		gridObjects[i]->Render();
+	}
+	for (int i = 0; i < enemyObjs.size(); i++) {
+		enemyObjs[i]->Render();
 	}
 	player->Render();
 	// Render Items
 	for (int i = 0; i < items.size(); i++) {
 		items[i]->Render();
-	} 
+	}
 
 	CGameBoard::GetIntance()->Render();
 
@@ -409,48 +399,6 @@ void CPlayScene::CheckCollisionWeaponWithObject(DWORD dt, vector<LPGAMEOBJECT>* 
 	//}
 }
 //Refactor
-void CPlayScene::GetNewItem(int x, int y, int id)
-{
-	CItem* item = NULL;
-	switch (id) {
-	case 1: {
-		item = new UpgradeMorningStar(x, y);
-		break;
-	}
-	case 2: {
-		item = new LargeHeart(x, y);
-		break;
-	}
-	case 3: {
-		item = new Sword(x, y);
-		break;
-	}
-	case 4: {
-		item = new Boomerang(x, y);
-		break;
-	}
-	case 5: {
-		item = new II(x, y);
-		break;
-	}
-	case 6: {
-		item = new Blue(x, y);
-		break;
-	}
-	case 7: {
-		item = new Chicken(x, y);
-		break;
-	}
-	case 8: {
-		item = new Axe(x, y);
-		break;
-	}
-	default: {
-		return;
-	}
-	}
-	items.push_back(item);
-}
 
 /*
 	Unload current scene
@@ -501,7 +449,7 @@ void CPlayScenceKeyHandler::OnKeyUp(int KeyCode) {
 	CSimon* simon = ((CPlayScene*)scence)->GetPlayer();
 	if (KeyCode == DIK_DOWN) {
 		if (!simon->isStair)
-			simon->setSitting(0);
+			simon->SetSitting(0);
 	}
 	else if (KeyCode == DIK_UP) {
 		simon->isClimbing = 0;
