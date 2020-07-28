@@ -61,8 +61,8 @@ void MorningStar::SetFinish(bool isVisible) {
 void MorningStar::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects, vector<LPGAMEOBJECT>* coItems)
 {
 	Weapon::Update(dt, coObjects, coItems);
-
 	UpdatePositionFitSimon();
+
 }
 
 void MorningStar::Render()
@@ -94,7 +94,7 @@ void MorningStar::Render()
 	}
 	int alpha = 255;
 	currentFrame = animation_set->at(ani)->Render(x, y, alpha);
-	RenderBoundingBox();
+
 	if (animation_set->at(ani)->IsDone()) {
 		isFinish = 1;
 		isHit = false;
@@ -115,7 +115,6 @@ void MorningStar::Attack(float X, float Y, int Direction)
 
 void MorningStar::UpdatePositionFitSimon()
 {
-
 	switch (currentFrame) {
 
 	case 0: {
@@ -155,7 +154,7 @@ void MorningStar::UpdatePositionFitSimon()
 		}
 		if (level == 1 || level == 2) y = simonY + 5;
 
-		y = simonY + 14;
+		y = simonY + 12;
 		SetActiveBoundingBox(true);
 		break;
 	}
@@ -170,7 +169,6 @@ void MorningStar::GetBoundingBox(float& left, float& top, float& right, float& b
 	top = topBound;
 	right = rightBound;
 	bottom = bottomBound;
-
 }
 
 void MorningStar::RenderIcon(float X, float Y)

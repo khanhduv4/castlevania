@@ -5,24 +5,21 @@
 #define HUNCHBACK_STATE_JUMP 1
 #define HUNCHBACK_STATE_ATTACK 2
 
+#define ATTACK_DISTANCE 200
 
-#define HUNCHBACK_ANI_IDLE_LEFT 0
-#define HUNCHBACK_ANI_IDLE_RIGHT 2
+
+#define HUNCHBACK_ANI_IDLE_LEFT 1
+#define HUNCHBACK_ANI_IDLE_RIGHT 3
 #define HUNCHBACK_ANI_ATTACK_LEFT 1
 #define HUNCHBACK_ANI_ATTACK_RIGHT 3
 
-#define HUNCHBACK_SPEED_X 0.03f
-#define HUNCHBACK_SPEED_Y 0.06f
+#define HUNCHBACK_SPEED_X 0.06f
 
-#define HUNCHBACK_GRAVITY 0.00055f
-
-
-#define HUNCHBACK_JUMP_SPEED_X 0.1f
-#define HUNCHBACK_JUMP_SPEED_Y 0.05f
+#define HUNCHBACK_JUMP_SPEED_X 0.3f
 
 class Hunchback : public CEnemy
 {
-	float startX, startY;
+	float jumpX;
 	float distanceAttack;
 
 	DWORD timeJump;

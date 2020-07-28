@@ -2,10 +2,6 @@
 
 CSimon* CSimon::_Instance = NULL;
 
-#define WEAPON_SWORD 0
-#define WEAPON_AXE 1
-#define WEAPON_BOOMERANG 2
-
 CSimon::CSimon() : CGameObject()
 {
 	untouchable = 0;
@@ -16,6 +12,7 @@ CSimon::CSimon() : CGameObject()
 	Health = 16;
 	score = 100;
 	heart = 0;
+	life = 2;
 	isClimbableUp = 0;
 	isClimbing = 0;
 	isStair = 0;
@@ -48,8 +45,6 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects, vector<LPGAMEOBJE
 	UpdateFreeze();
 	// Calculate dx, dy 
 	CGameObject::Update(dt);
-
-	DebugOut(L"x%f y%f\n", x, y);
 
 	// Check Attacking
 
@@ -212,6 +207,7 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects, vector<LPGAMEOBJE
 			else if (dynamic_cast<CItem*>(e->obj)) {
 
 				HandleCollisionSimonWithItem(e);
+				CGameBoard::GetIntance()->UpdateSubWeapon(currentSubWeapon);
 
 				continue;
 
@@ -551,7 +547,6 @@ void CSimon::HandleCollisionSimonWithItem(LPCOLLISIONEVENT e)
 		isFreeze = 1;
 		freezingTimeCount = GetTickCount();
 		morStar->UpgradeLevel();
-
 	}
 	else if (dynamic_cast<Sword*>(e->obj)) {
 		currentSubWeapon = WEAPON_SWORD;
@@ -563,7 +558,7 @@ void CSimon::HandleCollisionSimonWithItem(LPCOLLISIONEVENT e)
 		currentSubWeapon = WEAPON_BOOMERANG;
 	}
 	else if (dynamic_cast<LargeHeart*>(e->obj))
-		AddHeart();
+		AddHeart(5);
 
 	dynamic_cast<CItem*>(e->obj)->SetFinish(1);
 }
@@ -585,6 +580,6 @@ void CSimon::ResetAttackAni() {
 
 }
 
-void CSimon::AddHeart() {
-	heart++;
+void CSimon::AddHeart(int hearts) {
+	heart += hearts;
 }

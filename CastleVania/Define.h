@@ -120,6 +120,12 @@ extern D3DCOLOR D3DCOLOR_BACKGROUND; // màu nền game
 #define WEAPON_ANI_SET_AXE	12
 #pragma endregion
 
+#pragma region SUBWEAPON ID
+#define WEAPON_SWORD 1
+#define WEAPON_AXE 2
+#define WEAPON_BOOMERANG 3
+#pragma endregion
+
 #pragma region ITEM ID
 
 #define ITEM_ID_UPGRADEMORNINGSTAR 1
@@ -136,6 +142,7 @@ extern D3DCOLOR D3DCOLOR_BACKGROUND; // màu nền game
 #pragma region PLAY SCENCE
 
 #define SCENE_SECTION_UNKNOWN -1
+#define SCENE_SECTION_CONFIG 1
 #define SCENE_SECTION_TEXTURES 2
 #define SCENE_SECTION_SPRITES 3
 #define SCENE_SECTION_ANIMATIONS 4

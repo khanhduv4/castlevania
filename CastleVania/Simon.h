@@ -10,6 +10,7 @@
 #include "Brick.h"
 #include "Portal.h"
 #include "Elevator.h"
+#include "GameBoard.h"
 // Items
 #include "UpgradeMorningStar.h"
 #include "LargeHeart.h"
@@ -101,6 +102,9 @@ public:
 			_Instance = new CSimon();
 		return _Instance;
 	}
+	int getCurrentSubWeapon() {
+		return currentSubWeapon;
+	}
 	int getHealth() { return Health; }
 	int getHeart() { return heart; }
 	int getLife() { return life; }
@@ -166,7 +170,7 @@ public:
 
 	void UpdateFreeze();
 
-	void AddHeart();
+	void AddHeart(int);
 
 	void SetHurt(LPCOLLISIONEVENT e);
 

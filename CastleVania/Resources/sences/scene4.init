@@ -1,18 +1,12 @@
 
 
+
+[CONFIG]
+# stage	time
+4	300
 [OBJECTS]
 # type	x	y	ani_set_id	extra_settings per object type
 # type: 0 = SIMON , 1 = Brick, 
-# SIMON
-0	1380	300	1
-#0	200	300	1
-#hunchback
-9	300	300	18	1
-#skeleton
-10	340	300	19	1
-#ghost
-11	1180	360	20	1
-
 # GROUND 
 # --- platform (hint: I created the list using Excel!) ----
 #ground
@@ -34,7 +28,22 @@
 5	970	350	11	6
 5	1100	350	11	2
 5	1210	350	11	2
-5	1325	350	11	5
+5	1325	350	11	3
+
+
+# SIMON
+0	1380	300	1
+#0	200	300	1
+#hunchback
+9	850	230	18	1
+9	300	100	18	1
+9	600	230	18	1
+#skeleton
+10	340	300	19	1
+#ghost
+11	1180	360	20	1
+
+
 
 
 
@@ -54,7 +63,7 @@
 #===============ENEMY====================
 #Knight
 3	190	150	9	2	190	290
-3	640	292	9	2	640	670
+#3	640	292	9	2	640	670
 
 #Bat
 #4	70	150	10	2	32	32

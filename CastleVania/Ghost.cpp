@@ -74,10 +74,10 @@ void Ghost::Render()
 		}
 		break;
 		default:
+			ani = -1;
 			break;
 		}
-
-		animation_set->at(ani)->Render(x, y);
+		animation_set->at(ani)->Render(x, y, 255);
 	}
 	//RenderBoundingBox();
 	CEnemy::Render();

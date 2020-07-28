@@ -35,14 +35,19 @@ CPlayScene::CPlayScene(int id, LPCWSTR filePath) :
 	CScene(id, filePath)
 {
 	key_handler = new CPlayScenceKeyHandler(this);
+	stage = 0;
+	time = 300;
 }
 
-/*
-	Load scene resources from scene file (textures, sprites, animations and objects)
-	See scene1.txt, scene2.txt for detail format specification
-*/
+void CPlayScene::_ParseSection_CONFIG(string line)
+{
+	vector<string> tokens = split(line);
+	if (tokens.size() < 2) return; // skip invalid lines
 
+	stage = atoi(tokens[0].c_str());
+	time = atoi(tokens[1].c_str());
 
+}
 
 void CPlayScene::_ParseSection_TEXTURES(string line)
 {
@@ -223,8 +228,14 @@ void CPlayScene::Load()
 		string line(str);
 
 		if (line[0] == '#') continue;	// skip comment lines	
-
-		if (line == "[TEXTURES]") { section = SCENE_SECTION_TEXTURES; continue; }
+		if (line == "[CONFIG]") {
+			section = SCENE_SECTION_CONFIG;
+			continue;
+		}
+		if (line == "[TEXTURES]") { 
+			section = SCENE_SECTION_TEXTURES; 
+			continue; 
+		}
 		if (line == "[SPRITES]") {
 			section = SCENE_SECTION_SPRITES; continue;
 		}
@@ -250,6 +261,7 @@ void CPlayScene::Load()
 		//
 		switch (section)
 		{
+		case SCENE_SECTION_CONFIG: _ParseSection_CONFIG(line); break;
 		case SCENE_SECTION_TEXTURES: _ParseSection_TEXTURES(line); break;
 		case SCENE_SECTION_SPRITES: _ParseSection_SPRITES(line); break;
 		case SCENE_SECTION_ANIMATIONS: _ParseSection_ANIMATIONS(line); break;
@@ -312,10 +324,6 @@ void CPlayScene::Update(DWORD dt)
 	// skip the rest if scene was already unloaded (Mario::Update might trigger PlayScene::Unload)
 	if (player == NULL) return;
 
-
-	//Refactor Move to weapon update
-	CheckCollisionWeaponWithObject(dt, &coObjects);
-
 	// Update camera to follow mario
 	float cx, cy;
 	player->GetPosition(cx, cy);
@@ -331,6 +339,10 @@ void CPlayScene::Update(DWORD dt)
 
 	cy -= game->GetScreenHeight() / 2;
 	game->SetCamPos(cx, 0.f);
+
+	// Update ScoreBoard
+
+	CGameBoard::GetIntance()->Update(time, stage, 16);
 
 	_grid->UpdateGrid();
 }
@@ -372,33 +384,6 @@ void CPlayScene::Render()
 	CGameBoard::GetIntance()->Render();
 
 }
-//Refactor
-void CPlayScene::CheckCollisionWeaponWithObject(DWORD dt, vector<LPGAMEOBJECT>* coObjects) {
-
-	//auto morStar = player->getMorningStar();
-
-	//if (morStar->IsActive()) {
-	//	for (UINT i = 0; i < coObjects->size(); i++) {
-	//		if ((morStar->isCollision((*coObjects)[i])) 
-	//			&& !((*coObjects)[i]->GetFinish()) 
-	//			&& !dynamic_cast<CSimon*>((*coObjects)[i])) {
-	//			DebugOut(L"ID Object: %d \n", (*coObjects)[i]->id);
-	//			if (dynamic_cast<CEnemy*>((*coObjects)[i])) {
-	//				if (morStar->isHit) continue;
-	//				morStar->isHit = 1;
-	//				CGameObject* object = (*coObjects)[i];
-	//				float x = 0, y = 0;
-	//				object->GetPosition(x, y);
-	//				object->SubHealth(1);
-	//				if (object->GetFinish()) {
-	//					GetNewItem(x, y, object->itemId);
-	//				}
-	//			}
-	//		}
-	//	}
-	//}
-}
-//Refactor
 
 /*
 	Unload current scene
@@ -421,7 +406,6 @@ void CPlayScene::Unload()
 }
 void CPlayScenceKeyHandler::OnKeyDown(int KeyCode)
 {
-
 	CSimon* simon = ((CPlayScene*)scence)->GetPlayer();
 	if (simon->IsAttacking()) return;
 
@@ -436,6 +420,7 @@ void CPlayScenceKeyHandler::OnKeyDown(int KeyCode)
 		simon->SetState(SIMON_STATE_ATTACKING);
 		break;
 	case DIK_D:
+		if (simon->getCurrentSubWeapon() == 0) break;
 		simon->setWeapon(SIMON_ATTACK_SUB_WEAPON);
 		simon->SetState(SIMON_STATE_ATTACKING);
 		break;
@@ -445,6 +430,7 @@ void CPlayScenceKeyHandler::OnKeyDown(int KeyCode)
 		break;
 	}
 }
+
 void CPlayScenceKeyHandler::OnKeyUp(int KeyCode) {
 	CSimon* simon = ((CPlayScene*)scence)->GetPlayer();
 	if (KeyCode == DIK_DOWN) {

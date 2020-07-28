@@ -11,7 +11,6 @@ Weapon::Weapon()
 	damage = 1;
 }
 
-
 Weapon::~Weapon()
 {
 }
@@ -45,7 +44,7 @@ void Weapon::Render()
 		animation_set->at(1)->Render(x, y, 255);
 		else animation_set->at(2)->Render(x, y, 255);
 	}
-	RenderBoundingBox();
+	//RenderBoundingBox();
 
 }
 
@@ -63,7 +62,6 @@ void Weapon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects, vector<LPGAMEOBJE
 	CGame::GetInstance()->GetCamPos(cx, cy);
 	if (x < cx || x > cx + SCREEN_WIDTH) {
 		isFinish = 1;
-		DebugOut(L"off");
 		return;
 	}
 

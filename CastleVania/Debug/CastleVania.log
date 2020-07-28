@@ -1,15 +1,2 @@
-﻿  PlayScence.cpp
-C:\Users\Admin\Desktop\GAME\CastleVania\PlayScence.cpp(107,20): warning C4018: '<': signed/unsigned mismatch
-C:\Users\Admin\Desktop\GAME\CastleVania\PlayScence.cpp(128,20): warning C4018: '<': signed/unsigned mismatch
-C:\Users\Admin\Desktop\GAME\CastleVania\PlayScence.cpp(144,10): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
-C:\Users\Admin\Desktop\GAME\CastleVania\PlayScence.cpp(145,10): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
-C:\Users\Admin\Desktop\GAME\CastleVania\PlayScence.cpp(184,11): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
-C:\Users\Admin\Desktop\GAME\CastleVania\PlayScence.cpp(185,11): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
-C:\Users\Admin\Desktop\GAME\CastleVania\PlayScence.cpp(307,20): warning C4018: '<': signed/unsigned mismatch
-C:\Users\Admin\Desktop\GAME\CastleVania\PlayScence.cpp(324,17): warning C4244: 'initializing': conversion from 'int' to 'float', possible loss of data
-C:\Users\Admin\Desktop\GAME\CastleVania\PlayScence.cpp(350,20): warning C4018: '<': signed/unsigned mismatch
-C:\Users\Admin\Desktop\GAME\CastleVania\PlayScence.cpp(364,20): warning C4018: '<': signed/unsigned mismatch
-C:\Users\Admin\Desktop\GAME\CastleVania\PlayScence.cpp(369,20): warning C4018: '<': signed/unsigned mismatch
-C:\Users\Admin\Desktop\GAME\CastleVania\PlayScence.cpp(409,20): warning C4018: '<': signed/unsigned mismatch
-C:\Users\Admin\Desktop\GAME\CastleVania\PlayScence.cpp(414,20): warning C4018: '<': signed/unsigned mismatch
+﻿  GameBoard.cpp
   CastleVania.vcxproj -> C:\Users\Admin\Desktop\GAME\Debug\CastleVania.exe

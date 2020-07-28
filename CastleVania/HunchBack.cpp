@@ -4,11 +4,11 @@
 
 Hunchback::Hunchback()
 {
-	this->startX = startX;
-	this->startY = startY;
-	this->damage = damage;
+	this->damage = 3;
 	this->distanceAttack = 100;
 	this->Health = 1;
+	score = 500;
+	nx = 1;
 
 	timeJump = 0;
 	isFront = true;
@@ -30,22 +30,34 @@ void Hunchback::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	{
 		float simonX, simonY;
 
-
 		CSimon::getInstance()->GetPosition(simonX, simonY);
 
-		nx = this->x >= simonX ? -1 : 1;
-		if (state == HUNCHBACK_STATE_IDLE)
-		{
-			vy += HUNCHBACK_GRAVITY * dt;
-		}
+
+		DebugOut(L"NX: %d \n", nx);
 
 		if (state == HUNCHBACK_STATE_IDLE)
 		{
-			if (abs(this->x - simonX) <= this->distanceAttack)
-			{
+			if (abs(x - simonX) < ATTACK_DISTANCE) {
+				jumpX = simonX;
 				SetState(HUNCHBACK_STATE_JUMP);
 			}
 		}
+		else if (state == HUNCHBACK_STATE_JUMP)
+		{
+			if (this->x - jumpX > 20)
+			{
+				SetState(HUNCHBACK_STATE_ATTACK);
+			}
+		}
+		else if (state == HUNCHBACK_STATE_ATTACK) {
+			if (abs(x - simonX) > 100) {
+				nx = this->x >= simonX ? -1 : 1;
+
+				SetState(HUNCHBACK_STATE_ATTACK);
+			}
+		}
+
+
 	}
 }
 
@@ -82,15 +94,14 @@ void Hunchback::Render()
 		}
 		break;
 		default:
+			ani = -1;
 			break;
-		}
+		} 
+		animation_set->at(ani)->Render(x, y, 255);
 
-		animation_set->at(ani)->Render(x, y);
 	}
-	else {
-		int i = 1;
-	}
-	RenderBoundingBox();
+
+	//RenderBoundingBox();
 	CEnemy::Render();
 }
 
@@ -128,11 +139,10 @@ void Hunchback::SetState(int state)
 		{
 			vx = -HUNCHBACK_JUMP_SPEED_X;
 		}
-
-		vy = HUNCHBACK_JUMP_SPEED_Y;
 		break;
 	case HUNCHBACK_STATE_ATTACK:
 	{
+
 		if (nx > 0)
 		{
 			vx = HUNCHBACK_SPEED_X;
@@ -140,23 +150,6 @@ void Hunchback::SetState(int state)
 		else
 		{
 			vx = -HUNCHBACK_SPEED_X;
-		}
-
-		DWORD now = GetTickCount();
-
-		if (timeJump == 0)
-		{
-			timeJump = now;
-			vy = HUNCHBACK_SPEED_Y;
-		}
-		else if (now - timeJump >= 2000)
-		{
-			timeJump = now;
-			vy = HUNCHBACK_SPEED_Y * 2;
-		}
-		else
-		{
-			vy = HUNCHBACK_SPEED_Y;
 		}
 	}
 	break;

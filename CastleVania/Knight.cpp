@@ -1,6 +1,7 @@
 ﻿#include "Knight.h"
 #include "Define.h"
 #include "HiddenObject.h"
+
 Knight::Knight(int maxLeft, int maxRight)
 {
 	isFront = true;
@@ -11,7 +12,6 @@ Knight::Knight(int maxLeft, int maxRight)
 	maxXleft = maxLeft;
 	maxXright = maxRight;
 
-	//SetState(/*BLACK_KNIGHT_STATE_WALKING*/);
 }
 
 Knight::~Knight()
@@ -21,7 +21,7 @@ Knight::~Knight()
 void Knight::Update(DWORD dt, vector<LPGAMEOBJECT>* coObject)
 {
 	CEnemy::Update(dt, coObject);
-	vx = 0.09f * nx;
+	vx = 0.07f * nx;
 	if (nx == 1) {
 		if (x >= maxXright) {
 			nx = -nx;
@@ -34,18 +34,17 @@ void Knight::Update(DWORD dt, vector<LPGAMEOBJECT>* coObject)
 			nx = -nx;
 		}
 	}
-
-
-
-
 }
 
 void Knight::Render()
 {
-	if (!objLife) {
-		animation_set->at(ani)->Render(x, y, 255);
+	if (!isFinish)
+	animation_set->at(ani)->Render(x, y, 255);
+
+	if (!objLife) { 
 		RenderBoundingBox();
-	} else
+	}
+
 	CEnemy::Render();
 }
 

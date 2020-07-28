@@ -22,15 +22,21 @@
 #include"Grid.h"
 
 CEnemy::CEnemy()
-{
+{ 
 	objLife = OBJ_LIFE_LIVE;
 	this->damage = 2;
 	isEnable = 1;
+	score = 0;
 	disappearingAnimSet = CAnimationSets::GetInstance()->Get(6);
 }
 
 void CEnemy::Update(DWORD dt, vector<LPGAMEOBJECT>* listObject)
 {
+	if (isFlickering) {
+		isFlickering -= dt;
+		if (isFlickering < 0)
+			isFlickering = 0;
+	}
 	if (Health <= 0 && !objLife) {
 		objLife = 1;
 	}
@@ -56,6 +62,7 @@ void CEnemy::Update(DWORD dt, vector<LPGAMEOBJECT>* listObject)
 	if (coEvents.size() == 0)
 	{
 		y += dy;
+		x += dx;
 	}
 	else
 	{
@@ -81,6 +88,9 @@ void CEnemy::Update(DWORD dt, vector<LPGAMEOBJECT>* listObject)
 
 void CEnemy::Render()
 {
+	//isFlickering ? CGame::GetInstance()->beginFlickering(false) : NULL;
+	//((ani!=-1)&&(!isFinish))?animation_set->at(ani)->Render(x, y,255):NULL;
+	//CGame::GetInstance()->endFlickering();
 	if (objLife == OBJ_LIFE_DISAPPEARING)
 	{
 		disappearingAnimSet->at(0)->Render(x, y);
@@ -95,6 +105,7 @@ void CEnemy::Render()
 
 void CEnemy::SubHealth(int th, vector<LPGAMEOBJECT>* coObjects, vector<LPGAMEOBJECT>* coItems) {
 	CGameObject::SubHealth(th);
+	isFlickering = 1200;
 	if (isFinish)
 	{
 		coItems->push_back(SpawnItem());

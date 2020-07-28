@@ -111,15 +111,21 @@ void CGame::Draw(float x, float y, LPDIRECT3DTEXTURE9 texture, int left, int top
 	r.top = top;
 	r.right = right;
 	r.bottom = bottom;
-	
-	int _r = 255, _g = 255, _b = 255;
-	if (isFlickering)
-	{
+
+	int _r = 255, _g = 255, _b = 255, _a = alpha;
+	switch (isFlickering) {
+	case 1:
 		_r = rand() % 255;
 		_g = rand() % 255;
 		_b = rand() % 255;
+		break;
+	case 2:
+		_a = (rand() % 10 <= 7 ? 180 : 255);
+		break;
+	default: break;
 	}
-	spriteHandler->Draw(texture, &r, NULL, &p, D3DCOLOR_ARGB(alpha, _r, _g, _b));
+
+	spriteHandler->Draw(texture, &r, NULL, &p, D3DCOLOR_ARGB(_a, _r, _g, _b));
 	spriteHandler->End();
 }
 void CGame::Draw(string text, int left, int top, int right, int bottom, D3DCOLOR color) {
@@ -131,7 +137,7 @@ void CGame::Draw(string text, int left, int top, int right, int bottom, D3DCOLOR
 	r.bottom = bottom;
 
 	fontHandler->DrawTextW(NULL, ToLPCWSTR(text), -1, &r, DT_LEFT, color);
-	
+
 }
 void CGame::Draw(wstring text, int left, int top, int right, int bottom, D3DCOLOR color) {
 	//Need to end sprite handler before rendering fonts

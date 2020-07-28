@@ -10,8 +10,10 @@ public:
 	int isEnable;
 	int damage;
 	bool isFront = false;
-
+	int score;
 	LPANIMATION_SET disappearingAnimSet;
+
+	int isFlickering  = 0;
 
 	void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects = NULL);
 	void Render();

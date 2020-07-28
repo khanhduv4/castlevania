@@ -51,7 +51,7 @@ class CGame
 	void _ParseSection_SETTINGS(string line);
 	void _ParseSection_SCENES(string line);
 	
-	bool isFlickering = false;
+	int isFlickering = 0;
 
 public:
 	void InitKeyboard();
@@ -102,11 +102,13 @@ public:
 
 	void Draw(wstring text, int left, int top, int right, int bottom, D3DCOLOR color);
 
-	void beginFlickering() {
-		isFlickering = true;
+	void beginFlickering(bool colorful = true) {
+		isFlickering = 1;
+		if (!colorful)
+			isFlickering = 2;
 	}
 	void endFlickering() {
-		isFlickering = false;
+		isFlickering = 0;
 	}
 
 	~CGame();

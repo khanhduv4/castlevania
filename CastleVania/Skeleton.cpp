@@ -59,41 +59,41 @@ void Skeleton::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	//		SetState(SKELETON_STATE_IDLE);
 	//	}
 
-	//	if (state == SKELETON_STATE_ATTACK)
-	//	{
-	//		DWORD now = GetTickCount();
-	//		if (timeAttack == 0)
-	//		{
-	//			timeAttack = now;
-	//			Bone* bone = new Bone();
-	//			bone->nx = nx;
-	//			if (nx > 0)
-	//			{
-	//				bone->SetPosition(x + SKELETON_BBOX_WIDTH, y);
-	//			}
-	//			else
-	//			{
-	//				bone->SetPosition(x, y);
-	//			}
-	//			bones.push_back(bone);
-	//			bone->SetState(BONE_STATE_FLY);
-	//		}
-	//		else if (now - timeAttack >= 1000)
-	//		{
-	//			timeAttack = now;
-	//			Bone* bone = new Bone();
-	//			if (nx > 0)
-	//			{
-	//				bone->SetPosition(x + SKELETON_BBOX_WIDTH, y);
-	//			}
-	//			else
-	//			{
-	//				bone->SetPosition(x, y);
-	//			}
-	//			bone->nx = nx;
-	//			bones.push_back(bone);
-	//			bone->SetState(BONE_STATE_FLY);
-	//		}
+	//	//if (state == SKELETON_STATE_ATTACK)
+	//	//{
+	//	//	DWORD now = GetTickCount();
+	//	//	if (timeAttack == 0)
+	//	//	{
+	//	//		timeAttack = now;
+	//	//		Bone* bone = new Bone();
+	//	//		bone->nx = nx;
+	//	//		if (nx > 0)
+	//	//		{
+	//	//			bone->SetPosition(x + SKELETON_BBOX_WIDTH, y);
+	//	//		}
+	//	//		else
+	//	//		{
+	//	//			bone->SetPosition(x, y);
+	//	//		}
+	//	//		bones.push_back(bone);
+	//	//		bone->SetState(BONE_STATE_FLY);
+	//	//	}
+	//	//	else if (now - timeAttack >= 1000)
+	//	//	{
+	//	//		timeAttack = now;
+	//	//		Bone* bone = new Bone();
+	//	//		if (nx > 0)
+	//	//		{
+	//	//			bone->SetPosition(x + SKELETON_BBOX_WIDTH, y);
+	//	//		}
+	//	//		else
+	//	//		{
+	//	//			bone->SetPosition(x, y);
+	//	//		}
+	//	//		bone->nx = nx;
+	//	//		bones.push_back(bone);
+	//	//		bone->SetState(BONE_STATE_FLY);
+	//	//	}
 
 	//		if (vx > 0 && abs(x - startX) > SKELETON_DISTANCE_X)
 	//		{
@@ -108,55 +108,6 @@ void Skeleton::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	//		}
 	//	}
 
-	//	vector<LPCOLLISIONEVENT> coEvents;
-	//	vector<LPCOLLISIONEVENT> coEventsResult;
-
-	//	coEvents.clear();
-
-	//	CalcPotentialCollisions(coObjects, coEvents);
-
-	//	if (coEvents.size() == 0)
-	//	{
-	//		x += dx;
-	//		y += dy;
-	//	}
-	//	else
-	//	{
-	//		float min_tx, min_ty, nx = 0, ny;
-	//		float rdx = 0;
-	//		float rdy = 0;
-
-	//		// TODO: This is a very ugly designed function!!!!
-	//		FilterCollision(coEvents, coEventsResult, min_tx, min_ty, nx, ny, rdx, rdy);
-
-	//		// how to push back Mario if collides with a moving objects, what if Mario is pushed this way into another object?
-	//		//if (rdx != 0 && rdx!=dx)
-	//		//	x += nx*abs(rdx);
-
-	//		// block every object first!
-
-	//		for (UINT i = 0; i < coEventsResult.size(); i++)
-	//		{
-	//			LPCOLLISIONEVENT e = coEventsResult[i];
-
-	//			if (dynamic_cast<Ground*>(e->obj)) // if e->obj is Goomba
-	//			{
-	//				x += min_tx * dx + nx * 0.7f;
-	//				y += min_ty * dy + ny * 0.7f;
-
-	//				if (nx != 0)
-	//					vx = 0;
-	//				if (ny != 0)
-	//					vy = 0;
-	//			}
-	//		}
-	//	}
-	//}
-
-	//for (int i = 0; i < bones.size(); i++)
-	//{
-	//	bones[i]->Update(dt, coObjects);
-	//}
 }
 
 void Skeleton::Render()
@@ -192,33 +143,15 @@ void Skeleton::Render()
 			break;
 		}
 		default:
+			ani = -1;
 			break;
 		}
+		animation_set->at(ani)->Render(x, y, 255);
 
-		//if (CEnemy::isStop)
-		//{
-		//	if (nx > 0) {
-		//		ani = SKELETON_ANI_IDLE_RIGHT;
-		//	}
-		//	else {
-		//		ani = SKELETON_ANI_IDLE_LEFT;
-		//	}
-		//}
-
-		animation_set->at(ani)->Render(posX, posY);
 	}
 
 	CEnemy::Render();
 
-	//if (Enemy::isStop)
-	//{
-	//	return;
-	//}
-
-	//for (int i = 0; i < bones.size(); i++)
-	//{
-	//	bones[i]->Render();
-	//}
 }
 
 void Skeleton::GetBoundingBox(float& left, float& top, float& right, float& bottom)
