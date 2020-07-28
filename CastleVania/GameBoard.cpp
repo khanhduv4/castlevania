@@ -1,7 +1,15 @@
 ﻿#include "GameBoard.h"
-#include <string>
-
+#include <string> 
+ 
 CGameBoard* CGameBoard::_instance = NULL;
+
+inline void CGameBoard::ReloadSubWeaponSprites() {
+	_subWeaponSprites.clear();
+	int spriteIds[4]{ 602,603,605,606 };
+	for (int i = 0; i < 4; i++) {
+		_subWeaponSprites.push_back(CSprites::GetInstance()->Get(spriteIds[i]));
+	}
+}
 
 CGameBoard::CGameBoard() {
 	_x = 0;
@@ -10,13 +18,18 @@ CGameBoard::CGameBoard() {
 	stage = 1;
 	time = 300;
 	heart = 0;
-	score = 0; 
+	score = 0;
+	subWeapon = -1;
+	_subWeaponSprites.clear();
+
+	ReloadSubWeaponSprites();
 
 }
 CGameBoard::~CGameBoard() {
 }
 void CGameBoard::Load() {
 	_sprite = CSprites::GetInstance()->Get(GAMEBOARD_SPRITE_ID);
+	ReloadSubWeaponSprites();
 }
 void CGameBoard::Update(int time, int stage, int enemyHealth)
 {
@@ -30,30 +43,14 @@ void CGameBoard::Update(int time, int stage, int enemyHealth)
 
 }
 void CGameBoard::UpdateSubWeapon(int type)
-{ 
-	/*switch (type) {
-	case WEAPON_AXE: {
-		subWeapon = new Axe(POSITION_X_SUBWEAPON, POSITION_Y_SUBWEAPON);
-	}
-	case WEAPON_SWORD: {
-		subWeapon = new Axe(POSITION_X_SUBWEAPON, POSITION_Y_SUBWEAPON);
-
-	}
-	case ITEM_ID_BLUE: {
-		subWeapon = new Axe(POSITION_X_SUBWEAPON, POSITION_Y_SUBWEAPON);
-
-	}
-	case ITEM_ID_SWORD: {
-		subWeapon = new Axe(350, 100);
-	}
-	}
-	if (subWeapon)
-	subWeapon->isGravity = 0;*/
+{
+	subWeapon = type;
 }
 void CGameBoard::Render() {
-
 	_sprite->Draw(_x, _y, 255, true);
-
+	if (!(subWeapon == -1)) {
+		_subWeaponSprites[subWeapon]->Draw(POSITION_X_SUBWEAPON, POSITION_Y_SUBWEAPON, 255, true);
+	}
 	//Score
 	CGame::GetInstance()->Draw(std::to_string(score), 110, 13, 400, 300, D3DCOLOR_XRGB(255, 255, 255));
 	// Heart
@@ -64,7 +61,7 @@ void CGameBoard::Render() {
 	CGame::GetInstance()->Draw(std::to_string(time), 300, 13, 400, 300, D3DCOLOR_XRGB(255, 255, 255));
 	// Stage
 	CGame::GetInstance()->Draw(std::to_string(stage), 465, 14, 500, 300, D3DCOLOR_XRGB(255, 255, 255));
-	 
+
 	// Player HP █
 	int baseX = 120, baseY = 30;
 	for (int i = this->simonHP; i < this->initHP; i++) {

@@ -8,16 +8,16 @@
 #include "MorningStar.h" 
 #include "Grid.h"
 
-class CPlayScene: public CScene
+class CPlayScene : public CScene
 {
-protected: 
-	CSimon *player;// A play scene has to have player, right? 
+protected:
+	CSimon* player;// A play scene has to have player, right? 
 
 	vector<LPGAMEOBJECT> objects;
 	vector<LPGAMEOBJECT> items;
-
+	bool isReloading = false;
 	Grid* _grid;
-	 
+
 	void _ParseSection_CONFIG(string line);
 
 	void _ParseSection_TEXTURES(string line);
@@ -28,14 +28,16 @@ protected:
 	void _ParseSection_ANIMATION_SETS(string line);
 	void _ParseSection_OBJECTS(string line);
 
-	
-public: 
+
+public:
 	static CPlayScene* __instance;
+
+	bool IsReloading() { return isReloading; }
 
 	int stage;
 	int time;
 	CPlayScene(int id, LPCWSTR filePath);
-	static CPlayScene* getInstance(int id= 0, LPCWSTR filePath = NULL) {
+	static CPlayScene* getInstance(int id = 0, LPCWSTR filePath = NULL) {
 		if (__instance == NULL) __instance = new CPlayScene(id, filePath);
 		return __instance;
 	}
@@ -45,16 +47,16 @@ public:
 	virtual void Render();
 	virtual void Unload();
 
-	CSimon * GetPlayer() { return player; } 
+	CSimon* GetPlayer() { return player; }
 
 	//friend class CPlayScenceKeyHandler;
 };
 
 class CPlayScenceKeyHandler : public CScenceKeyHandler
 {
-public: 
-	virtual void KeyState(BYTE *states);
+public:
+	virtual void KeyState(BYTE* states);
 	virtual void OnKeyDown(int KeyCode);
 	virtual void OnKeyUp(int KeyCode);
-	CPlayScenceKeyHandler(CScene *s) :CScenceKeyHandler(s) {};
+	CPlayScenceKeyHandler(CScene* s) :CScenceKeyHandler(s) {};
 };

@@ -121,9 +121,10 @@ extern D3DCOLOR D3DCOLOR_BACKGROUND; // màu nền game
 #pragma endregion
 
 #pragma region SUBWEAPON ID
-#define WEAPON_SWORD 1
-#define WEAPON_AXE 2
-#define WEAPON_BOOMERANG 3
+#define WEAPON_SWORD 0
+#define WEAPON_AXE 1
+#define WEAPON_BOOMERANG 2
+#define WEAPON_BLUE 3
 #pragma endregion
 
 #pragma region ITEM ID

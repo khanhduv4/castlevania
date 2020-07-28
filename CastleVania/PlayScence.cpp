@@ -28,7 +28,6 @@
 #include "Elevator.h"
 #include "HiddenObject.h"
 
-
 using namespace std;
 
 CPlayScene::CPlayScene(int id, LPCWSTR filePath) :
@@ -232,9 +231,9 @@ void CPlayScene::Load()
 			section = SCENE_SECTION_CONFIG;
 			continue;
 		}
-		if (line == "[TEXTURES]") { 
-			section = SCENE_SECTION_TEXTURES; 
-			continue; 
+		if (line == "[TEXTURES]") {
+			section = SCENE_SECTION_TEXTURES;
+			continue;
 		}
 		if (line == "[SPRITES]") {
 			section = SCENE_SECTION_SPRITES; continue;
@@ -272,6 +271,8 @@ void CPlayScene::Load()
 		}
 	}
 
+	isReloading = false;
+
 	f.close();
 
 	if (player != NULL) {
@@ -282,7 +283,9 @@ void CPlayScene::Load()
 	CTextures::GetInstance()->Add(ID_TEX_BBOX, L"Resources\\textures\\bbox.png", D3DCOLOR_XRGB(255, 255, 255));
 
 	//Load UI
-	CGameBoard::GetIntance()->Load();
+	CGameBoard::GetInstance()->Load();
+	CGameBoard::GetInstance()->ReloadSubWeaponSprites();
+
 	DebugOut(L"[INFO] Done loading scene resources %s\n", sceneFilePath);
 }
 void CPlayScene::Update(DWORD dt)
@@ -342,7 +345,7 @@ void CPlayScene::Update(DWORD dt)
 
 	// Update ScoreBoard
 
-	CGameBoard::GetIntance()->Update(time, stage, 16);
+	CGameBoard::GetInstance()->Update(time, stage, 16);
 
 	_grid->UpdateGrid();
 }
@@ -381,7 +384,7 @@ void CPlayScene::Render()
 		items[i]->Render();
 	}
 
-	CGameBoard::GetIntance()->Render();
+	CGameBoard::GetInstance()->Render();
 
 }
 
@@ -390,6 +393,7 @@ void CPlayScene::Render()
 */
 void CPlayScene::Unload()
 {
+	isReloading = true;
 	for (int i = 0; i < objects.size(); i++) {
 
 		delete objects[i];

@@ -8,15 +8,14 @@
 
 #define GAMEBOARD_SPRITE_ID 100100
 
-#define POSITION_X_SUBWEAPON 350
-#define POSITION_Y_SUBWEAPON 50
-
-
+#define POSITION_X_SUBWEAPON 310
+#define POSITION_Y_SUBWEAPON 35
+ 
 class CGameBoard
 {
 public:
 	~CGameBoard();
-	static CGameBoard* GetIntance() {
+	static CGameBoard* GetInstance() {
 
 		if (_instance == NULL)
 			_instance = new CGameBoard();
@@ -41,6 +40,7 @@ public:
 		this->score = score;
 		this->initHP = initHP;
 	}
+	void ReloadSubWeaponSprites();
 private:
 	CGameBoard();
 	static CGameBoard* _instance;
@@ -54,6 +54,8 @@ private:
 	int time;
 	int bossHP;
 	int life;
+	int subWeapon;
+	int isRendering = true;
 	vector<CSprite*> _subWeaponSprites;
 
 	int initHP;

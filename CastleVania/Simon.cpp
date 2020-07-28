@@ -207,7 +207,7 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects, vector<LPGAMEOBJE
 			else if (dynamic_cast<CItem*>(e->obj)) {
 
 				HandleCollisionSimonWithItem(e);
-				CGameBoard::GetIntance()->UpdateSubWeapon(currentSubWeapon);
+				CGameBoard::GetInstance()->UpdateSubWeapon(currentSubWeapon);
 
 				continue;
 
