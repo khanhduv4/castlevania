@@ -411,7 +411,6 @@
 # type: 0 = SIMON , 1 = Brick, 
 # SIMON
 0	750	380	1
-#0	200	100	1
 
 # GROUND 
 # --- platform (hint: I created the list using Excel!) ----

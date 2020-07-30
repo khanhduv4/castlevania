@@ -25,6 +25,11 @@
 22	Resources\weapon\2.png	255	0	255
 23	Resources\weapon\3.png	255	0	255
 24	Resources\weapon\4.png	255	0	255
+25	Resources\enemy\hunch_back.png	116	116	116
+26	Resources\enemy\ghost.png	255	0	255
+27	Resources\enemy\skeleton.png	255	0	255
+28	Resources\enemy\raven.png	116	116	116
+40  Resources\item\heart-sm.png	255	0	255
 100	Resources\extra\blackboard.png	0	0	0
 
 # id	left	top	right	bottom	texture_id
@@ -109,6 +114,7 @@
 100100	0	0	520	80	100
 
 
+
 #====================BRICK==========================
 20001	408	225	424	241	20
 20002	0	0	64	16	19
@@ -191,6 +197,8 @@
 606	0	0	32	32	17
 # II
 607	0	0	42	42	18
+#Small heart
+608	0	0	16	16	40
 
 #=====================ENEMY========================
 #knight left
@@ -213,6 +221,46 @@
 713	32	0	64	32	11
 714	64	0	96	32	11
 715	96	0	128	32	11
+
+#Hunch Back left
+716	0	0	32	32	25
+717	32	0	64	32	25
+#Hunch back right
+718	64	0	96	32	25
+719	96	0	128	32	25
+
+#Skeleton left
+720	0	0	34	64	27
+721	34	0	68	64	27
+722	68	0	102	64	27
+723	102	0	136	64	27
+
+		
+#Skeleton right
+724	136	0	170	64	27
+725	170	0	204	64	27
+726	204	0	238	64	27
+727	238	0	272	64	27
+
+#ghost left
+728	0	0	28	28	26
+729	28	0	56	28	26
+#ghost right
+730	56	0	84	28	26
+731	84	0	112	28	26
+
+#Raven left
+732	0	0	33	36	28
+733	33	0	66	36	28
+734	66	0	99	36	28
+735	99	0	132	36	28
+#Raven right
+739	0	0	33	36	28
+738	33	0	66	36	28
+737	66	0	99	36	28
+736	99	0	132	36	28
+
+
 
 # ani_id	sprite1_id	time1	sprite2_id	time2	...
 [ANIMATIONS]
@@ -243,7 +291,7 @@
 9	10017	100
 
 #sitting attack left
-10	10024	100	10025	150	10026	100
+10	10024	100	10025	100	10026	100
 #sitting attack right
 11	10027	100	10028	100	10029	100
 
@@ -276,7 +324,7 @@
 24	10050	100
 
 #die
-99	10099	100
+#99	10099	100
 
 #--------------------------WEAPON--------------------------------
 #=============MorningStar===================
@@ -343,6 +391,8 @@
 86	606	100
 # II
 87	607	100
+#small heart
+88	608	100
 
 
 # ======== BRICK ========= START: 6x
@@ -363,6 +413,33 @@
 93	709	150	710	150	711	150
 #right
 94	712	150	713	150	714	150
+
+#Hunch back idle left
+95	716	100
+#Hunch back waking left
+96	716	100	717	100
+#Hunch back idle right
+97	719	100
+#Hunch back waking right
+98	719	100	718	100
+#Skeleton running left
+99	720	100	721	100
+#Skeleton dying left
+100	722	100	723	100
+#Skeleton running right
+101	727	100	726	100
+#Skeleton dying right
+102	725	100	724	100
+#ghost left
+103	728	100	729	100
+#ghost right
+104	731	100	730	100
+#Raven wating
+105	732	100
+#Raven Flying left
+106	733	100	734	100	735	100
+#Raven Flying right
+107	737	100	738	100	739	100
 
 #========================================================================================================
 #
@@ -403,3 +480,13 @@
 16	87
 # Elevator
 17	302
+# Hunch back
+18	95	96	97	98
+#Skeleton
+19	99  100	101	102
+#Ghost
+20	103	104
+#Raven
+21	105	106	107
+# Small Heart
+40	88

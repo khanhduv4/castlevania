@@ -25,6 +25,7 @@
 22	Resources\weapon\2.png	255	0	255
 23	Resources\weapon\3.png	255	0	255
 24	Resources\weapon\4.png	255	0	255
+40  Resources\item\heart-sm.png	255	0	255
 100	Resources\extra\blackboard.png	0	0	0
 
 # id	left	top	right	bottom	texture_id
@@ -192,6 +193,8 @@
 606	0	0	32	32	17
 # II
 607	0	0	42	42	18
+#Small heart
+608	0	0	16	16	40
 
 #=====================ENEMY========================
 #knight left
@@ -344,6 +347,8 @@
 86	606	100
 # II
 87	607	100
+#small heart
+88	608	100
 
 
 # ======== BRICK ========= START: 6x
@@ -404,3 +409,5 @@
 16	87
 # Elevator
 17	302
+# Small Heart
+40	88

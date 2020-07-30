@@ -417,6 +417,7 @@
 1	0	370	-1	1536	50
 1	0	0	-1	10	370
 1	1500	0	-1	1	370
+
 #TORCH
 
 2	170	307	3	2
@@ -432,8 +433,5 @@
 
 [TILEMAP]
 C:\Users\Admin\Desktop\GAME\CastleVania\Resources\maps\scene1_map.txt	C:\Users\Admin\Desktop\GAME\CastleVania\Resources\maps\scene1_map.png
-#C:\Users\Admin\Desktop\GAME\CastleVania\Resources\maps\scene4_map.txt	C:\Users\Admin\Desktop\GAME\CastleVania\Resources\maps\scene4_map.png
-#E:\CastleVania\CastleVania\Resources\maps\scene2_map.txt	E:\CastleVania\CastleVania\Resources\maps\scene2_map.png
 [GRID]
 136	12	5
-#Sua map cua scene tiep theo

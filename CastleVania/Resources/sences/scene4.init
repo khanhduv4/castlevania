@@ -32,8 +32,11 @@
 
 
 # SIMON
-0	1380	300	1
-#0	200	300	1
+#0	1380	300	1
+0	200	300	1
+
+#===============ENEMY====================
+
 #hunchback
 9	850	230	18	1
 9	300	100	18	1
@@ -47,11 +50,6 @@
 
 
 
-#wall
-1	50	100	-1	15	500
-
-
-
 #Hidden Object
 #type	x	y	ani	width	height	type_hidden	height(stair)	SIMON_X	direction
 #stair 1 begin
@@ -60,15 +58,8 @@
 #999	900	220	-1	50	10	2	165	332	1
 
 
-#===============ENEMY====================
-#Knight
-3	190	150	9	2	190	290
-#3	640	292	9	2	640	670
-
-#Bat
-#4	70	150	10	2	32	32
-
-
+#wall
+1	50	100	-1	15	500
 
 # --- SCENE PORTAL ----
 # type	l	t	ani_set_id	r	b	scene_id
