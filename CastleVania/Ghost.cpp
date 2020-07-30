@@ -10,7 +10,6 @@ Ghost::Ghost()
 	isGravity = 0;
 	isEnable = 0;
 	isFinish = 0;
-	SetAnimation(20);
 	isFront = true;
 }
 

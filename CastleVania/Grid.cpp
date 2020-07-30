@@ -54,6 +54,7 @@ void Grid::Insert(CGameObject* obj)
 
 	for (int i = left; i <= right; i++)
 		for (int j = top; j <= bottom; j++)
+			if (!(i >= numXCells || i < 0 || j>= numYCells || j <0))
 			cells[i][j].Insert(obj);
 }
 void Grid::UpdateGrid() {

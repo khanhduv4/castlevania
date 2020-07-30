@@ -1,2 +1,12 @@
-﻿  GameBoard.cpp
+﻿  PhantomBat.cpp
+C:\Users\Admin\Desktop\GAME\CastleVania\PhantomBat.cpp(14,12): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
+C:\Users\Admin\Desktop\GAME\CastleVania\PhantomBat.cpp(157,26): warning C4244: '-=': conversion from 'double' to 'DWORD', possible loss of data
+C:\Users\Admin\Desktop\GAME\CastleVania\PhantomBat.cpp(180,12): warning C4305: '=': truncation from 'double' to 'float'
+C:\Users\Admin\Desktop\GAME\CastleVania\PhantomBat.cpp(181,12): warning C4305: '=': truncation from 'double' to 'float'
+C:\Users\Admin\Desktop\GAME\CastleVania\PhantomBat.cpp(198,28): warning C4244: '=': conversion from 'int' to 'FLOAT', possible loss of data
+C:\Users\Admin\Desktop\GAME\CastleVania\PhantomBat.cpp(199,27): warning C4244: '=': conversion from 'int' to 'FLOAT', possible loss of data
+C:\Users\Admin\Desktop\GAME\CastleVania\PhantomBat.cpp(202,12): warning C4305: '=': truncation from 'double' to 'float'
+C:\Users\Admin\Desktop\GAME\CastleVania\PhantomBat.cpp(203,11): warning C4305: '=': truncation from 'double' to 'float'
+C:\Users\Admin\Desktop\GAME\CastleVania\PhantomBat.cpp(264,13): warning C4305: '=': truncation from 'double' to 'float'
+C:\Users\Admin\Desktop\GAME\CastleVania\PhantomBat.cpp(265,13): warning C4305: '=': truncation from 'double' to 'float'
   CastleVania.vcxproj -> C:\Users\Admin\Desktop\GAME\Debug\CastleVania.exe

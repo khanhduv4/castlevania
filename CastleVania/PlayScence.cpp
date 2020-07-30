@@ -24,6 +24,9 @@
 #include "HunchBack.h"
 #include "Skeleton.h"
 #include "Ghost.h"
+#include "Raven.h"
+#include "Zombie.h"
+#include "PhantomBat.h"
 #include "Candle.h"
 #include "Elevator.h"
 #include "HiddenObject.h"
@@ -170,6 +173,9 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 	case OBJECT_TYPE_ENEMY_BAT: obj = new Bat(); break;
 	case OBJECT_TYPE_ENEMY_SKELETON: obj = new Skeleton(); break;
 	case OBJECT_TYPE_ENEMY_GHOST: obj = new Ghost(); break;
+	case OBJECT_TYPE_ENEMY_RAVEN: obj = new Raven(); break;
+	case OBJECT_TYPE_ENEMY_ZOMBIE: obj = new Zombie(atoi(tokens[7].c_str())); break;
+	case OBJECT_TYPE_ENEMY_PHANTOMBAT: obj = new PhantomBat(); break;
 	case OBJECT_TYPE_CANDLE: obj = new Candle(); break;
 	case OBJECT_TYPE_ELEVATOR: obj = new Elevator();
 		dynamic_cast<Elevator*>(obj)->SetSize(atoi(tokens[4].c_str()), atoi(tokens[5].c_str()));
@@ -424,7 +430,7 @@ void CPlayScenceKeyHandler::OnKeyDown(int KeyCode)
 		simon->SetState(SIMON_STATE_ATTACKING);
 		break;
 	case DIK_D:
-		if (simon->getCurrentSubWeapon() == 0) break;
+		if (simon->getCurrentSubWeapon() == -1) break;
 		simon->setWeapon(SIMON_ATTACK_SUB_WEAPON);
 		simon->SetState(SIMON_STATE_ATTACKING);
 		break;

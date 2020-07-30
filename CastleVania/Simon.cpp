@@ -8,7 +8,7 @@ CSimon::CSimon() : CGameObject()
 	SetState(SIMON_STATE_IDLE);
 	morStar = new MorningStar();
 	isSceneSwitching = false;
-	currentSubWeapon = 0;
+	currentSubWeapon = -1;
 	Health = 16;
 	score = 100;
 	heart = 0;
@@ -45,6 +45,8 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects, vector<LPGAMEOBJE
 	UpdateFreeze();
 	// Calculate dx, dy 
 	CGameObject::Update(dt);
+
+	DebugOut(L"Simon X: %f Simon Y: %f\n", x, y);
 
 	// Check Attacking
 

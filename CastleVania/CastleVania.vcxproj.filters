@@ -127,6 +127,15 @@
     <ClCompile Include="Ghost.cpp">
       <Filter>Object\Enemy\Ghost</Filter>
     </ClCompile>
+    <ClCompile Include="Raven.cpp">
+      <Filter>Object\Enemy\Raven</Filter>
+    </ClCompile>
+    <ClCompile Include="Zombie.cpp">
+      <Filter>Object\Enemy\Zombie</Filter>
+    </ClCompile>
+    <ClCompile Include="PhantomBat.cpp">
+      <Filter>Object\Enemy\Boss\PhantomBat</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="KeyEventHandler.h">
@@ -258,6 +267,15 @@
     <ClInclude Include="Ghost.h">
       <Filter>Object\Enemy\Ghost</Filter>
     </ClInclude>
+    <ClInclude Include="Raven.h">
+      <Filter>Object\Enemy\Raven</Filter>
+    </ClInclude>
+    <ClInclude Include="Zombie.h">
+      <Filter>Object\Enemy\Zombie</Filter>
+    </ClInclude>
+    <ClInclude Include="PhantomBat.h">
+      <Filter>Object\Enemy\Boss\PhantomBat</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Framework">
@@ -382,6 +400,18 @@
     </Filter>
     <Filter Include="Object\Enemy\Ghost">
       <UniqueIdentifier>{23adb6a2-d2dd-470e-8a70-2fc40747980d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object\Enemy\Raven">
+      <UniqueIdentifier>{9845f30c-e8dd-4007-b2b4-6539663c03a8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object\Enemy\Zombie">
+      <UniqueIdentifier>{5ff8ad61-1aac-4b10-b5b2-29437cc65a77}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object\Enemy\Boss">
+      <UniqueIdentifier>{ff12474e-9762-4870-994d-afb4bd7ea8d2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object\Enemy\Boss\PhantomBat">
+      <UniqueIdentifier>{14225aee-eda0-4298-b7ab-a83466e0468d}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>
