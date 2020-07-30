@@ -136,6 +136,9 @@
     <ClCompile Include="PhantomBat.cpp">
       <Filter>Object\Enemy\Boss\PhantomBat</Filter>
     </ClCompile>
+    <ClCompile Include="SmallHeart.cpp">
+      <Filter>Object\Item\Heart</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="KeyEventHandler.h">
@@ -275,6 +278,9 @@
     </ClInclude>
     <ClInclude Include="PhantomBat.h">
       <Filter>Object\Enemy\Boss\PhantomBat</Filter>
+    </ClInclude>
+    <ClInclude Include="SmallHeart.h">
+      <Filter>Object\Item\Heart</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

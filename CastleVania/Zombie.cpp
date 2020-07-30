@@ -8,6 +8,7 @@ Zombie::Zombie(int isEnable)
 	this->damage = 2;
 	this->isEnable = isEnable;
 	SetState(ZOOMBIE_STATE_IDLE);
+	this->isFront = true;
 }
 
 Zombie::~Zombie()

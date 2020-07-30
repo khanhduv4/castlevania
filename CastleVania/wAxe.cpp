@@ -13,10 +13,13 @@ wAxe::wAxe()
 wAxe::~wAxe()
 {
 }
+#define AXE_SPEED_Y 0.0007
 
 void wAxe::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
+	vy += AXE_SPEED_Y * dt;
 
+	Weapon::Update(dt, coObjects, NULL);
 }
 
 void wAxe::Attack(float X, float Y, int Direction)

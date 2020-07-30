@@ -143,6 +143,7 @@
     <ClCompile Include="PhantomBat.cpp" />
     <ClCompile Include="Raven.cpp" />
     <ClCompile Include="Skeleton.cpp" />
+    <ClCompile Include="SmallHeart.cpp" />
     <ClCompile Include="wAxe.cpp" />
     <ClCompile Include="wBoomerang.cpp" />
     <ClCompile Include="wSword.cpp" />
@@ -190,6 +191,7 @@
     <ClInclude Include="PhantomBat.h" />
     <ClInclude Include="Raven.h" />
     <ClInclude Include="Skeleton.h" />
+    <ClInclude Include="SmallHeart.h" />
     <ClInclude Include="wAxe.h" />
     <ClInclude Include="wBoomerang.h" />
     <ClInclude Include="wSword.h" />

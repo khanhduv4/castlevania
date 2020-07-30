@@ -30,6 +30,7 @@
 27	Resources\enemy\skeleton.png	255	0	255
 28	Resources\enemy\zombie.png	255	0	255
 29	Resources\enemy\boss.png	255	0	255
+40	Resources\item\heart-sm.png	255	0	255
 
 100	Resources\extra\blackboard.png	0	0	0
 
@@ -198,7 +199,8 @@
 606	0	0	32	32	17
 # II
 607	0	0	42	42	18
-
+#Small heart
+608	0	0	16	16	40
 #=====================ENEMY========================
 #knight left
 700	0	0	32	64	8
@@ -395,6 +397,8 @@
 86	606	100
 # II
 87	607	100
+#small heart
+88	608	100
 
 
 # ======== BRICK ========= START: 6x
@@ -496,6 +500,8 @@
 21	105	106
 #boss
 22	107	108
+# Small Heart
+40	88
 [CONFIG]
 # stage	time
 6	300
@@ -503,7 +509,8 @@
 # type	x	y	ani_set_id	extra_settings per object type
 # type: 0 = SIMON , 1 = Brick, 
 # SIMON
-0	100	150	1
+#0	100	150	1
+0	900	150	1
 
 # GROUND 
 # --- platform (hint: I created the list using Excel!) ----
@@ -513,6 +520,22 @@
 1	255	290	-1	363	33
 1	1340	350	-1	66	33
 1	1440	290	-1	66	33
+
+#candles
+#tien
+5	185	170	11	2
+5	310	230	11	9
+#binh thuoc
+5	430	175	11	2
+5	570	350	11	9
+5	820	350	11	9
+5	680	300	11	8
+5	950	350	11	9
+5	1070	300	11	2
+5	1200	350	11	9
+#tien
+5	1310	300	11	9
+
 
 #wall
 #1	960	100	-1	1	500

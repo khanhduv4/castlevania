@@ -6,6 +6,7 @@
 #include "Sword.h"
 #include "UpgradeMorningStar.h"
 #include "LargeHeart.h"
+#include "SmallHeart.h"
 #include "Axe.h"
 #include "Boomerang.h"
 #include "II.h"
@@ -121,6 +122,10 @@ CItem* CEnemy::SpawnItem() {
 	}
 	case ITEM_ID_LARGEHEART: {
 		item = new LargeHeart(x, y);
+		break;
+	}
+	case ITEM_ID_SMALLHEART: {
+		item = new SmallHeart(x, y);
 		break;
 	}
 	case ITEM_ID_SWORD: {

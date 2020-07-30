@@ -28,7 +28,7 @@
 25	Resources\enemy\hunch_back.png	116	116	116
 26	Resources\enemy\ghost.png	255	0	255
 27	Resources\enemy\skeleton.png	255	0	255
-40  Resources\item\heart-sm.png	255	0	255
+40	Resources\item\heart-sm.png	255	0	255
 100	Resources\extra\blackboard.png	0	0	0
 
 # id	left	top	right	bottom	texture_id

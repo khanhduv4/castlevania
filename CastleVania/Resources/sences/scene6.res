@@ -30,7 +30,7 @@
 27	Resources\enemy\skeleton.png	255	0	255
 28	Resources\enemy\zombie.png	255	0	255
 29	Resources\enemy\boss.png	255	0	255
-40  Resources\item\heart-sm.png	255	0	255
+40	Resources\item\heart-sm.png	255	0	255
 
 100	Resources\extra\blackboard.png	0	0	0
 

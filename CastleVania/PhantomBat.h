@@ -16,17 +16,25 @@ class PhantomBat : public CEnemy
 	bool isFlyToSimonPos;
 	float waitTime;
 	float hurtTime;
-	DWORD delayTime;
+	long delayTime;
 	int previousHP;
 	float introTime;
-	DWORD chaseTime;
+	long chaseTime;
+	bool isTest = false;
+	float refX = -1, refY = -1;
 	bool isHurted;
 	float distanceAttack;
+	bool isChasing = false;
+	float aCurve, bCurve, cCurve;
 
 public:
 	PhantomBat();
 	~PhantomBat();
 
+	void makeRandomCurve();
+	 
+	int calculateYCurve(int x);
+	 
 	virtual void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects = NULL);
 	virtual void Render();
 

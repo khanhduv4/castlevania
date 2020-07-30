@@ -25,7 +25,7 @@
 22	Resources\weapon\2.png	255	0	255
 23	Resources\weapon\3.png	255	0	255
 24	Resources\weapon\4.png	255	0	255
-40  Resources\item\heart-sm.png	255	0	255
+40	Resources\item\heart-sm.png	255	0	255
 100	Resources\extra\blackboard.png	0	0	0
 
 # id	left	top	right	bottom	texture_id

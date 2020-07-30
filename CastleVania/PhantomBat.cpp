@@ -12,6 +12,9 @@ PhantomBat::PhantomBat()
 
 
 	srand(time(0));
+
+	delayTime = (rand()) % 500 + 500;
+	chaseTime = (rand()) % 500 + 500;
 	//bossDeadEffect = new BossDeadEffect(1);
 	isFlyToRandomPos = true;
 	isFlyToSimonPos = true;
@@ -25,6 +28,7 @@ PhantomBat::PhantomBat()
 	distance = -1;
 	isFinish = 0;
 
+
 	SetState(PHANTOM_BAT_STATE_IDLE);
 }
 
@@ -32,56 +36,66 @@ PhantomBat::~PhantomBat()
 {
 
 }
-
+void PhantomBat::makeRandomCurve() {
+	int screenWidth = SCREEN_WIDTH;
+	int screenHeight = SCREEN_HEIGHT;
+	float simonX, simonY;
+	CSimon::getInstance()->GetPosition(simonX, simonY);
+	
+	//Diem A : Vi tri hien tai cua Bat, Diem B: Vi tri dinh cua parabol ^ B.x = random ^ (B.x>0 ^ !bat.isLeft or B.x < 0 ^ bat.isLeft) 
+	//Nghiem : Parabol aX^2 + bx + c phai di qua A va B.
+	int xB = x < simonX ? (rand() % int((screenHeight-y)/3) + 20) :-(rand() % int((screenHeight - y) / 3) + 20);
+	int yB = y - rand() % (int((screenHeight - y) / 3)+20);
+	int xA = x-refX;
+	int yA =y;
+	float a = float(yA-yB) / ((xA * xA - xB * xB) - 2 * (xA - xB) * xB);
+	float b = -2 * a * xB;
+	float c = yA - a * xA * xA - b * xA;
+	aCurve = a;
+	bCurve = b;
+	cCurve = c;
+	int yTest = aCurve * xA * xA + bCurve * xA + cCurve;
+	int yTest2 = aCurve * xB * xB + bCurve * xB + cCurve;
+}
+int PhantomBat::calculateYCurve(int x) {
+	return  (aCurve * x * x + bCurve * x + cCurve);
+}
 void PhantomBat::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
-	CEnemy::Update(dt, coObjects);
+	float simonX, simonY;
+	CSimon::getInstance()->GetPosition(simonX, simonY);
+	CSimon* simon = CSimon::getInstance();
+	if (x - simon->x < 100)
+		isTest = true;
+	if (!isTest) return;
+	if (delayTime > 0) delayTime -= dt;
+	else if (delayTime <= 0 && !isChasing) {
+		if (refX == -1 && refY == -1) {
+			refX = simon->x;
+			refY = simon->y;
+		}
+		isChasing = true;
+		chaseTime = (rand()) % 2500 + 500;
+		makeRandomCurve();
+		if (x < simon->x) {
+			vx = .01f;
+		}
+		else vx = -.01f;
+	}
+	if (isChasing) {
+		chaseTime -= dt;
+		x += dt * vx;
+		y = calculateYCurve(x - refX);
+		DebugOut(L"X Bat = %f Y Bat  = %f",x-refX, y);
+		if (chaseTime <= 0) {
+			isChasing = false;
+			delayTime = (rand()) % 500 + 500;
+		}
 
-	//if (isEnable)
-	//{
-	//	CalculateSimonPos(dt);
-	//	CheckHPChange();
+	}
 
-	//	if (Intro(dt) == true)
-	//		return;
+	//CEnemy::Update(dt, coObjects);
 
-	//	if (isHurted == true)
-	//		CheckHurtTime(dt);
-	//	else
-	//	{
-	//		if (isFlyToSimonPos) {
-	//			if (waitTime > 0)
-	//				waitTime -= dt;
-	//			else {
-	//				Fly(dt);
-	//			}
-	//		}
-	//		else {
-	//			if (isFlyToRandomPos == false)
-	//				FlyToRandomPos(dt);
-	//			else if (isFlyToRandomPos == true)
-	//				RandomPos();
-	//		}
-	//	}
-	//}
-	//else {
-	//	float simonX, simonY;
-	//	CSimon::getInstance()->GetPosition(simonX, simonY);
-	//	if (simonX > 600) {
-	//		//CCamera::GetInstance()->SetIsLock(true);
-	//		isEnable = true;
-	//	}
-	//}
-
-	//if (!isEnable)
-	//{
-	//	delayTime += dt;
-	//	if (delayTime > 1500)
-	//		bossDeadEffect->Update(dt);
-	//}
-
-	//collisionEffect->SetPosition(x, y + 10);
-	//collisionEffect->Update(dt);
 }
 
 void PhantomBat::Render()

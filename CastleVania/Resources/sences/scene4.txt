@@ -28,6 +28,7 @@
 25	Resources\enemy\hunch_back.png	116	116	116
 26	Resources\enemy\ghost.png	255	0	255
 27	Resources\enemy\skeleton.png	255	0	255
+40	Resources\item\heart-sm.png	255	0	255
 100	Resources\extra\blackboard.png	0	0	0
 
 # id	left	top	right	bottom	texture_id
@@ -195,7 +196,8 @@
 606	0	0	32	32	17
 # II
 607	0	0	42	42	18
-
+#Small heart
+608	0	0	16	16	40
 #=====================ENEMY========================
 #knight left
 700	0	0	32	64	8
@@ -374,6 +376,8 @@
 86	606	100
 # II
 87	607	100
+#small heart
+88	608	100
 
 
 # ======== BRICK ========= START: 6x
@@ -461,6 +465,8 @@
 19	99  100	101	102
 #Ghost
 20	103	104
+# Small Heart
+40	88
 
 
 [CONFIG]
