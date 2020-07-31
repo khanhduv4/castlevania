@@ -87,8 +87,8 @@
 10032	259	68	289	130	0
 10033	322	68	346	130	0
 #Climb DOWN right
-10034	318	266	350	328	0
-10035	266	266	290	328	0
+10035	318	266	350	328	0
+10034	266	266	290	328	0
 #climb down left
 10036	130	68	162	130	0
 10037	190	68	214	130	0
@@ -518,8 +518,8 @@
 # type	x	y	ani_set_id	extra_settings per object type
 # type: 0 = SIMON , 1 = Brick, 
 # SIMON
-#0	100	150	1
-0	900	150	1
+0	900	150	1	900	150
+#0	900	150	1
 
 # GROUND 
 # --- platform (hint: I created the list using Excel!) ----
@@ -554,7 +554,18 @@
 
 #Hidden Object
 #type	x	y	ani	width	height	type_hidden	height(stair)	SIMON_X
+#stair 1 begin
 
+999	220	160	-1	10	10	2	165	220	-1
+
+#stair 1 end
+999	280	290	-1	10	10	1	165	270	-1
+
+#stair 2 begin
+999	600	225	-1	10	10	2	165	600	-1
+
+#stair 2 end
+999	720	410	-1	10	10	1	165	720	-1
 
 #===============ENEMY====================
 #Zombies

@@ -6,7 +6,7 @@
 # type	x	y	ani_set_id	extra_settings per object type
 # type: 0 = SIMON , 1 = Brick, 
 # SIMON
-0	100	300	1
+0	100	350	1	100	350
 
 # GROUND 
 # --- platform (hint: I created the list using Excel!) ----
@@ -24,20 +24,20 @@
 #Hidden Object type hidden: 1: stair begin, 2: stair end
 #type	x	y	ani	width	height	type_hidden	height(stair)	SIMON_X	direction
 #stair 1 begin
-999	210	400	-1	50	20	1	165	206	1
+999	220	400	-1	10	20	1	165	206	1
 #stair 2 begin
-999	130	200	-1	50	20	1	165	140	1
+999	150	210	-1	20	20	1	165	140	1
 
 #stair 1 end
-999	330	220	-1	50	10	2	165	332	1
+999	330	220	-1	20	10	2	165	332	1
 
 
 
 #===============ENEMY====================
 #Knight
-3	100	100	9	2	100	250
+3	100	120	9	2	100	250
 #Bat
-4	70	150	10	2	32	32
+4	70	150	10	9	32	32
 # Candle
 5	150	290	11	4
 5	415	290	11	2
