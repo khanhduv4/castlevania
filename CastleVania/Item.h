@@ -15,7 +15,7 @@ protected:
 
 	DWORD TimeWaited; // Thời gian đã chờ trước khi hiển thị
 	DWORD TimeWaitMax; // Thời gian tối đa phải chờ trước khi hiển thị
-
+	float xBackup;
 
 public:
 	CItem();

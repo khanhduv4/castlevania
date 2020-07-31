@@ -160,7 +160,7 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 	switch (object_type)
 	{
 	case OBJECT_TYPE_SIMON:
-		obj = CSimon::getInstance(x, y);
+		obj = CSimon::GetInstance(x, y);
 		player = (CSimon*)obj;
 		player->getMorningStar()->ResetAniSet();
 		break;
@@ -304,6 +304,8 @@ void CPlayScene::Update(DWORD dt)
 	coObjects.clear();
 	gridObjects.clear();
 
+
+
 	if (_grid != NULL) {
 		_grid->GetListOfObjects(&coObjects, SCREEN_WIDTH, SCREEN_HEIGHT);
 		_grid->GetListOfObjects(&gridObjects, SCREEN_WIDTH, SCREEN_HEIGHT);
@@ -319,6 +321,8 @@ void CPlayScene::Update(DWORD dt)
 		return;
 	for (size_t i = 0; i < gridObjects.size(); i++)
 	{
+		if (dynamic_cast<PhantomBat*>(gridObjects[i]))
+			isBossScene = true;
 		if (dynamic_cast<CSimon*>(gridObjects[i])) continue;
 		if (dynamic_cast<Weapon*> (gridObjects[i])) { (dynamic_cast<Weapon*> (gridObjects[i]))->Update(dt, &coObjects, &items); }
 		else {
@@ -334,20 +338,26 @@ void CPlayScene::Update(DWORD dt)
 	if (player == NULL) return;
 
 	// Update camera to follow mario
-	float cx, cy;
-	player->GetPosition(cx, cy);
+
 	CGame* game = CGame::GetInstance();
+	float camX, camY;
+	game->GetCamPos(camX, camY);
+	if (!(isBossScene && camX >= (TiledMap::GetCurrentMap()->GetWidth() - SCREEN_WIDTH))) {
+		float cx, cy;
+		player->GetPosition(cx, cy);
 
-	float mapWidth = TiledMap::GetCurrentMap()->GetWidth();
+		float mapWidth = TiledMap::GetCurrentMap()->GetWidth();
 
-	if (cx > game->GetScreenWidth() / 2)
-		cx -= game->GetScreenWidth() / 2;
-	else cx = 0;
-	if (cx + game->GetScreenWidth() >= mapWidth - 15)
-		cx = mapWidth - 15 - game->GetScreenWidth();
+		if (cx > game->GetScreenWidth() / 2)
+			cx -= game->GetScreenWidth() / 2;
+		else cx = 0;
+		if (cx + game->GetScreenWidth() >= mapWidth - 15)
+			cx = mapWidth - 15 - game->GetScreenWidth();
 
-	cy -= game->GetScreenHeight() / 2;
-	game->SetCamPos(cx, 0.f);
+		cy -= game->GetScreenHeight() / 2;
+		game->SetCamPos(cx, 0.f);
+	}
+
 
 	// Update ScoreBoard
 
@@ -416,8 +426,12 @@ void CPlayScene::Unload()
 }
 void CPlayScenceKeyHandler::OnKeyDown(int KeyCode)
 {
+
+	CGame* game = CGame::GetInstance(); 
+
 	CSimon* simon = ((CPlayScene*)scence)->GetPlayer();
 	if (simon->IsAttacking()) return;
+	if (simon->isHurting) return;
 
 	switch (KeyCode)
 	{
@@ -426,18 +440,25 @@ void CPlayScenceKeyHandler::OnKeyDown(int KeyCode)
 		simon->SetState(SIMON_STATE_JUMPING);
 		break;
 	case DIK_S:
-		simon->setWeapon(SIMON_ATTACK_MAIN_WEAPON);
-		simon->SetState(SIMON_STATE_ATTACKING);
+		if(game->IsKeyDown(DIK_UP) ) {
+			if (simon->getCurrentSubWeapon() != -1 && simon->getHeart() > 0) {
+				simon->setWeapon(SIMON_ATTACK_SUB_WEAPON);
+				simon->SetState(SIMON_STATE_ATTACKING);
+			}
+		}
+		else{
+			simon->setWeapon(SIMON_ATTACK_MAIN_WEAPON);
+			simon->SetState(SIMON_STATE_ATTACKING);
+		}
+		
 		break;
-	case DIK_D:
-		if (simon->getCurrentSubWeapon() == -1) break;
-		simon->setWeapon(SIMON_ATTACK_SUB_WEAPON);
-		simon->SetState(SIMON_STATE_ATTACKING);
-		break;
+
 
 	case DIK_A:
 		simon->Reset();
 		break;
+
+
 	}
 }
 
@@ -459,6 +480,7 @@ void CPlayScenceKeyHandler::KeyState(BYTE* states)
 	// disable control key when SIMON
 	if (simon->GetState() == SIMON_STATE_DIE) return;
 	if (simon->IsAttacking()) return;
+
 
 	if (game->IsKeyDown(DIK_RIGHT) || game->IsKeyDown(DIK_LEFT)) {
 		if (simon->IsAttacking() || simon->isStair || simon->isHurting) return;

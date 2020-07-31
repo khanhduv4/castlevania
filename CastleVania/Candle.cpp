@@ -7,6 +7,7 @@ Candle::Candle()
 	_width = CANDLE_BBOX_WIDTH;
 	_height = CANDLE_BBOX_HEIGHT;
 	isCollisionWithSimon = 0;
+	isGravity = 0;
 }
 
 
@@ -18,9 +19,9 @@ void Candle::Render()
 		animation_set->at(ani)->Render(x, y, 255);
 		//RenderBoundingBox();
 	}
-	else {
-		CEnemy::Render();
-	}
+
+	CEnemy::Render();
+
 
 }
 
@@ -42,7 +43,7 @@ void Candle::GetBoundingBox(float& l, float& t, float& r, float& b)
 
 void Candle::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
-
+	CEnemy::Update(dt, coObjects);
 	if (Health <= 0 && !(objLife == OBJ_LIFE_OUT)) {
 		objLife = 1;
 		Disappear();

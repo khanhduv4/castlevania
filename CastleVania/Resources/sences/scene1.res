@@ -26,6 +26,7 @@
 23	Resources\weapon\3.png	255	0	255
 24	Resources\weapon\4.png	255	0	255
 40	Resources\item\heart-sm.png	255	0	255
+41	Resources\other\hit.png	255	0	255
 100	Resources\extra\blackboard.png	0	0	0
 
 # id	left	top	right	bottom	texture_id
@@ -174,6 +175,11 @@
 500	18	10	24	36	4
 501	58	12	70	36	4
 502	98	6	114	36	4
+
+#hit effect
+
+503	0	0	16	20	41
+504	16	0	32	20	41
 
 #======================ITEM========================
 #morning Star Upgrade
@@ -329,6 +335,9 @@
 #burning
 70	500	150	501	150	502	150
 
+#hit
+71	503	100	504	100
+
 #=================ITEMS==================
 #Morning Star Upgrade
 80	600	100
@@ -375,7 +384,7 @@
 #
 [ANIMATION_SETS]
 # SIMON
-1	0	1	2	3	4	5	6	7	8	9	10	11	12	13	14	15	16	17	18	19	20	21	22	23	24
+1	0	1	2	3	4	5	6	7	8	9	10	11	12	13	14	15	16	17	18	19	20	21	22	23	24	25
 # BRICK 
 2	999
 # TORCH
@@ -385,7 +394,7 @@
 # MORNINGSTAR UPGRADE
 5	80
 #BURNING
-6	70
+6	70	71
 # LARGE HEART
 7	81
 # SWORD

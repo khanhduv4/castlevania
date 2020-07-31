@@ -21,23 +21,20 @@
 #include "Elevator.h"
 #include "HiddenObject.h"
 #include"Grid.h"
+#include "PhantomBat.h"
 
 CEnemy::CEnemy()
-{ 
+{
 	objLife = OBJ_LIFE_LIVE;
 	this->damage = 2;
 	isEnable = 1;
-	score = 0;
+	score = 300;
 	disappearingAnimSet = CAnimationSets::GetInstance()->Get(6);
 }
 
 void CEnemy::Update(DWORD dt, vector<LPGAMEOBJECT>* listObject)
 {
-	if (isFlickering) {
-		isFlickering -= dt;
-		if (isFlickering < 0)
-			isFlickering = 0;
-	}
+
 	if (Health <= 0 && !objLife) {
 		objLife = 1;
 	}
@@ -92,6 +89,7 @@ void CEnemy::Render()
 	//isFlickering ? CGame::GetInstance()->beginFlickering(false) : NULL;
 	//((ani!=-1)&&(!isFinish))?animation_set->at(ani)->Render(x, y,255):NULL;
 	//CGame::GetInstance()->endFlickering();
+	
 	if (objLife == OBJ_LIFE_DISAPPEARING)
 	{
 		disappearingAnimSet->at(0)->Render(x, y);
@@ -101,14 +99,24 @@ void CEnemy::Render()
 			disappearingAnimSet->at(0)->Reset();
 		}
 	}
-	else return;
+	if (isHurting2) {
+		disappearingAnimSet->at(1)->Render(x, y);
+		if (disappearingAnimSet->at(1)->IsDone()) {
+			isHurting2 = 0;
+			disappearingAnimSet->at(1)->Reset();
+		}
+	} 
 }
 
 void CEnemy::SubHealth(int th, vector<LPGAMEOBJECT>* coObjects, vector<LPGAMEOBJECT>* coItems) {
 	CGameObject::SubHealth(th);
-	isFlickering = 1200;
+	if (dynamic_cast<PhantomBat*>(this)) {
+		CGameBoard::GetInstance()->UpdateBossHP(Health);
+	}
+	isHurting2 = 1;
 	if (isFinish)
 	{
+		CSimon::GetInstance()->SetScore(score);
 		coItems->push_back(SpawnItem());
 	}
 }

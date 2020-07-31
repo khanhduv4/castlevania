@@ -18,6 +18,8 @@ protected:
 	bool isReloading = false;
 	Grid* _grid;
 
+	bool isBossScene = false;
+
 	void _ParseSection_CONFIG(string line);
 
 	void _ParseSection_TEXTURES(string line);
@@ -27,7 +29,7 @@ protected:
 	void _ParseSection_ANIMATIONS(string line);
 	void _ParseSection_ANIMATION_SETS(string line);
 	void _ParseSection_OBJECTS(string line);
-
+	 
 
 public:
 	static CPlayScene* __instance;
@@ -37,7 +39,7 @@ public:
 	int stage;
 	int time;
 	CPlayScene(int id, LPCWSTR filePath);
-	static CPlayScene* getInstance(int id = 0, LPCWSTR filePath = NULL) {
+	static CPlayScene* GetInstance(int id = 0, LPCWSTR filePath = NULL) {
 		if (__instance == NULL) __instance = new CPlayScene(id, filePath);
 		return __instance;
 	}

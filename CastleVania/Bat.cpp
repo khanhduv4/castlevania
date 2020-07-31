@@ -47,7 +47,7 @@ void Bat::Update(DWORD dt, vector<LPGAMEOBJECT>* coObject)
 
 		float simonX, simonY;
 
-		CSimon::getInstance()->GetPosition(simonX, simonY);
+		CSimon::GetInstance()->GetPosition(simonX, simonY);
 
 		if (state == VAMPIRE_BAT_STATE_IDLE)
 		if (abs(this->x - simonX) < VAMPIRE_BAT_DISTANCE_ATTACK_X && abs(this->y - simonY) < VAMPIRE_BAT_DISTANCE_ATTACK_Y) {

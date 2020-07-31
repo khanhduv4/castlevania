@@ -4,16 +4,17 @@
 
 Skeleton::Skeleton()
 {
-	this->startX = startX;
-	this->startY = startY;
 	this->Health = 2;
 	this->damage = damage;
 	SetAnimation(19);
 	vy = 0;
 	isFront = true;
-
 	SetState(SKELETON_STATE_IDLE);
+	distanceAttack = 100;
+	maxXLeft = 0;
+	maxXRight = 200;
 }
+
 
 Skeleton::~Skeleton()
 {
@@ -21,92 +22,26 @@ Skeleton::~Skeleton()
 
 void Skeleton::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
+	
+	if (!isFinish && isEnable)
+	{
+		vx = 0.07f * nx;
+		if (nx == 1) {
+			if (x >= maxXRight) {
+				nx = -nx;
+				ani = 0;
+			}
+		}
+		else {
+			if (x <= maxXLeft) {
+				ani = 1;
+				nx = -nx;
+			}
+		}
+		
+	}
+
 	CEnemy::Update(dt, coObjects);
-
-	//if (Enemy::isStop)
-	//{
-	//	return;
-	//}
-
-	//if (!isDeadth && isEnable)
-	//{
-
-	//	vy += SIMON_GRAVITY * dt;
-
-	//	float simonX, simonY;
-
-	//	Simon::GetInstance()->GetPosition(simonX, simonY);
-
-	//	nx = this->x >= simonX ? -1 : 1;
-
-	//	if (abs(this->x - simonX) <= this->distanceAttack && abs(this->y - simonY) <= SIMON_BBOX_HEIGHT * 2)
-	//	{
-
-	//		if (state == SKELETON_STATE_IDLE)
-	//		{
-	//			SetState(SKELETON_STATE_ATTACK);
-	//		}
-
-	//		/*if (y > simonY) {
-	//			SetState(SKELETON_STATE_ATTACK);
-	//		}
-	//		else {
-	//			SetState(SKELETON_STATE_JUMP);
-	//		}*/
-	//	}
-	//	else
-	//	{
-	//		SetState(SKELETON_STATE_IDLE);
-	//	}
-
-	//	//if (state == SKELETON_STATE_ATTACK)
-	//	//{
-	//	//	DWORD now = GetTickCount();
-	//	//	if (timeAttack == 0)
-	//	//	{
-	//	//		timeAttack = now;
-	//	//		Bone* bone = new Bone();
-	//	//		bone->nx = nx;
-	//	//		if (nx > 0)
-	//	//		{
-	//	//			bone->SetPosition(x + SKELETON_BBOX_WIDTH, y);
-	//	//		}
-	//	//		else
-	//	//		{
-	//	//			bone->SetPosition(x, y);
-	//	//		}
-	//	//		bones.push_back(bone);
-	//	//		bone->SetState(BONE_STATE_FLY);
-	//	//	}
-	//	//	else if (now - timeAttack >= 1000)
-	//	//	{
-	//	//		timeAttack = now;
-	//	//		Bone* bone = new Bone();
-	//	//		if (nx > 0)
-	//	//		{
-	//	//			bone->SetPosition(x + SKELETON_BBOX_WIDTH, y);
-	//	//		}
-	//	//		else
-	//	//		{
-	//	//			bone->SetPosition(x, y);
-	//	//		}
-	//	//		bone->nx = nx;
-	//	//		bones.push_back(bone);
-	//	//		bone->SetState(BONE_STATE_FLY);
-	//	//	}
-
-	//		if (vx > 0 && abs(x - startX) > SKELETON_DISTANCE_X)
-	//		{
-	//			x = startX + SKELETON_DISTANCE_X;
-	//			vx = -vx;
-	//		}
-
-	//		if (vx < 0 && x <= startX)
-	//		{
-	//			x = startX;
-	//			vx = -vx;
-	//		}
-	//	}
 
 }
 
@@ -146,7 +81,7 @@ void Skeleton::Render()
 			ani = -1;
 			break;
 		}
-		animation_set->at(ani)->Render(x, y, 255);
+		animation_set->at(0)->Render(x, y, 255);
 
 	}
 
@@ -178,13 +113,13 @@ void Skeleton::SetState(int state)
 	switch (state)
 	{
 	case SKELETON_STATE_DIE:
-		isFinish = true;
 
+		isFinish = false;
 		break;
 	case SKELETON_STATE_IDLE:
 		break;
 	case SKELETON_STATE_ATTACK:
-		timeAttack = 0;
+		//timeAttack = 0;
 
 		if (nx > 0)
 		{

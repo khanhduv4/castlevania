@@ -41,6 +41,8 @@ public:
 	virtual void GetBoundingBox(float& left, float& top, float& right, float& bottom);
 	virtual void SetState(int state);
 
+
+	void SubHealth(int th);
 	void CalculateSimonPos(DWORD dt);
 	void Fly(DWORD dt);
 	void RandomPos();

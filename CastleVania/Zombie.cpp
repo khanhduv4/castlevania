@@ -29,7 +29,7 @@ void Zombie::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 				float simonX, simonY;
 
-				CSimon::getInstance()->GetPosition(simonX, simonY);
+				CSimon::GetInstance()->GetPosition(simonX, simonY);
 
 				nx = this->x >= simonX ? -1 : 1;
 

@@ -82,7 +82,8 @@ public:
 	int _width;
 	int _height;
 
-
+	float startX;
+	float startY;
 
 	bool isFinish;
 	int aniIndex;
@@ -90,9 +91,9 @@ public:
 	void SubHealth(int th);
 
 public:
-	void SetPosition(float x, float y) { DebugOut(L"Set simon position:%f %f", this->x, this->y); this->x = x; this->y = y; }
+	void SetPosition(float x, float y) { DebugOut(L"Set simon position:%f %f", this->x, this->y); this->x = x; this->y = y; this->startX = x; this->startY = y; }
 	void SetSpeed(float vx, float vy) { this->vx = vx; this->vy = vy; }
-	void GetPosition(float& x, float& y) { x = this->x; y = this->y; }
+	void GetPosition(float& x, float& y) { x = this->x; y = this->y;}
 	void GetSpeed(float& vx, float& vy) { vx = this->vx; vy = this->vy; }
 
 	void SetWidth(int width) {

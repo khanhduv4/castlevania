@@ -24,7 +24,7 @@ void Ghost::Update(DWORD dt, vector<LPGAMEOBJECT>* coObject)
 
 	float simonX, simonY;
 
-	CSimon::getInstance()->GetPosition(simonX, simonY);
+	CSimon::GetInstance()->GetPosition(simonX, simonY);
 
 	if (simonX < GHOST_ENABLE_SIMON_X && !isEnable) {
 		isEnable = 1;

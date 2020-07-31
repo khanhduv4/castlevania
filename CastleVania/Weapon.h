@@ -7,7 +7,8 @@
 #include "Brick.h"
 #include "Define.h"
 
-#define WEAPON_SPEED 0.45f
+#define WEAPON_SPEED_X 0.45f
+#define WEAPON_SPEED_Y 0.45f
 
 class Weapon : public CGameObject
 {
@@ -16,6 +17,7 @@ protected:
 	bool isFinish;
 	int direction;
 	int damage;
+	int heart;
 	DWORD LastTimeAttack; // Thời điểm tấn công cuối cùng 
 	int currentFrame;
 
@@ -24,8 +26,11 @@ protected:
 public:
 	Weapon();
 	~Weapon();			  
-	void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects , vector<LPGAMEOBJECT>* coItems);
+	virtual void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects , vector<LPGAMEOBJECT>* coItems);
 	int GetDirection();
+	int GetHeart() {
+		return heart;
+	}
 	void SetDirection(int Direction);
 
 	virtual void Attack(float X, float Y, int Direction);

@@ -5,11 +5,18 @@ SmallHeart::SmallHeart(float X, float Y)
 	this->SetAnimation(40);
 	this->x = X;
 	this->y = Y;
+	xBackup = x;
 	vy = ITEM_DEFAULT_GRAVITY;
 	//TimeDisplayMax = LARGEHEART_TIMEDISPLAYMAX; // set time hiển thị tối đa
 	//TimeDisplayed = 0;
 	//TimeWaited = 0;
 	//TimeWaitMax = LARGEHEART_TIMEWAITMAX;
+}
+
+void SmallHeart::Update(DWORD dt, vector<LPGAMEOBJECT>* listObject)
+{
+
+	CItem::Update(dt, listObject);
 }
  
 

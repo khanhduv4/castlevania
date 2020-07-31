@@ -9,6 +9,8 @@ Weapon::Weapon()
 	isFinish = 0;
 	isHit = 0;
 	damage = 1;
+	heart = 1;
+
 }
 
 Weapon::~Weapon()
@@ -25,13 +27,11 @@ void Weapon::SetDirection(int Direction)
 
 void Weapon::Attack(float X, float Y, int Direction)
 {
-	this->x = X;
-	this->y = Y;
+	SetPosition(X, Y);
 
 	isFinish = false; // chưa kết thúc
 	direction = Direction;
-
-	vx = WEAPON_SPEED * direction;
+	 
 	LastTimeAttack = GetTickCount(); // lưu lại thời điểm lúc vừa tấn công, làm đánh dấu tránh 1 hit đánh nhiều lần cho các object, có health >1.
 }
 
@@ -57,7 +57,8 @@ void Weapon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects, vector<LPGAMEOBJE
 	if (isFinish)
 		return;
 	CGameObject::Update(dt); // update dt,dx,dy 
-   x += dx;
+	x += dx;
+	y += dy;
 	float cx, cy;
 	CGame::GetInstance()->GetCamPos(cx, cy);
 	if (x < cx || x > cx + SCREEN_WIDTH) {

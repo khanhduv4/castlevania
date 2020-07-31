@@ -26,6 +26,7 @@ public:
 	void Load();
 	void Update(int time, int stage, int enemyHealth);
 	void UpdateSubWeapon(int type);
+	void UpdateBossHP(int hp);
 	void SetInitialHP(int HP) {
 		this->initHP = HP;
 	}
@@ -49,15 +50,17 @@ private:
 	float _y;
 	int score;
 	int simonHP;
+	int bossHP;
 	int heart;
 	int stage;
 	int time;
-	int bossHP;
+
 	int life;
 	int subWeapon;
 	int isRendering = true;
 	vector<CSprite*> _subWeaponSprites;
 
 	int initHP;
+	int initBossHP;
 };
 

@@ -40,34 +40,51 @@ void PhantomBat::makeRandomCurve() {
 	int screenWidth = SCREEN_WIDTH;
 	int screenHeight = SCREEN_HEIGHT;
 	float simonX, simonY;
-	CSimon::getInstance()->GetPosition(simonX, simonY);
-	
+	CSimon::GetInstance()->GetPosition(simonX, simonY);
+	simonY -= 50;
 	//Diem A : Vi tri hien tai cua Bat, Diem B: Vi tri dinh cua parabol ^ B.x = random ^ (B.x>0 ^ !bat.isLeft or B.x < 0 ^ bat.isLeft) 
 	//Nghiem : Parabol aX^2 + bx + c phai di qua A va B.
-	int xB = x < simonX ? (rand() % int((screenHeight-y)/3) + 20) :-(rand() % int((screenHeight - y) / 3) + 20);
-	int yB = y - rand() % (int((screenHeight - y) / 3)+20);
-	int xA = x-refX;
-	int yA =y;
-	float a = float(yA-yB) / ((xA * xA - xB * xB) - 2 * (xA - xB) * xB);
-	float b = -2 * a * xB;
-	float c = yA - a * xA * xA - b * xA;
-	aCurve = a;
-	bCurve = b;
-	cCurve = c;
-	int yTest = aCurve * xA * xA + bCurve * xA + cCurve;
-	int yTest2 = aCurve * xB * xB + bCurve * xB + cCurve;
+	if (simonY > y) {
+		int xB = x < simonX ? ( 150) : -(  150);
+		int yB = y + 50;
+		int xA = x - refX;
+		int yA = y;
+		float a = float(yA - yB) / ((xA * xA - xB * xB) - 2 * (xA - xB) * xB);
+		float b = -2 * a * xB;
+		float c = yA - a * xA * xA - b * xA;
+		aCurve = a;
+		bCurve = b;
+		cCurve = c;
+	}
+	else {
+		int xA = x < simonX ? (170) : -(170);
+		int yA = y - 20;
+		int xB = x - refX;
+		int yB = y;
+		float a = float(yA - yB) / ((xA * xA - xB * xB) - 2 * (xA - xB) * xB);
+		float b = -2 * a * xB;
+		float c = yA - a * xA * xA - b * xA;
+		aCurve = a;
+		bCurve = b;
+		cCurve = c;
+	}
 }
 int PhantomBat::calculateYCurve(int x) {
-	return  (aCurve * x * x + bCurve * x + cCurve);
+	int y = (aCurve * x * x + bCurve * x + cCurve);
+	return y;
 }
 void PhantomBat::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
 	float simonX, simonY;
-	CSimon::getInstance()->GetPosition(simonX, simonY);
-	CSimon* simon = CSimon::getInstance();
-	if (x - simon->x < 100)
+	CSimon::GetInstance()->GetPosition(simonX, simonY);
+	CSimon* simon = CSimon::GetInstance();
+	if (simon->x >= 1300) {
+		SetState(PHANTOM_BAT_STATE_FLYING);
+
 		isTest = true;
+	}
 	if (!isTest) return;
+
 	if (delayTime > 0) delayTime -= dt;
 	else if (delayTime <= 0 && !isChasing) {
 		if (refX == -1 && refY == -1) {
@@ -75,18 +92,24 @@ void PhantomBat::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			refY = simon->y;
 		}
 		isChasing = true;
-		chaseTime = (rand()) % 2500 + 500;
+		chaseTime = (rand()) % 700 + 500;
 		makeRandomCurve();
 		if (x < simon->x) {
-			vx = .01f;
+			vx = .2f;
 		}
-		else vx = -.01f;
+		else vx = -.2f;
+	}
+	if (y <= 100 || y >= SCREEN_HEIGHT - 100) {
+		vy = -vy;
+	}
+	if (x > 1400) {
+		vx = -vx;
 	}
 	if (isChasing) {
 		chaseTime -= dt;
 		x += dt * vx;
 		y = calculateYCurve(x - refX);
-		DebugOut(L"X Bat = %f Y Bat  = %f",x-refX, y);
+		DebugOut(L"X Bat = %f Y Bat  = %f", x - refX, y);
 		if (chaseTime <= 0) {
 			isChasing = false;
 			delayTime = (rand()) % 500 + 500;
@@ -129,27 +152,19 @@ void PhantomBat::Render()
 
 void PhantomBat::GetBoundingBox(float& left, float& top, float& right, float& bottom)
 {
-	if (isFinish) {
-		left = 0;
-		top = 0;
-		right = left + 0;
-		bottom = top + 0;
+	if (!isFinish && state == PHANTOM_BAT_STATE_FLYING) {
+		left = x;
+		top = y;
+		right = left + PHANTOM_BAT_WIDTH;
+		bottom = top + PHANTOM_BAT_HEIGHT;
 	}
 	else {
-		if (state == PHANTOM_BAT_STATE_FLYING) {
-			left = x;
-			top = y;
 
-			right = left + 24;
-			bottom = top + 21;
+		left = x;
+		top = y;
+		right =  left+0;
+		bottom = top + 0;
 
-		}
-		else {
-			left = 0;
-			top = 0;
-			right = left + 0;
-			bottom = top + 0;
-		}
 	}
 }
 
@@ -158,11 +173,16 @@ void PhantomBat::SetState(int state)
 	CEnemy::SetState(state);
 }
 
+void PhantomBat::SubHealth(int th)
+{
+	CGameObject::SubHealth(th);
+}
+
 void PhantomBat::CalculateSimonPos(DWORD dt)
 {
 	float simonX, simonY;
 
-	CSimon::getInstance()->GetPosition(simonX, simonY);
+	CSimon::GetInstance()->GetPosition(simonX, simonY);
 
 	if (simonPos.x < 0) {
 		simonPos = D3DXVECTOR2(simonX, simonY);

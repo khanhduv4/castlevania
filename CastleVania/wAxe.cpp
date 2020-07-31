@@ -13,22 +13,19 @@ wAxe::wAxe()
 wAxe::~wAxe()
 {
 }
-#define AXE_SPEED_Y 0.0007
-
-void wAxe::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
+void wAxe::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects,vector<LPGAMEOBJECT>* coItem)
 {
-	vy += AXE_SPEED_Y * dt;
+	vy += SIMON_GRAVITY*dt;
 
-	Weapon::Update(dt, coObjects, NULL);
+	Weapon::Update(dt, coObjects, coItem);
 }
 
 void wAxe::Attack(float X, float Y, int Direction)
 {
-
 	// Tai sao bo vx = ... vao ham attack k duoc 
+	vx = WEAPON_SPEED_X/3 * Direction;
+	vy = -WEAPON_SPEED_Y;
 	Weapon::Attack(X+20, Y + 10, Direction);
-	vx = WEAPON_SPEED * direction;
-
 }
 
 

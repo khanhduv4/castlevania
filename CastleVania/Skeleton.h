@@ -30,9 +30,8 @@
 #define BONE_STATE_FLY 1
 class Skeleton : public CEnemy
 {
-	float startX, startY;
-	float distanceAttack;
-	DWORD timeAttack;
+	float maxXRight, maxXLeft;
+	float distanceAttack; 
 	//vector<Bone *> bones;
 
 public:

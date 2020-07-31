@@ -15,6 +15,8 @@ CGameBoard::CGameBoard() {
 	_x = 0;
 	_y = 0;
 	initHP = 16;
+	initBossHP = 16;
+	bossHP = initBossHP;
 	stage = 1;
 	time = 300;
 	heart = 0;
@@ -33,7 +35,7 @@ void CGameBoard::Load() {
 }
 void CGameBoard::Update(int time, int stage, int enemyHealth)
 {
-	auto simon = CSimon::getInstance();
+	auto simon = CSimon::GetInstance();
 	simonHP = simon->getHealth();
 	score = simon->getScore();
 	heart = simon->getHeart();
@@ -45,6 +47,9 @@ void CGameBoard::Update(int time, int stage, int enemyHealth)
 void CGameBoard::UpdateSubWeapon(int type)
 {
 	subWeapon = type;
+}
+void CGameBoard::UpdateBossHP(int hp) {
+	bossHP = hp;
 }
 void CGameBoard::Render() {
 	_sprite->Draw(_x, _y, 255, true);
@@ -69,6 +74,17 @@ void CGameBoard::Render() {
 		CGame::GetInstance()->Draw(wStr, baseX + i * 10, baseY, 300, 300, D3DCOLOR_XRGB(255, 255, 255));
 	}
 	for (int i = 0; i < this->simonHP; i++) {
+		wstring wStr = L"▮";
+		CGame::GetInstance()->Draw(wStr, baseX + i * 10, baseY, 300, 300, D3DCOLOR_XRGB(156, 0, 0));
+	}
+	// BOSS HP █
+	baseX = 120;
+	baseY = 50;
+	for (int i = this->bossHP; i < this->initBossHP; i++) {
+		wstring wStr = L"▯";
+		CGame::GetInstance()->Draw(wStr, baseX + i * 10, baseY, 300, 300, D3DCOLOR_XRGB(255, 255, 255));
+	}
+	for (int i = 0; i < this->bossHP; i++) {
 		wstring wStr = L"▮";
 		CGame::GetInstance()->Draw(wStr, baseX + i * 10, baseY, 300, 300, D3DCOLOR_XRGB(156, 0, 0));
 	}

@@ -30,7 +30,7 @@ void Hunchback::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	{
 		float simonX, simonY;
 
-		CSimon::getInstance()->GetPosition(simonX, simonY);
+		CSimon::GetInstance()->GetPosition(simonX, simonY);
 
 
 		DebugOut(L"NX: %d \n", nx);
@@ -50,11 +50,11 @@ void Hunchback::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			}
 		}
 		else if (state == HUNCHBACK_STATE_ATTACK) {
-			if (abs(x - simonX) > 100) {
+	
 				nx = this->x >= simonX ? -1 : 1;
 
 				SetState(HUNCHBACK_STATE_ATTACK);
-			}
+			
 		}
 
 
@@ -151,6 +151,7 @@ void Hunchback::SetState(int state)
 		{
 			vx = -HUNCHBACK_SPEED_X;
 		}
+
 	}
 	break;
 	}

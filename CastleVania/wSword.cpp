@@ -24,7 +24,7 @@ void wSword::Attack(float X, float Y, int Direction)
 
 	// Tai sao bo vx = ... vao ham attack k duoc 
 	Weapon::Attack(X+20, Y + 10, Direction);
-	vx = WEAPON_SPEED * direction;
+	vx = WEAPON_SPEED_X * direction;
 
 }
 

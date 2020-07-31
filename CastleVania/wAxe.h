@@ -13,8 +13,8 @@ public:
 
 	wAxe();
 	~wAxe();
-
-	void Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects = NULL);
+ 
+	void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects, vector<LPGAMEOBJECT>* coItem);
 
 	void Attack(float X, float Y, int Direction);
 

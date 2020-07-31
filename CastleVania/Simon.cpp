@@ -9,6 +9,7 @@ CSimon::CSimon() : CGameObject()
 	morStar = new MorningStar();
 	isSceneSwitching = false;
 	currentSubWeapon = -1;
+	currentSubWeapon = 2;
 	Health = 16;
 	score = 100;
 	heart = 0;
@@ -39,39 +40,47 @@ Weapon* CSimon::newSubWeapon()
 
 void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects, vector<LPGAMEOBJECT>* coItems)
 {
+	
 	if (isSceneSwitching)
 		return;
-	UpdateHurting();
-	UpdateFreeze();
-	// Calculate dx, dy 
-	CGameObject::Update(dt);
-
-	DebugOut(L"Simon X: %f Simon Y: %f\n", x, y);
-
-	// Check Attacking
-
-	if (isAttacking) {
-		if (weapon == SIMON_ATTACK_MAIN_WEAPON)
-			Attack(weapon);
+	if (Health <= 0) {
+		SetState(SIMON_STATE_DIE);
+		Die();
 	}
+	else {
+		UpdateHurting();
+		UpdateFreeze();
+		// Calculate dx, dy 
+		CGameObject::Update(dt);
+
+		DebugOut(L"Simon X: %f Simon Y: %f\n", x, y);
+
+		// Check Attacking
+
+		if (isAttacking) {
+			if (weapon == SIMON_ATTACK_MAIN_WEAPON)
+				Attack(weapon);
+		}
 
 
-	// Update Weapon
+		// Update Weapon
 
-	this->morStar->Update(dt, coObjects, coItems);
+		this->morStar->Update(dt, coObjects, coItems);
 
-	if (subWeapons.size() >= 1) {
-		for (int i = 0; i < subWeapons.size(); i++) {
-			subWeapons[i]->Update(dt, coObjects, coItems);
+		if (subWeapons.size() >= 1) {
+			for (int i = 0; i < subWeapons.size(); i++) {
+				subWeapons[i]->Update(dt, coObjects, coItems);
+			}
+		}
+
+		// check Climbable
+		if (stair) {
+			if (!this->isCollision(stair)) {
+				isClimbableUp = isClimbableDown = 0;
+			}
 		}
 	}
-
-	// check Climbable
-	if (stair) {
-		if (!this->isCollision(stair)) {
-			isClimbableUp = isClimbableDown = 0;
-		}
-	}
+	
 
 	vector<LPCOLLISIONEVENT> coEvents;
 	vector<LPCOLLISIONEVENT> coEventsResult;
@@ -79,10 +88,10 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects, vector<LPGAMEOBJE
 	coEvents.clear();
 
 	// turn off collision when die 
-	if (state != SIMON_STATE_DIE) {
+	//if (state != SIMON_STATE_DIE) {
 		CalcPotentialCollisions(coObjects, coEvents);
 		CalcPotentialCollisions(coItems, coEvents);
-	}
+	//}
 	// No collision occured, proceed normally
 	if (coEvents.size() == 0)
 	{
@@ -382,21 +391,34 @@ void CSimon::Climbing(int state) {
 	isStair = 1;
 }
 
+void CSimon::Die()
+{
+	isAttacking = 0;
+	isStair = 0;
+	isHurting = 0;
+	untouchable = 0;
+}
+
 void CSimon::GetBoundingBox(float& left, float& top, float& right, float& bottom)
 {
 	left = x;
 	top = y;
-	if (isSitting) {
-		bottom = y + SIMON_BBOX_SITTING_HEIGHT;
-	}
-	else if (isJumping) {
-		bottom = y + SIMON_BBOX_JUMPING_HEIGHT;
+	if (state == SIMON_STATE_DIE) {
+		right = left + 64;
+		bottom = top + 30;
 	}
 	else {
-		bottom = y + SIMON_BBOX_HEIGHT;
+		if (isSitting) {
+			bottom = y + SIMON_BBOX_SITTING_HEIGHT;
+		}
+		else if (isJumping) {
+			bottom = y + SIMON_BBOX_JUMPING_HEIGHT;
+		}
+		else {
+			bottom = y + SIMON_BBOX_HEIGHT;
+		}
+		right = x + SIMON_BBOX_WIDTH;
 	}
-	right = x + SIMON_BBOX_WIDTH;
-
 
 }
 
@@ -429,9 +451,10 @@ void CSimon::Attack(int weapon) {
 		isClimbing = 0;
 	if (weapon == SIMON_ATTACK_MAIN_WEAPON)
 		morStar->Attack(x, y, nx);
-	else {
+	else {    
 		Weapon* subWeapon = newSubWeapon();
 		subWeapon->Attack(x, y, nx);
+		SubHeart(subWeapon->GetHeart());
 		subWeapons.push_back(subWeapon);
 	}
 }
@@ -481,6 +504,11 @@ void CSimon::SetHurt(LPCOLLISIONEVENT e)
 
 	SubHealth(2); // chạm enemy -2 máu
 	DebugOut(L"Mau con lai: %d", Health);
+}
+
+void CSimon::SubHeart(int hearts)
+{
+	heart -= hearts;
 }
 
 void CSimon::SetState(int state)

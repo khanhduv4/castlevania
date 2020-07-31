@@ -1,4 +1,5 @@
 ﻿#include "Item.h"
+#include "SmallHeart.h"
 #include "Brick.h"
 
 CItem::CItem()
@@ -21,8 +22,18 @@ void CItem::Update(DWORD dt, vector<LPGAMEOBJECT> *listObject)
 { 
 	if (isFinish) return;
 	// Simple fall down
-	vy += 0.0007f * dt;
-
+	vy += 0.0001f;
+	if (dynamic_cast<SmallHeart*>(this)) {
+		if (x - xBackup >= DeltaX)
+		{
+			vx = -SMALLHEART_SPEED_X;
+		}
+		else
+			if (x - xBackup <= -DeltaX)
+			{
+				vx = SMALLHEART_SPEED_X;
+			}
+	}
 	//if (isWaitingDisplay())
 	//{
 	//	TimeWaited += dt;
@@ -51,6 +62,7 @@ void CItem::Update(DWORD dt, vector<LPGAMEOBJECT> *listObject)
 	// No collision occured, proceed normally
 	if (coEvents.size() == 0)
 	{
+		x += dx;
 		y += dy;
 	}
 	else

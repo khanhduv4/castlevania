@@ -70,7 +70,7 @@ extern D3DCOLOR D3DCOLOR_BACKGROUND; // màu nền game
 #define SIMON_ANI_STAIR_DOWN_ATTACK_LEFT	23
 
 #define SIMON_ANI_HURTING 24
-#define SIMON_ANI_DIE	99
+#define SIMON_ANI_DIE	25
 #pragma endregion
 
 #pragma region SIMON STATE ID
@@ -236,6 +236,8 @@ extern D3DCOLOR D3DCOLOR_BACKGROUND; // màu nền game
 //Phantom bat
 #define PHANTOM_BAT_HP 16
 #define PHANTOM_BAT_DAMAGE 2
+#define PHANTOM_BAT_WIDTH 96
+#define PHANTOM_BAT_HEIGHT 46
 
 #define PHANTOM_BAT_FLYING_SPEED_X 0.05f
 #define PHANTOM_BAT_FLYING_SPEED_Y 0.05f

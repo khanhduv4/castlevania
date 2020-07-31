@@ -87,7 +87,7 @@ public:
 
 #pragma region Get Methods
 
-	static CSimon* getInstance(float x, float y) {
+	static CSimon* GetInstance(float x, float y) {
 		if (_Instance == NULL)
 			_Instance = new CSimon();
 
@@ -97,7 +97,7 @@ public:
 		_Instance->y = y;
 		return _Instance;
 	}
-	static CSimon* getInstance() {
+	static CSimon* GetInstance() {
 		if (_Instance == NULL)
 			_Instance = new CSimon();
 		return _Instance;
@@ -144,11 +144,14 @@ public:
 
 	void setWeapon(int weapon) { this->weapon = weapon; }
 
+	void SetScore(int sco) { score += sco; }
+
 #pragma endregion
 
 #pragma region Simon Action method
 	void Attack(int);
 	void Climbing(int);
+	void Die();
 
 #pragma endregion
 
@@ -173,6 +176,8 @@ public:
 	void AddHeart(int);
 
 	void SetHurt(LPCOLLISIONEVENT e);
+
+	void SubHeart(int);
 
 #pragma endregion
 
