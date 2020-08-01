@@ -33,6 +33,7 @@
 41	Resources\other\hit.png	255	0	255
 
 100	Resources\extra\blackboard.png	0	0	0
+101	Resources\extra\blackboardpause.png	0	0	0
 
 # id	left	top	right	bottom	texture_id
 [SPRITES]
@@ -114,7 +115,7 @@
 
 #game board
 100100	0	0	520	80	100
-
+100101	0	0	900	900	101
 
 
 #====================BRICK==========================
@@ -501,7 +502,7 @@
 40	88
 [CONFIG]
 # stage	time
-5	300
+5	30000
 [OBJECTS]
 # type	x	y	ani_set_id	extra_settings per object type
 # type: 0 = SIMON , 1 = Brick, 

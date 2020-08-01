@@ -1,12 +1,12 @@
 
 [CONFIG]
 # stage	time
-6	300
+6	30000
 [OBJECTS]
 # type	x	y	ani_set_id	extra_settings per object type
 # type: 0 = SIMON , 1 = Brick, 
 # SIMON
-0	900	150	1	900	150
+0	50	150	1	50	150
 #0	900	150	1
 
 # GROUND 

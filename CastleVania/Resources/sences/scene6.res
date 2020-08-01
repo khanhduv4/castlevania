@@ -35,6 +35,7 @@
 
 
 100	Resources\extra\blackboard.png	0	0	0
+101	Resources\extra\blackboardpause.png	0	0	0
 
 # id	left	top	right	bottom	texture_id
 [SPRITES]
@@ -116,7 +117,7 @@
 
 #game board
 100100	0	0	520	80	100
-
+100101	0	0	900	900	101
 
 
 #====================BRICK==========================
