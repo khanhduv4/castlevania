@@ -4,7 +4,7 @@
 
 Zombie::Zombie(int isEnable)
 {
-	this->Health = 1;
+	this->health = 1;
 	this->damage = 2;
 	this->isEnable = isEnable;
 	SetState(ZOOMBIE_STATE_IDLE);

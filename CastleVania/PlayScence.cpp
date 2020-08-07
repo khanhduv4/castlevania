@@ -31,6 +31,7 @@
 #include "Elevator.h"
 #include "HiddenObject.h"
 
+
 using namespace std;
 
 CPlayScene::CPlayScene(int id, LPCWSTR filePath) :
@@ -38,7 +39,6 @@ CPlayScene::CPlayScene(int id, LPCWSTR filePath) :
 {
 	key_handler = new CPlayScenceKeyHandler(this);
 	stage = 0;
-	time = 300;
 }
 
 void CPlayScene::_ParseSection_CONFIG(string line)
@@ -213,6 +213,7 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 
 	obj->SetObjId(objects.size());
 	if (dynamic_cast<CSimon*>(obj)) {
+		player->SetResetPosition(atof(tokens[4].c_str()), atof(tokens[5].c_str()));
 		return;
 	}
 	objects.push_back(obj);
@@ -296,6 +297,12 @@ void CPlayScene::Load()
 }
 void CPlayScene::Update(DWORD dt)
 {
+	time -= dt;
+	if (time <= 0)
+	{
+		time = 0;
+		player->StartOver();
+	}
 	// We know that Mario is the first object in the list hence we won't add him into the colliable object list
 	// TO-DO: This is a "dirty" way, need a more organized way 
 	//Refactor Item list 
@@ -310,13 +317,26 @@ void CPlayScene::Update(DWORD dt)
 		_grid->GetListOfObjects(&coObjects, SCREEN_WIDTH, SCREEN_HEIGHT);
 		_grid->GetListOfObjects(&gridObjects, SCREEN_WIDTH, SCREEN_HEIGHT);
 	}
+	if (isCamLocked) {
 
+		CBrick* leftBound = new CBrick();
+		float camX, camY;
+		CGame::GetInstance()->GetCamPos(camX, camY);
+
+		leftBound->SetPosition(camX, 0);
+		leftBound->SetSize(10, SCREEN_HEIGHT);
+
+		coObjects.push_back(leftBound);
+		gridObjects.push_back(leftBound);
+	}
 	//	DebugOut(L"Size of objects = %d", coObjects.size());
 		/*for (size_t i = 1; i < objects.size(); i++)
 		{
 			coObjects.push_back(objects[i]);
 		}*/
 	player->Update(dt, &coObjects, &items);
+	if (this->player->IsInNewScene())
+		return;
 	if (_grid == NULL)
 		return;
 	for (size_t i = 0; i < gridObjects.size(); i++)
@@ -342,9 +362,14 @@ void CPlayScene::Update(DWORD dt)
 	CGame* game = CGame::GetInstance();
 	float camX, camY;
 	game->GetCamPos(camX, camY);
-	if (!(isBossScene && camX >= (TiledMap::GetCurrentMap()->GetWidth() - SCREEN_WIDTH))) {
-		float cx, cy;
-		player->GetPosition(cx, cy);
+	float cx, cy;
+	player->GetPosition(cx, cy);
+	if ((isBossScene && cx >= (TiledMap::GetCurrentMap()->GetWidth() - SCREEN_WIDTH / 2)))
+		isCamLocked = true;
+	if ((isBossScene && cx < (TiledMap::GetCurrentMap()->GetWidth() - SCREEN_WIDTH - 50)))
+		isCamLocked = false;
+	if (!isCamLocked) {
+
 
 		float mapWidth = TiledMap::GetCurrentMap()->GetWidth();
 
@@ -361,7 +386,7 @@ void CPlayScene::Update(DWORD dt)
 
 	// Update ScoreBoard
 
-	CGameBoard::GetInstance()->Update(time, stage, 16);
+	CGameBoard::GetInstance()->Update(dt,time, stage);
 
 	_grid->UpdateGrid();
 }
@@ -424,10 +449,11 @@ void CPlayScene::Unload()
 	_grid = NULL;
 	DebugOut(L"[INFO] Scene %s unloaded! \n", sceneFilePath);
 }
+
 void CPlayScenceKeyHandler::OnKeyDown(int KeyCode)
 {
 
-	CGame* game = CGame::GetInstance(); 
+	CGame* game = CGame::GetInstance();
 
 	CSimon* simon = ((CPlayScene*)scence)->GetPlayer();
 	if (simon->IsAttacking()) return;
@@ -440,17 +466,17 @@ void CPlayScenceKeyHandler::OnKeyDown(int KeyCode)
 		simon->SetState(SIMON_STATE_JUMPING);
 		break;
 	case DIK_S:
-		if(game->IsKeyDown(DIK_UP) ) {
+		if (game->IsKeyDown(DIK_UP)) {
 			if (simon->getCurrentSubWeapon() != -1 && simon->getHeart() > 0) {
 				simon->setWeapon(SIMON_ATTACK_SUB_WEAPON);
 				simon->SetState(SIMON_STATE_ATTACKING);
 			}
 		}
-		else{
+		else {
 			simon->setWeapon(SIMON_ATTACK_MAIN_WEAPON);
 			simon->SetState(SIMON_STATE_ATTACKING);
 		}
-		
+
 		break;
 
 

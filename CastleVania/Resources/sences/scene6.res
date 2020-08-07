@@ -32,6 +32,7 @@
 29	Resources\enemy\boss.png	255	0	255
 40	Resources\item\heart-sm.png	255	0	255
 41	Resources\other\hit.png	255	0	255
+42	Resources\item\13.png	255	0	255
 
 
 100	Resources\extra\blackboard.png	0	0	0
@@ -209,6 +210,8 @@
 607	0	0	42	42	18
 #Small heart
 608	0	0	16	16	40
+#Boss item
+609	0	0	28	32	42
 #=====================ENEMY========================
 #knight left
 700	0	0	32	64	8
@@ -410,6 +413,9 @@
 #small heart
 88	608	100
 
+#boss item
+89	609	100
+
 
 # ======== BRICK ========= START: 6x
 999	20001	100
@@ -510,5 +516,7 @@
 21	105	106
 #boss
 22	107	108
+#boss item
+23	89
 # Small Heart
 40	88

@@ -134,6 +134,7 @@
     <ClCompile Include="Animations.cpp" />
     <ClCompile Include="Bat.cpp" />
     <ClCompile Include="Boomerang.cpp" />
+    <ClCompile Include="BossItem.cpp" />
     <ClCompile Include="Brick.cpp" />
     <ClCompile Include="Candle.cpp" />
     <ClCompile Include="CBurningEffect.cpp" />
@@ -145,6 +146,7 @@
     <ClCompile Include="Skeleton.cpp" />
     <ClCompile Include="SmallHeart.cpp" />
     <ClCompile Include="wAxe.cpp" />
+    <ClCompile Include="wBlue.cpp" />
     <ClCompile Include="wBoomerang.cpp" />
     <ClCompile Include="wSword.cpp" />
     <ClCompile Include="Elevator.cpp" />
@@ -182,6 +184,7 @@
     <ClInclude Include="Animations.h" />
     <ClInclude Include="Bat.h" />
     <ClInclude Include="Boomerang.h" />
+    <ClInclude Include="BossItem.h" />
     <ClInclude Include="Brick.h" />
     <ClInclude Include="Candle.h" />
     <ClInclude Include="CBurningEffect.h" />
@@ -193,6 +196,7 @@
     <ClInclude Include="Skeleton.h" />
     <ClInclude Include="SmallHeart.h" />
     <ClInclude Include="wAxe.h" />
+    <ClInclude Include="wBlue.h" />
     <ClInclude Include="wBoomerang.h" />
     <ClInclude Include="wSword.h" />
     <ClInclude Include="Define.h" />

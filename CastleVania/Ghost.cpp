@@ -6,7 +6,7 @@ Ghost::Ghost()
 {
 	this->startX = startX;
 	this->startY = startY;
-	this->Health = 2;
+	this->health = 2;
 	isGravity = 0;
 	isEnable = 0;
 	isFinish = 0;

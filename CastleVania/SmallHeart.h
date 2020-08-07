@@ -18,7 +18,9 @@
 
 class SmallHeart :
 	public CItem
-{
+{ 
+private:
+	int timeAccu = 0;
 public:
 
 	SmallHeart(float X =0, float Y=0);

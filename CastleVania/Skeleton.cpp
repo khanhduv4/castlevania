@@ -4,7 +4,7 @@
 
 Skeleton::Skeleton()
 {
-	this->Health = 2;
+	this->health = 2;
 	this->damage = damage;
 	SetAnimation(19);
 	vy = 0;

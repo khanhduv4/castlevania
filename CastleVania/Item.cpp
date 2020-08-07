@@ -3,37 +3,36 @@
 #include "Brick.h"
 
 CItem::CItem()
-{ 
+{
 	TimeDisplayed = 0;
 	TimeWaitMax = 0;
 	TimeDisplayMax = 0;
 	TimeWaited = 0;
 	isFinish = 0;
-	Health = 1;
+	health = 1;
+	displayTime = 99999;
 }
 
 
 CItem::~CItem()
 {
-	 
+
 }
 
-void CItem::Update(DWORD dt, vector<LPGAMEOBJECT> *listObject)
-{ 
+void CItem::Update(DWORD dt, vector<LPGAMEOBJECT>* listObject)
+{
+	if (displayTime) {
+		displayTime -= dt;
+		if (displayTime <= 0)
+		{
+			displayTime = 0;
+			isFinish = true;
+		}
+	}
 	if (isFinish) return;
 	// Simple fall down
 	vy += 0.0001f;
-	if (dynamic_cast<SmallHeart*>(this)) {
-		if (x - xBackup >= DeltaX)
-		{
-			vx = -SMALLHEART_SPEED_X;
-		}
-		else
-			if (x - xBackup <= -DeltaX)
-			{
-				vx = SMALLHEART_SPEED_X;
-			}
-	}
+
 	//if (isWaitingDisplay())
 	//{
 	//	TimeWaited += dt;
@@ -47,8 +46,8 @@ void CItem::Update(DWORD dt, vector<LPGAMEOBJECT> *listObject)
 	//	return;
 	//}
 
- 	CGameObject::Update(dt);
 
+	CGameObject::Update(dt);
 	vector<LPGAMEOBJECT> listObject_Brick;
 	listObject_Brick.clear();
 	for (UINT i = 0; i < listObject->size(); i++)
@@ -81,10 +80,13 @@ void CItem::Update(DWORD dt, vector<LPGAMEOBJECT> *listObject)
 		if (nx != 0) vx = 0;
 		if (ny != 0) {
 			vy = 0;
+			isGrounded = true;
+			if (displayTime > 3000) displayTime = 3000;
 		}
 	}
 	for (UINT i = 0; i < coEvents.size(); i++)
 		delete coEvents[i];
+
 }
 
 void CItem::Render()
@@ -103,7 +105,7 @@ bool CItem::isWaitingDisplay()
 {
 	return TimeWaited < TimeWaitMax;
 }
- 
+
 
 
 

@@ -2,7 +2,7 @@
 
 CTorch::CTorch()
 {
-	Health = 1;
+	health = 1;
 	isEnable = true;
 	_width = TORCH_BBOX_WIDTH;
 	_height = TORCH_BBOX_HEIGHT;
@@ -43,7 +43,7 @@ void CTorch::GetBoundingBox(float& l, float& t, float& r, float& b)
 void CTorch::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
 
-	if (Health <= 0 && !(objLife == OBJ_LIFE_OUT)) {
+	if (health <= 0 && !(objLife == OBJ_LIFE_OUT)) {
 		objLife = 1;
 		Disappear();
 	}

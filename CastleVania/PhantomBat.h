@@ -19,7 +19,7 @@ class PhantomBat : public CEnemy
 	long delayTime;
 	int previousHP;
 	float introTime;
-	long chaseTime;
+	double chaseTime;
 	bool isTest = false;
 	float refX = -1, refY = -1;
 	bool isHurted;
@@ -40,7 +40,6 @@ public:
 
 	virtual void GetBoundingBox(float& left, float& top, float& right, float& bottom);
 	virtual void SetState(int state);
-
 
 	void SubHealth(int th);
 	void CalculateSimonPos(DWORD dt);

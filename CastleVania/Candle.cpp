@@ -2,7 +2,7 @@
 
 Candle::Candle()
 {
-	Health = 1;
+	health = 1;
 	isEnable = true;
 	_width = CANDLE_BBOX_WIDTH;
 	_height = CANDLE_BBOX_HEIGHT;
@@ -44,7 +44,7 @@ void Candle::GetBoundingBox(float& l, float& t, float& r, float& b)
 void Candle::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
 	CEnemy::Update(dt, coObjects);
-	if (Health <= 0 && !(objLife == OBJ_LIFE_OUT)) {
+	if (health <= 0 && !(objLife == OBJ_LIFE_OUT)) {
 		objLife = 1;
 		Disappear();
 	}

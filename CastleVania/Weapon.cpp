@@ -1,6 +1,7 @@
 ﻿#include "Weapon.h"
 #include "Utils.h"
 #include "Enemy.h"
+#include "wBlue.h"
 
 
 
@@ -10,7 +11,6 @@ Weapon::Weapon()
 	isHit = 0;
 	damage = 1;
 	heart = 1;
-
 }
 
 Weapon::~Weapon()
@@ -90,6 +90,9 @@ void Weapon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects, vector<LPGAMEOBJE
 				float x = 0, y = 0;
 				enemy->GetPosition(x, y);
 				enemy->SubHealth(damage,coObjects,coItems);
+				if (dynamic_cast<wBlue*>(this)) {
+					this->isFinish = true;
+				}
 			}
 			else {
 				++begin;

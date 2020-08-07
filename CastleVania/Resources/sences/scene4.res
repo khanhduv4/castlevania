@@ -28,6 +28,7 @@
 25	Resources\enemy\hunch_back.png	116	116	116
 26	Resources\enemy\ghost.png	255	0	255
 27	Resources\enemy\skeleton.png	255	0	255
+42	Resources\enemy\bone.png	255	0	255
 40	Resources\item\heart-sm.png	255	0	255
 41	Resources\other\hit.png	255	0	255
 
@@ -255,6 +256,12 @@
 730	56	0	84	28	26
 731	84	0	112	28	26
 
+#bones
+732	0	0	15	16	42
+733	15	0	30	16	42
+734	30	0	45	16	42
+
+
 # ani_id	sprite1_id	time1	sprite2_id	time2	...
 [ANIMATIONS]
 
@@ -430,6 +437,9 @@
 #ghost right
 104	731	100	730	100
 
+#bone
+105	 732	100	733	100	734	100
+
 #========================================================================================================
 #
 # id	ani1	ani2	ani3
@@ -475,5 +485,7 @@
 19	99  100	101	102
 #Ghost
 20	103	104
+#Bone
+41	105
 # Small Heart
 40	88

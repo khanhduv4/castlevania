@@ -9,13 +9,14 @@
 class CItem : public CGameObject
 {
 protected: 
-
+	int displayTime = 3000;
 	DWORD TimeDisplayMax; // thời gian tối đa cho phép hiển thị.
 	DWORD TimeDisplayed; // Thời gian đã hiển thị.
 
 	DWORD TimeWaited; // Thời gian đã chờ trước khi hiển thị
 	DWORD TimeWaitMax; // Thời gian tối đa phải chờ trước khi hiển thị
 	float xBackup;
+	bool isGrounded = false;
 
 public:
 	CItem();
@@ -23,7 +24,7 @@ public:
 	virtual void Update(DWORD dt, vector<LPGAMEOBJECT> *listObject = NULL);
 	virtual void Render();
 	virtual bool isWaitingDisplay(); // đang chờ object hiển thi? - simon chưa được ăn
- 
+	
 
 };
 

@@ -18,16 +18,7 @@ public:
 	~Raven();
 
 	virtual void Update(DWORD dt, vector<LPGAMEOBJECT>* coObject = NULL);
-
-	void makeLineLeftDown();
-
-	void makeLineLeftDown(float simonX);
-
-	void makeLineRightDown(float simonX);
-	 
-	
-	void makeRandomLine();
-	int calculateYLine(int x); 
+ 
 	virtual void Render();
 
 	virtual void GetBoundingBox(float& left, float& top, float& right, float& bottom);

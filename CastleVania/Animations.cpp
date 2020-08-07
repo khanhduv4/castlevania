@@ -1,7 +1,7 @@
 #include "Animations.h"
 #include "Utils.h"
 
-CAnimationSets * CAnimationSets::__instance = NULL;
+CAnimationSets* CAnimationSets::__instance = NULL;
 
 
 void CAnimation::Add(int spriteId, DWORD time)
@@ -22,7 +22,9 @@ void CAnimation::Add(int spriteId, DWORD time)
 
 // NOTE: sometimes Animation object is NULL ??? HOW ??? 
 int CAnimation::Render(float x, float y, int alpha)
-{  
+{
+	int prevFrame = -1;
+
 	DWORD now = GetTickCount();
 	if (currentFrame == -1)
 	{
@@ -31,28 +33,30 @@ int CAnimation::Render(float x, float y, int alpha)
 	}
 	else
 	{
+
 		DWORD t = frames[currentFrame]->GetTime();
 		if (now - lastFrameTime > t)
 		{
 			currentFrame++;
-			lastFrameTime = now; 
+			lastFrameTime = now;
 			if (currentFrame == frames.size())
-			{ 
-				frames[frames.size()-1]->GetSprite()->Draw(x, y, alpha);
-				currentFrame = 0;   
+			{
+				prevFrame = currentFrame - 1;
+				currentFrame = 0;
 				isDone = 1;
-				return currentFrame;
 			}
 		}
 	}
-
-	frames[currentFrame]->GetSprite()->Draw(x, y, alpha);
+	if (prevFrame != -1)
+		frames[prevFrame]->GetSprite()->Draw(x, y, alpha);
+	else
+		frames[currentFrame]->GetSprite()->Draw(x, y, alpha);
 	return currentFrame;
 }
 
-CAnimations * CAnimations::__instance = NULL;
+CAnimations* CAnimations::__instance = NULL;
 
-CAnimations * CAnimations::GetInstance()
+CAnimations* CAnimations::GetInstance()
 {
 	if (__instance == NULL) __instance = new CAnimations();
 	return __instance;
@@ -87,7 +91,7 @@ CAnimationSets::CAnimationSets()
 
 }
 
-CAnimationSets *CAnimationSets::GetInstance()
+CAnimationSets* CAnimationSets::GetInstance()
 {
 	if (__instance == NULL) __instance = new CAnimationSets();
 	return __instance;
@@ -97,8 +101,8 @@ LPANIMATION_SET CAnimationSets::Get(unsigned int id)
 {
 	LPANIMATION_SET ani_set = animation_sets[id];
 	if (ani_set == NULL)
-		DebugOut(L"[ERROR] Failed to find animation set id: %d\n",id);
-	 
+		DebugOut(L"[ERROR] Failed to find animation set id: %d\n", id);
+
 	return ani_set;
 }
 

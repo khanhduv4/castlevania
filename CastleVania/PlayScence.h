@@ -8,6 +8,9 @@
 #include "MorningStar.h" 
 #include "Grid.h"
 
+
+ 
+
 class CPlayScene : public CScene
 {
 protected:
@@ -16,9 +19,9 @@ protected:
 	vector<LPGAMEOBJECT> objects;
 	vector<LPGAMEOBJECT> items;
 	bool isReloading = false;
-	Grid* _grid;
-
+	Grid* _grid; 
 	bool isBossScene = false;
+	bool isCamLocked = false;
 
 	void _ParseSection_CONFIG(string line);
 
@@ -29,15 +32,14 @@ protected:
 	void _ParseSection_ANIMATIONS(string line);
 	void _ParseSection_ANIMATION_SETS(string line);
 	void _ParseSection_OBJECTS(string line);
-	 
+	int stage;
+	int time;
 
 public:
 	static CPlayScene* __instance;
 
 	bool IsReloading() { return isReloading; }
-
-	int stage;
-	int time;
+	 
 	CPlayScene(int id, LPCWSTR filePath);
 	static CPlayScene* GetInstance(int id = 0, LPCWSTR filePath = NULL) {
 		if (__instance == NULL) __instance = new CPlayScene(id, filePath);

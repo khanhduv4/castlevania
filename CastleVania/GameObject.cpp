@@ -155,9 +155,9 @@ bool CGameObject::checkAABB(CGameObject* obj)
 
 void CGameObject::SubHealth(int th)
 {
-	Health -= th;
-	if (Health <= 0) {
-		Health = 0;
+	health -= th;
+	if (health <= 0) {
+		health = 0;
 		isFinish = 1;
 	}
 }

@@ -139,6 +139,12 @@
     <ClCompile Include="SmallHeart.cpp">
       <Filter>Object\Item\Heart</Filter>
     </ClCompile>
+    <ClCompile Include="wBlue.cpp">
+      <Filter>Object\Weapon\Blue</Filter>
+    </ClCompile>
+    <ClCompile Include="BossItem.cpp">
+      <Filter>Object\Item\BossItem</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="KeyEventHandler.h">
@@ -282,6 +288,12 @@
     <ClInclude Include="SmallHeart.h">
       <Filter>Object\Item\Heart</Filter>
     </ClInclude>
+    <ClInclude Include="wBlue.h">
+      <Filter>Object\Weapon\Blue</Filter>
+    </ClInclude>
+    <ClInclude Include="BossItem.h">
+      <Filter>Object\Item\BossItem</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Framework">
@@ -418,6 +430,12 @@
     </Filter>
     <Filter Include="Object\Enemy\Boss\PhantomBat">
       <UniqueIdentifier>{14225aee-eda0-4298-b7ab-a83466e0468d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object\Weapon\Blue">
+      <UniqueIdentifier>{f7e8b567-a416-4d4a-a62c-ec791d0a190a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object\Item\BossItem">
+      <UniqueIdentifier>{a5f59213-e4a4-4890-8f8c-3fea552349f9}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

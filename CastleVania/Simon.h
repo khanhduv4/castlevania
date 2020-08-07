@@ -14,19 +14,17 @@
 // Items
 #include "UpgradeMorningStar.h"
 #include "LargeHeart.h"
+#include "SmallHeart.h"
 #include "Sword.h"
 #include "Boomerang.h"
 #include "Axe.h"
-
+#include "Blue.h"
 //Weapons
 #include "wSword.h"
 #include "wAxe.h"
 #include "wBoomerang.h"
+#include "wBlue.h"
 #include "MorningStar.h"
-
-#define SIMON_ATTACK_MAIN_WEAPON	0
-#define SIMON_ATTACK_SUB_WEAPON	1
-
 
 class CSimon : public CGameObject
 {
@@ -53,9 +51,14 @@ class CSimon : public CGameObject
 
 #pragma endregion
 
+#pragma region Time vars
 	DWORD untouchable_start;
 	int hurtingTimeCount = 0;
 	int freezingTimeCount = 0;
+	int dyingToDiedTime = 0;
+#pragma endregion
+
+
 
 public:
 
@@ -72,6 +75,8 @@ public:
 	bool isDead;
 	bool isClimbing;
 	bool isFreeze;
+	bool isInnewScene;
+
 #pragma endregion
 
 #pragma region Stair
@@ -105,7 +110,7 @@ public:
 	int getCurrentSubWeapon() {
 		return currentSubWeapon;
 	}
-	int getHealth() { return Health; }
+	int getHealth() { return health; }
 	int getHeart() { return heart; }
 	int getLife() { return life; }
 	int getScore() { return score; }
@@ -113,6 +118,8 @@ public:
 	bool IsJumping() { return isJumping; }
 	bool IsSitting() { return isSitting; }
 	int getDirection() { return nx; };
+	bool IsSceneSwitching() { return isSceneSwitching; }
+	bool IsInNewScene() { bool result = isInnewScene; isInnewScene = false; return result; }
 
 	MorningStar* getMorningStar() {
 		return morStar;
@@ -123,14 +130,10 @@ public:
 #pragma endregion
 
 #pragma region Set methods
+
 	void SetState(int state);
 
-	void setSceneSwitching(bool value) {
-		stair = NULL;
-		isClimbing = 0;
-		isClimbableUp = isClimbableDown = 0;
-		this->isSceneSwitching = value;
-	}
+	void setSceneSwitching(bool value);
 
 	void setDirection(int direction) {
 		this->nx = direction;
@@ -146,32 +149,36 @@ public:
 
 	void SetScore(int sco) { score += sco; }
 
+	void SetResetPosition(float x, float y) {
+		startX = x;
+		startY = y;
+	}
+
 #pragma endregion
 
 #pragma region Simon Action method
+
 	void Attack(int);
 	void Climbing(int);
 	void Die();
 
 #pragma endregion
 
-#pragma region Simon Update Status methods
+#pragma region Simon Update Status, Props methods
 
 	virtual void Update(DWORD dt, vector<LPGAMEOBJECT>* colliable_objects = NULL, vector<LPGAMEOBJECT>* coItems = NULL);
+
+	void HandleCollisionSimonWithItem(LPCOLLISIONEVENT e);
 
 	virtual void Render();
 
 	void StartUntouchable() { untouchable = 1; untouchable_start = GetTickCount(); }
 
-	void Reset();
-
-	void HandleCollisionSimonWithItem(LPCOLLISIONEVENT e);
-
-	void ResetAttackAni();
-
 	void UpdateHurting();
 
 	void UpdateFreeze();
+
+	void StartOver();
 
 	void AddHeart(int);
 
@@ -180,5 +187,13 @@ public:
 	void SubHeart(int);
 
 #pragma endregion
+
+#pragma region Utils
+
+	void Reset();
+	void ResetAttackAni();
+
+#pragma endregion
+
 
 };

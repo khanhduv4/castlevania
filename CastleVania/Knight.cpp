@@ -5,7 +5,7 @@
 Knight::Knight(int maxLeft, int maxRight)
 {
 	isFront = true;
-	this->Health = 2;
+	this->health = 2;
 	isFinish = 0;
 	objLife = 0;
 	ani = 1;

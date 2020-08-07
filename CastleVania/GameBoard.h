@@ -7,6 +7,7 @@
 #include <d3dx9.h>
 
 #define GAMEBOARD_SPRITE_ID 100100
+#define GAMEBOARD_SPRITE_BLACK_ID 100101
 
 #define POSITION_X_SUBWEAPON 310
 #define POSITION_Y_SUBWEAPON 35
@@ -24,7 +25,7 @@ public:
 	void Render();
 	void SetPosition(float x, float y);
 	void Load();
-	void Update(int time, int stage, int enemyHealth);
+	void Update(int dt, int time, int stage); 
 	void UpdateSubWeapon(int type);
 	void UpdateBossHP(int hp);
 	void SetInitialHP(int HP) {
@@ -42,10 +43,13 @@ public:
 		this->initHP = initHP;
 	}
 	void ReloadSubWeaponSprites();
+	void SetOver(bool value);
 private:
 	CGameBoard();
 	static CGameBoard* _instance;
 	CSprite* _sprite;
+	CSprite* _spriteBlack;
+
 	float _x;
 	float _y;
 	int score;
@@ -59,6 +63,9 @@ private:
 	int subWeapon;
 	int isRendering = true;
 	vector<CSprite*> _subWeaponSprites;
+
+	int overRenderTime = 1500;
+	bool isOver = false;
 
 	int initHP;
 	int initBossHP;

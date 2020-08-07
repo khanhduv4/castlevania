@@ -18,36 +18,36 @@ Raven::~Raven()
 
 void Raven::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
+	
 	CEnemy::Update(dt, coObjects);
 	float simonX, simonY;
-	CSimon::GetInstance()->GetPosition(simonX, simonY);
+
 	CSimon* simon = CSimon::GetInstance();
+	
+	simon->GetPosition(simonX, simonY);
+	nx = simon->x - x;
 	if (!isEnable && simon->x - startX < 200) {
+		SetState(RAVEN_STATE_ATTACK);
 		isEnable = true;
 	}
 	if (!isEnable) return;
 
-	if (delayTime > 0) delayTime -= dt;
+	if (delayTime > 0) { delayTime -= dt; vx = 0; vy = 0; return; }
 	else if (delayTime <= 0 && !isChasing) {
 		isChasing = true;
 		chaseTime = (rand()) % 700 + 500;
-		makeRandomLine();
-		if (x < simon->x) {
-			vx = .05f;
-		}
-		else vx = -.05f;
+		
+		vx = x > simon->x ? -0.05f - float(rand() % 10) / 20 : 0.05f + float(rand() % 10) / 20;
+		vy = y < simon->y ? 0.05f + float(rand() % 10) / 20 : -0.05f - float(rand() % 10) / 20;
+		vx /= 5;
+		vy /= 5;
 	}
-	if (y <= 100 || y >= SCREEN_HEIGHT - 100) {
-		vy = -vy;
-	}
-	if (x > 1400) {
-		vx = -vx;
-	}
+	 
 	if (isChasing) {
 		chaseTime -= dt;
 		x += dt * vx;
-		y = calculateYLine(x - startX);
-		DebugOut(L"X Bat = %f Y Bat  = %f", x - startX, y);
+		y += dt * vy;
+		//DebugOut(L"X Bat = %f Y Bat  = %f", x - startX, y);
 		if (chaseTime <= 0) {
 			isChasing = false;
 			delayTime = (rand()) % 500 + 500;
@@ -56,44 +56,7 @@ void Raven::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	}
 
 }
-
-void Raven::makeLineLeftDown(float simonX) {
-	int xA =  -(100);
-	int yA = (y + 50 + rand() % 50);
-	int xB = x - startX;
-	int yB = y;
-	aLine = float(yA - yB) / (xA - xB);
-	bLine = yA - aLine * xA;
-}
-void Raven::makeLineRightDown(float simonX) {
-	int xA = (100);
-	int yA = (y + 50 + rand() % 50);
-	int xB = x - startX;
-	int yB = y;
-	aLine = float(yA - yB) / (xA - xB);
-	bLine = yA - aLine * xA;
-}
-
-void Raven::makeRandomLine() {
-	int screenWidth = SCREEN_WIDTH;
-	int screenHeight = SCREEN_HEIGHT;
-	float simonX, simonY;
-	CSimon::GetInstance()->GetPosition(simonX, simonY);
-	simonY -= 50;
-	int xA = x > simonX? (100):-100;
-	int yA = y > simonY ? (y + 10 + rand() % 30) : -(y + 10 + rand() % 30);
-	int xB = x - startX;
-	int yB = y;
-	aLine = float(yA - yB) / (xA - xB);
-	bLine = yA - aLine * xA;
-	//Diem A : Vi tri hien tai cua Bat, Diem B: Vi tri dinh cua parabol ^ B.x = random ^ (B.x>0 ^ !bat.isLeft or B.x < 0 ^ bat.isLeft) 
-	//Nghiem : Parabol aX^2 + bx + c phai di qua A va B.
-	
-}
-int Raven::calculateYLine(int x) {
-	int y = (aLine * x + bLine);
-	return y;
-}
+ 
 
 void Raven::Render()
 {

@@ -1,42 +1,8 @@
 ﻿#ifndef _DEFINE_H__
 #define _DEFINE_H__
 
-
-#include <fstream> 
-#include <string>
-#include <stdio.h>
-#include <Windows.h>  
-#include <iostream>
-#include <map>
-#include <algorithm>
-#include <d3dx9.h>
-#include <stdlib.h>
-#include <iomanip>
-#include <d3d9.h>
-#include <vector>
-#include <iostream>
-
-
-
-using namespace std;
-
-#define COLOR_BLACK D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f)  
-#define COLOR_KEY D3DXCOLOR(0.0f, 0.0f, 0.0f, 0.0f) 
-
-
 #define SCREEN_WIDTH 528
-#define SCREEN_HEIGHT 480 
-
-
-#define IS_DEBUG_RENDER_BBOX isDebug_RenderBBox
-
-#define MAX_FRAME_RATE 90
-
-#define COLOR_BACKGROUND_DEFAULT D3DCOLOR_XRGB(0, 0, 0) // Màu đen
-
-#define TIME_LIMIT_WAIT_RESET_GAME 300 // Thời gian chờ vẽ màn màu đen khi reset game
-
-extern D3DCOLOR D3DCOLOR_BACKGROUND; // màu nền game
+#define SCREEN_HEIGHT 480
 
 #pragma region SIMON ANI ID
 #define SIMON_ANI_IDLE_RIGHT		0
@@ -91,10 +57,14 @@ extern D3DCOLOR D3DCOLOR_BACKGROUND; // màu nền game
 
 #pragma region SIMON PROPs
 
+#define SIMON_DEFAULT_HEALTH 16
+#define SIMON_DEFAULT_HEART 5
+#define SIMON_DEFAULT_LIFE 3
+#define SIMON_DEFAULT_SUBWEAPON -1
+
 #define SIMON_WALKING_SPEED	0.12f 
 #define SIMON_CLIMBING_SPEED 0.09f 
 
-//0.1f
 #define SIMON_JUMP_SPEED_Y	0.27f
 #define SIMON_VJUMP_HURTING 0.15f
 #define SIMON_JUMP_DEFLECT_SPEED 0.2f
@@ -103,6 +73,7 @@ extern D3DCOLOR D3DCOLOR_BACKGROUND; // màu nền game
 
 #define SIMON_BBOX_WIDTH  32
 #define SIMON_BBOX_HEIGHT 59
+#define SIMON_BBOX_SITTING_WIDTH 64
 #define SIMON_BBOX_SITTING_HEIGHT 45
 #define SIMON_BBOX_JUMPING_HEIGHT 45
 
@@ -110,6 +81,8 @@ extern D3DCOLOR D3DCOLOR_BACKGROUND; // màu nền game
 #define SIMON_HURTING_TIME 400
 #define SIMON_FREEZE_TIME 400
 
+#define SIMON_ATTACK_MAIN_WEAPON	0
+#define SIMON_ATTACK_SUB_WEAPON	1
 
 #pragma endregion
 
@@ -117,6 +90,8 @@ extern D3DCOLOR D3DCOLOR_BACKGROUND; // màu nền game
 #define WEAPON_ANI_SET_SWORD	8
 #define WEAPON_ANI_SET_BOOMERANG	14
 #define WEAPON_ANI_SET_AXE	12
+#define WEAPON_ANI_SET_BLUE	15
+
 #pragma endregion
 
 #pragma region SUBWEAPON ID
@@ -137,6 +112,8 @@ extern D3DCOLOR D3DCOLOR_BACKGROUND; // màu nền game
 #define ITEM_ID_CHICKEN 7
 #define ITEM_ID_AXE 8
 #define ITEM_ID_SMALLHEART 9
+#define ITEM_ID_BOSSITEM	10
+
 #pragma endregion
 
 #pragma region PLAY SCENCE

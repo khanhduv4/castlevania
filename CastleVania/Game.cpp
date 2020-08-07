@@ -488,3 +488,10 @@ void CGame::SwitchScene(int scene_id)
 	CGame::GetInstance()->SetKeyHandler(s->GetKeyEventHandler());
 	s->Load();
 }
+void CGame::StartOver() {
+	scenes[current_scene]->Unload();
+	CTextures::GetInstance()->Clear();
+	CSprites::GetInstance()->Clear();
+	CAnimations::GetInstance()->Clear();
+	scenes[current_scene]->Load();
+}

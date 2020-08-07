@@ -30,6 +30,7 @@
 27	Resources\enemy\skeleton.png	255	0	255
 28	Resources\enemy\raven.png	116	116	116
 40	Resources\item\heart-sm.png	255	0	255
+42	Resources\enemy\bone.png	255	0	255
 41	Resources\other\hit.png	255	0	255
 
 100	Resources\extra\blackboard.png	0	0	0
@@ -268,6 +269,11 @@
 737	66	0	99	36	28
 736	99	0	132	36	28
 
+#bones
+740	0	0	15	16	42
+741	15	0	30	16	42
+742	30	0	45	16	42
+
 
 
 # ani_id	sprite1_id	time1	sprite2_id	time2	...
@@ -450,6 +456,9 @@
 106	733	100	734	100	735	100
 #Raven Flying right
 107	737	100	738	100	739	100
+#bones
+108	740	100	741	100	742	100
+
 
 #========================================================================================================
 #
@@ -498,5 +507,8 @@
 20	103	104
 #Raven
 21	105	106	107
+
 # Small Heart
 40	88
+# Bones
+41	108

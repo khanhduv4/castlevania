@@ -7,14 +7,17 @@ SmallHeart::SmallHeart(float X, float Y)
 	this->y = Y;
 	xBackup = x;
 	vy = ITEM_DEFAULT_GRAVITY;
-	//TimeDisplayMax = LARGEHEART_TIMEDISPLAYMAX; // set time hiển thị tối đa
-	//TimeDisplayed = 0;
-	//TimeWaited = 0;
-	//TimeWaitMax = LARGEHEART_TIMEWAITMAX;
+
 }
 
 void SmallHeart::Update(DWORD dt, vector<LPGAMEOBJECT>* listObject)
 {
+	timeAccu += dt;
+	if (!isGrounded)
+		vx = -30 * 2 * 3.14 * 1 / 1500 * sin(2 * 3.14 * 1 / 1500 * timeAccu + 3.14 / 2);
+	else
+		vx = 0;
+	vy = 0.05f;
 
 	CItem::Update(dt, listObject);
 }

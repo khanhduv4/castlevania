@@ -6,7 +6,7 @@ Hunchback::Hunchback()
 {
 	this->damage = 3;
 	this->distanceAttack = 100;
-	this->Health = 1;
+	this->health = 1;
 	score = 500;
 	nx = 1;
 

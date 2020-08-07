@@ -7,7 +7,7 @@
 PhantomBat::PhantomBat()
 {
 
-	this->Health = 16;
+	this->health = 16;
 	this->damage = 2;
 
 
@@ -46,19 +46,17 @@ void PhantomBat::makeRandomCurve() {
 	//Nghiem : Parabol aX^2 + bx + c phai di qua A va B.
 	if (simonY > y) {
 		int xB = x < simonX ? ( 150) : -(  150);
-		int yB = y + 50;
+		int yB = y + 100;
 		int xA = x - refX;
 		int yA = y;
 		float a = float(yA - yB) / ((xA * xA - xB * xB) - 2 * (xA - xB) * xB);
 		float b = -2 * a * xB;
-		float c = yA - a * xA * xA - b * xA;
 		aCurve = a;
-		bCurve = b;
-		cCurve = c;
+		bCurve = b; 
 	}
 	else {
 		int xA = x < simonX ? (170) : -(170);
-		int yA = y - 20;
+		int yA = y - 100;
 		int xB = x - refX;
 		int yB = y;
 		float a = float(yA - yB) / ((xA * xA - xB * xB) - 2 * (xA - xB) * xB);
@@ -66,11 +64,10 @@ void PhantomBat::makeRandomCurve() {
 		float c = yA - a * xA * xA - b * xA;
 		aCurve = a;
 		bCurve = b;
-		cCurve = c;
 	}
 }
 int PhantomBat::calculateYCurve(int x) {
-	int y = (aCurve * x * x + bCurve * x + cCurve);
+	int y = (2*aCurve * x   + bCurve );
 	return y;
 }
 void PhantomBat::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
@@ -85,7 +82,7 @@ void PhantomBat::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	}
 	if (!isTest) return;
 
-	if (delayTime > 0) delayTime -= dt;
+	if (delayTime > 0) { delayTime -= dt; vx = 0; vy = 0; return; }
 	else if (delayTime <= 0 && !isChasing) {
 		if (refX == -1 && refY == -1) {
 			refX = simon->x;
@@ -99,20 +96,28 @@ void PhantomBat::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		}
 		else vx = -.2f;
 	}
-	if (y <= 100 || y >= SCREEN_HEIGHT - 100) {
-		vy = -vy;
+	if (y <= 300 ) {
+		vy = abs(vy);
+	}
+	else if (y > SCREEN_HEIGHT - 50) {
+		vy = -abs(vy);
 	}
 	if (x > 1400) {
-		vx = -vx;
+		vx = -abs(vx);
 	}
+	else if (x < 1400 - SCREEN_HEIGHT + 200) {
+		vx = abs(vx);
+	}
+	x += dt * vx;
+	y += dt * vy;
 	if (isChasing) {
+		vy = float(calculateYCurve(x-startX))/70;
 		chaseTime -= dt;
-		x += dt * vx;
-		y = calculateYCurve(x - refX);
+		
 		DebugOut(L"X Bat = %f Y Bat  = %f", x - refX, y);
 		if (chaseTime <= 0) {
 			isChasing = false;
-			delayTime = (rand()) % 500 + 500;
+			delayTime = (rand()) % 500 + 1000;
 		}
 
 	}
@@ -254,9 +259,9 @@ bool PhantomBat::Intro(DWORD dt)
 
 void PhantomBat::CheckHPChange()
 {
-	if (previousHP != Health)
+	if (previousHP != health)
 	{
-		if (Health <= 0)
+		if (health <= 0)
 		{
 
 			isEnable = false;
@@ -267,7 +272,7 @@ void PhantomBat::CheckHPChange()
 		else
 		{
 			isHurted = true;
-			previousHP = Health;
+			previousHP = health;
 			return;
 		}
 	}

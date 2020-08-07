@@ -4,10 +4,12 @@
 #include"Tilemap.h"
 #include "Torch.h"
 #include "Sword.h"
+
 #include "UpgradeMorningStar.h"
 #include "LargeHeart.h"
 #include "SmallHeart.h"
 #include "Axe.h"
+#include "BossItem.h"
 #include "Boomerang.h"
 #include "II.h"
 #include "Chicken.h"
@@ -35,7 +37,7 @@ CEnemy::CEnemy()
 void CEnemy::Update(DWORD dt, vector<LPGAMEOBJECT>* listObject)
 {
 
-	if (Health <= 0 && !objLife) {
+	if (health <= 0 && !objLife) {
 		objLife = 1;
 	}
 	if (isFinish) return;
@@ -75,7 +77,7 @@ void CEnemy::Update(DWORD dt, vector<LPGAMEOBJECT>* listObject)
 		x += min_tx * dx + nx * 0.4f;
 		y += min_ty * dy + ny * 0.4f;
 
-		if (nx != 0) vx = 0;
+		//if (nx != 0) vx = 0;
 		if (ny != 0) {
 			vy = 0;
 		}
@@ -111,7 +113,7 @@ void CEnemy::Render()
 void CEnemy::SubHealth(int th, vector<LPGAMEOBJECT>* coObjects, vector<LPGAMEOBJECT>* coItems) {
 	CGameObject::SubHealth(th);
 	if (dynamic_cast<PhantomBat*>(this)) {
-		CGameBoard::GetInstance()->UpdateBossHP(Health);
+		CGameBoard::GetInstance()->UpdateBossHP(health);
 	}
 	isHurting2 = 1;
 	if (isFinish)
@@ -160,8 +162,12 @@ CItem* CEnemy::SpawnItem() {
 		item = new Axe(x, y);
 		break;
 	}
+	case ITEM_ID_BOSSITEM: {
+		item = new BossItem(x, y);
+		break;
+	}
 	default: {
-		item = new LargeHeart(x, y);
+		item = new SmallHeart(x, y);
 	}
 	}
 	return item;

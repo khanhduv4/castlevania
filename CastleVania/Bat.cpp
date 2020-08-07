@@ -6,7 +6,7 @@
 Bat::Bat()
 {
 
-	this->Health = 1;
+	this->health = 1;
 	isGravity = 0;
 	isFinish = 0;
 
@@ -56,15 +56,15 @@ void Bat::Update(DWORD dt, vector<LPGAMEOBJECT>* coObject)
 
 		if (state == VAMPIRE_BAT_STATE_FLYING)
 		{
-			if (this->x - simonX > 100) {
-				nx = -1;
-				SetState(VAMPIRE_BAT_STATE_FLYING);
-			}
-			if (this->x - simonX < -100) {
-				nx = 1;
-				SetState(VAMPIRE_BAT_STATE_FLYING);
+			//if (this->x - simonX > 100) {
+			//	nx = -1;
+			//	SetState(VAMPIRE_BAT_STATE_FLYING);
+			//}
+			//if (this->x - simonX < -100) {
+			//	nx = 1;
+			//	SetState(VAMPIRE_BAT_STATE_FLYING);
 
-			}
+			//}
 			if (y - simonY > 15)
 			{
 				vy = 0;

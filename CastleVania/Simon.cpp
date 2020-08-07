@@ -4,48 +4,80 @@ CSimon* CSimon::_Instance = NULL;
 
 CSimon::CSimon() : CGameObject()
 {
-	untouchable = 0;
+	// Set default props for simon
+	untouchable = score = isClimbableUp = isClimbing = isStair = isFreeze = isSceneSwitching = 0;
+
 	SetState(SIMON_STATE_IDLE);
 	morStar = new MorningStar();
-	isSceneSwitching = false;
-	currentSubWeapon = -1;
-	currentSubWeapon = 2;
-	Health = 16;
-	score = 100;
-	heart = 0;
-	life = 2;
-	isClimbableUp = 0;
-	isClimbing = 0;
-	isStair = 0;
-	isFreeze = 0;
+
+	currentSubWeapon = SIMON_DEFAULT_SUBWEAPON;
+	health = SIMON_DEFAULT_HEALTH;
+
+	heart = SIMON_DEFAULT_HEART;
+	life = SIMON_DEFAULT_LIFE;
+
 	_width = SIMON_BBOX_WIDTH;
 	_height = SIMON_BBOX_HEIGHT;
 }
 
-Weapon* CSimon::newSubWeapon()
-{
-	switch (currentSubWeapon) {
-	case WEAPON_SWORD:
-		return new wSword();
-		break;
-	case WEAPON_AXE:
-		return new wAxe();
-		break;
-	case WEAPON_BOOMERANG:
-		return new wBoomerang();
-		break;
-	}
+#pragma region Update Props, Ani, State method
 
+void CSimon::UpdateHurting() {
+	if (isHurting && GetTickCount() - hurtingTimeCount > SIMON_HURTING_TIME) {
+		isHurting = false;
+		vx = 0;
+		vy = 0;
+	}
+}
+
+void CSimon::UpdateFreeze()
+{
+	if (isFreeze && GetTickCount() - freezingTimeCount > SIMON_FREEZE_TIME) {
+		freezingTimeCount = 0;
+		isFreeze = false;
+	}
+	else {
+		if (isFreeze) {
+			vx = 0;
+			vy = 0;
+			SetState(SIMON_STATE_IDLE);
+		}
+
+	}
+}
+
+void CSimon::StartOver() {
+
+	this->setSceneSwitching(true);
+	if (life-- == 0) {
+		score = 0; 
+		life = SIMON_DEFAULT_LIFE;
+		CGame::GetInstance()->SwitchScene(1);
+		CGameBoard::GetInstance()->SetOver(true);
+	} 
+	CGame::GetInstance()->StartOver();
+	SetPosition(startX, startY);
 }
 
 void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects, vector<LPGAMEOBJECT>* coItems)
 {
-	
+	// Check if scence switching
 	if (isSceneSwitching)
 		return;
-	if (Health <= 0) {
+
+	if (dyingToDiedTime) {
+		dyingToDiedTime -= dt;
+		if (dyingToDiedTime <= 0)
+		{
+			StartOver();
+			return;
+		}
+
+	}
+
+	if ((health <= 0 || y > SCREEN_HEIGHT) && GetState() != SIMON_STATE_DIE) {
 		SetState(SIMON_STATE_DIE);
-		Die();
+		dyingToDiedTime = 500;
 	}
 	else {
 		UpdateHurting();
@@ -80,7 +112,7 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects, vector<LPGAMEOBJE
 			}
 		}
 	}
-	
+
 
 	vector<LPCOLLISIONEVENT> coEvents;
 	vector<LPCOLLISIONEVENT> coEventsResult;
@@ -89,8 +121,8 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects, vector<LPGAMEOBJE
 
 	// turn off collision when die 
 	//if (state != SIMON_STATE_DIE) {
-		CalcPotentialCollisions(coObjects, coEvents);
-		CalcPotentialCollisions(coItems, coEvents);
+	CalcPotentialCollisions(coObjects, coEvents);
+	CalcPotentialCollisions(coItems, coEvents);
 	//}
 	// No collision occured, proceed normally
 	if (coEvents.size() == 0)
@@ -107,7 +139,6 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects, vector<LPGAMEOBJE
 		if (isAttacking && !isJumping) {
 			vx = 0;
 		};
-
 		// Climb stair
 		if (isStair) {
 			isClimbableDown = isClimbableUp = 1;
@@ -118,6 +149,13 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects, vector<LPGAMEOBJE
 				nx = stairXDirection;
 				vy = stairYDirection * SIMON_CLIMBING_SPEED;
 				dy = vy * dt;
+				if (y >= SCREEN_HEIGHT - 100 && vy > 0) {
+					//Check if out of screen 
+					vx = 0;
+					vy = 0;
+					dx = 0;
+					dy = 0;
+				}
 			}
 			else {
 				vy = 0;
@@ -127,7 +165,6 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects, vector<LPGAMEOBJE
 		else {
 			vy += SIMON_GRAVITY * dt;
 		}
-
 		x += dx;
 		y += dy;
 	}
@@ -136,7 +173,7 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects, vector<LPGAMEOBJE
 		float min_tx, min_ty, nx = 0, ny;
 		float rdx = 0;
 		float rdy = 0;
-		//Remove collision with torch and hidden object event
+		//Remove collision with torch and hidden object event & handle collison event
 		auto begin = coEvents.begin();
 		while (begin != coEvents.end()) {
 			if (dynamic_cast<HiddenObject*>((*begin)->obj)) {
@@ -206,9 +243,7 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects, vector<LPGAMEOBJE
 			}
 			else if ((dynamic_cast<CBrick*>(e->obj) && e->nx != 0))
 			{
-				// Kéo simon lên sau khi nhảy
 				vy += SIMON_GRAVITY * dt;
-
 				continue;
 			}
 			else if (dynamic_cast<CEnemy*>(e->obj)) {
@@ -216,12 +251,9 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects, vector<LPGAMEOBJE
 					SetHurt(e);
 			}
 			else if (dynamic_cast<CItem*>(e->obj)) {
-
 				HandleCollisionSimonWithItem(e);
 				CGameBoard::GetInstance()->UpdateSubWeapon(currentSubWeapon);
-
 				continue;
-
 			}
 		}
 	}
@@ -229,6 +261,33 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects, vector<LPGAMEOBJE
 	// clean up collision events
 	for (UINT i = 0; i < coEvents.size(); i++) delete coEvents[i];
 
+}
+
+void CSimon::HandleCollisionSimonWithItem(LPCOLLISIONEVENT e)
+{
+	if (dynamic_cast<UpgradeMorningStar*>(e->obj)) {
+		isFreeze = 1;
+		freezingTimeCount = GetTickCount();
+		morStar->UpgradeLevel();
+	}
+	else if (dynamic_cast<Sword*>(e->obj)) {
+		currentSubWeapon = WEAPON_SWORD;
+	}
+	else if (dynamic_cast<Axe*>(e->obj)) {
+		currentSubWeapon = WEAPON_AXE;
+	}
+	else if (dynamic_cast<Boomerang*>(e->obj)) {
+		currentSubWeapon = WEAPON_BOOMERANG;
+	}
+	else if (dynamic_cast<Blue*>(e->obj)) {
+		currentSubWeapon = WEAPON_BLUE;
+	}
+	else if (dynamic_cast<LargeHeart*>(e->obj))
+		AddHeart(5);
+	else if (dynamic_cast<SmallHeart*>(e->obj))
+		AddHeart(1);
+
+	dynamic_cast<CItem*>(e->obj)->SetFinish(1);
 }
 
 void CSimon::Render()
@@ -375,6 +434,42 @@ void CSimon::Render()
 
 }
 
+
+void CSimon::GetBoundingBox(float& left, float& top, float& right, float& bottom)
+{
+	left = x;
+	top = y;
+	if (state == SIMON_STATE_DIE) {
+		right = left + SIMON_BBOX_SITTING_WIDTH;
+		bottom = top + SIMON_BBOX_SITTING_HEIGHT;
+	}
+	else {
+		if (isSitting) {
+			bottom = top + SIMON_BBOX_SITTING_HEIGHT;
+		}
+		else if (isJumping) {
+			bottom = top + SIMON_BBOX_JUMPING_HEIGHT;
+		}
+		else {
+			bottom = top + SIMON_BBOX_HEIGHT;
+		}
+		right = left + SIMON_BBOX_WIDTH;
+	}
+
+}
+
+#pragma endregion
+
+#pragma region Action methods
+void CSimon::Die()
+{
+	isAttacking = 0;
+	isStair = 0;
+	isHurting = 0;
+	untouchable = 0;
+
+}
+
 void CSimon::Climbing(int state) {
 	isClimbing = 1;
 	if (state == SIMON_STATE_CLIMBING_UP) {
@@ -391,73 +486,21 @@ void CSimon::Climbing(int state) {
 	isStair = 1;
 }
 
-void CSimon::Die()
-{
-	isAttacking = 0;
-	isStair = 0;
-	isHurting = 0;
-	untouchable = 0;
-}
-
-void CSimon::GetBoundingBox(float& left, float& top, float& right, float& bottom)
-{
-	left = x;
-	top = y;
-	if (state == SIMON_STATE_DIE) {
-		right = left + 64;
-		bottom = top + 30;
-	}
-	else {
-		if (isSitting) {
-			bottom = y + SIMON_BBOX_SITTING_HEIGHT;
-		}
-		else if (isJumping) {
-			bottom = y + SIMON_BBOX_JUMPING_HEIGHT;
-		}
-		else {
-			bottom = y + SIMON_BBOX_HEIGHT;
-		}
-		right = x + SIMON_BBOX_WIDTH;
-	}
-
-}
-
-void CSimon::UpdateHurting() {
-	if (isHurting && GetTickCount() - hurtingTimeCount > SIMON_HURTING_TIME) {
-		isHurting = false;
-		vx = 0;
-		vy = 0;
-	}
-}
-
-void CSimon::UpdateFreeze()
-{
-	if (isFreeze && GetTickCount() - freezingTimeCount > SIMON_FREEZE_TIME) {
-		freezingTimeCount = 0;
-		isFreeze = false;
-	}
-	else {
-		if (isFreeze) {
-			vx = 0;
-			vy = 0;
-			SetState(SIMON_STATE_IDLE);
-		}
-		
-	}
-}
-
 void CSimon::Attack(int weapon) {
 	if (isStair)
 		isClimbing = 0;
 	if (weapon == SIMON_ATTACK_MAIN_WEAPON)
 		morStar->Attack(x, y, nx);
-	else {    
+	else {
 		Weapon* subWeapon = newSubWeapon();
 		subWeapon->Attack(x, y, nx);
 		SubHeart(subWeapon->GetHeart());
 		subWeapons.push_back(subWeapon);
 	}
 }
+#pragma endregion
+
+#pragma region Set Methods
 
 void CSimon::SetSitting(bool status) {
 	isSitting = status;
@@ -503,12 +546,7 @@ void CSimon::SetHurt(LPCOLLISIONEVENT e)
 
 
 	SubHealth(2); // chạm enemy -2 máu
-	DebugOut(L"Mau con lai: %d", Health);
-}
-
-void CSimon::SubHeart(int hearts)
-{
-	heart -= hearts;
+	DebugOut(L"Mau con lai: %d", health);
 }
 
 void CSimon::SetState(int state)
@@ -559,40 +597,63 @@ void CSimon::SetState(int state)
 		break;
 
 	case SIMON_STATE_DIE:
-		vy = -SIMON_DIE_DEFLECT_SPEED;
+
+		Die();
+
 		break;
 	}
 }
 
+void CSimon::setSceneSwitching(bool value) {
+
+	stair = NULL;
+	isClimbing = 0;
+	isClimbableUp = isClimbableDown = 0;
+	health = SIMON_DEFAULT_HEALTH;
+	SetState(SIMON_STATE_IDLE);
+	SetSpeed(0, 0);
+	this->isSceneSwitching = value;
+	isInnewScene = true;
+}
+
+void CSimon::SubHeart(int hearts)
+{
+	heart -= hearts;
+}
+
+void CSimon::AddHeart(int hearts) {
+	heart += hearts;
+}
+
+#pragma endregion
+
+#pragma region Utils
+
+Weapon* CSimon::newSubWeapon()
+{
+	switch (currentSubWeapon) {
+	case WEAPON_SWORD:
+		return new wSword();
+		break;
+	case WEAPON_AXE:
+		return new wAxe();
+		break;
+	case WEAPON_BOOMERANG:
+		return new wBoomerang();
+		break;
+
+	case WEAPON_BLUE:
+		return new wBlue();
+		break;
+	}
+
+}
 void CSimon::Reset()
 {
 	SetState(SIMON_STATE_IDLE);
 	SetPosition(start_x, start_y);
 	SetSpeed(0, 0);
 }
-
-void CSimon::HandleCollisionSimonWithItem(LPCOLLISIONEVENT e)
-{
-	if (dynamic_cast<UpgradeMorningStar*>(e->obj)) {
-		isFreeze = 1;
-		freezingTimeCount = GetTickCount();
-		morStar->UpgradeLevel();
-	}
-	else if (dynamic_cast<Sword*>(e->obj)) {
-		currentSubWeapon = WEAPON_SWORD;
-	}
-	else if (dynamic_cast<Axe*>(e->obj)) {
-		currentSubWeapon = WEAPON_AXE;
-	}
-	else if (dynamic_cast<Boomerang*>(e->obj)) {
-		currentSubWeapon = WEAPON_BOOMERANG;
-	}
-	else if (dynamic_cast<LargeHeart*>(e->obj))
-		AddHeart(5);
-
-	dynamic_cast<CItem*>(e->obj)->SetFinish(1);
-}
-
 void CSimon::ResetAttackAni() {
 
 	if (isStair) {
@@ -610,6 +671,4 @@ void CSimon::ResetAttackAni() {
 
 }
 
-void CSimon::AddHeart(int hearts) {
-	heart += hearts;
-}
+#pragma endregion

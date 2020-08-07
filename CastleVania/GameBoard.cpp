@@ -1,6 +1,6 @@
 ﻿#include "GameBoard.h"
 #include <string> 
- 
+
 CGameBoard* CGameBoard::_instance = NULL;
 
 inline void CGameBoard::ReloadSubWeaponSprites() {
@@ -9,6 +9,10 @@ inline void CGameBoard::ReloadSubWeaponSprites() {
 	for (int i = 0; i < 4; i++) {
 		_subWeaponSprites.push_back(CSprites::GetInstance()->Get(spriteIds[i]));
 	}
+}
+
+void CGameBoard::SetOver(bool value) {
+	isOver = value;
 }
 
 CGameBoard::CGameBoard() {
@@ -31,10 +35,19 @@ CGameBoard::~CGameBoard() {
 }
 void CGameBoard::Load() {
 	_sprite = CSprites::GetInstance()->Get(GAMEBOARD_SPRITE_ID);
+	_spriteBlack = CSprites::GetInstance()->Get(GAMEBOARD_SPRITE_BLACK_ID);
 	ReloadSubWeaponSprites();
 }
-void CGameBoard::Update(int time, int stage, int enemyHealth)
+void CGameBoard::Update(int dt, int time, int stage)
 {
+	if (isOver) {
+		overRenderTime -= dt;
+		if (overRenderTime <= 0) {
+			overRenderTime = 1500;
+			isOver = false;
+		}
+	}
+
 	auto simon = CSimon::GetInstance();
 	simonHP = simon->getHealth();
 	score = simon->getScore();
@@ -63,9 +76,9 @@ void CGameBoard::Render() {
 	//Life
 	CGame::GetInstance()->Draw(std::to_string(life), 400, 53, 450, 80, D3DCOLOR_XRGB(255, 255, 255));
 	// Time
-	CGame::GetInstance()->Draw(std::to_string(time), 300, 13, 400, 300, D3DCOLOR_XRGB(255, 255, 255));
+	CGame::GetInstance()->Draw(std::to_string(time / 1000), 300, 13, 400, 300, D3DCOLOR_XRGB(255, 255, 255));
 	// Stage
-	CGame::GetInstance()->Draw(std::to_string(stage), 465, 14, 500, 300, D3DCOLOR_XRGB(255, 255, 255));
+	CGame::GetInstance()->Draw("0" + std::to_string(stage), 465, 14, 500, 300, D3DCOLOR_XRGB(255, 255, 255));
 
 	// Player HP █
 	int baseX = 120, baseY = 30;
@@ -87,6 +100,11 @@ void CGameBoard::Render() {
 	for (int i = 0; i < this->bossHP; i++) {
 		wstring wStr = L"▮";
 		CGame::GetInstance()->Draw(wStr, baseX + i * 10, baseY, 300, 300, D3DCOLOR_XRGB(156, 0, 0));
+	}
+	 
+	if (isOver) {
+		_spriteBlack->Draw(0, 0, 255, true);
+		CGame::GetInstance()->Draw("GAME OVER", SCREEN_WIDTH / 2 - 90, SCREEN_HEIGHT / 2 - 5, 1000, 300, D3DCOLOR_XRGB(255, 255, 255));
 	}
 }
 void CGameBoard::SetPosition(float x, float y) {
