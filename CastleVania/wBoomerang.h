@@ -11,7 +11,7 @@
 
 class wBoomerang : 	public Weapon
 {
-
+	bool isTurnedAround = false;
 public:
 
 	wBoomerang();

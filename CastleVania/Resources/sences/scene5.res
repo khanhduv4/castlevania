@@ -30,7 +30,7 @@
 27	Resources\enemy\skeleton.png	255	0	255
 28	Resources\enemy\raven.png	116	116	116
 40	Resources\item\heart-sm.png	255	0	255
-42	Resources\enemy\bone.png	255	0	255
+42	Resources\enemy\bone.png	116	116	116
 41	Resources\other\hit.png	255	0	255
 
 100	Resources\extra\blackboard.png	0	0	0
@@ -264,15 +264,16 @@
 734	66	0	99	36	28
 735	99	0	132	36	28
 #Raven right
-739	0	0	33	36	28
-738	33	0	66	36	28
-737	66	0	99	36	28
-736	99	0	132	36	28
+739	132	0	165	36	28
+738	165	0	198	36	28
+737	198	0	231	36	28
+736	231	0	264	36	28
 
 #bones
-740	0	0	15	16	42
-741	15	0	30	16	42
-742	30	0	45	16	42
+740	0	0	30	32	42
+741	30	0	60	64	42
+742	60	0	90	96	42
+
 
 
 

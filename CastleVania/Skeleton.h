@@ -2,6 +2,7 @@
 #include "Enemy.h"
 //#include "Bone.h"
 #include <vector>
+#include "wBone.h"
 
 //Skeleton
 #define SKELETON_DISTANCE_X 30
@@ -30,16 +31,17 @@
 #define BONE_STATE_FLY 1
 class Skeleton : public CEnemy
 {
-	float maxXRight, maxXLeft;
+	float maxMove;
 	float distanceAttack; 
-	//vector<Bone *> bones;
+	float attackTime; 
+	int jumpCount;
+	vector<wBone *> bones;
 
 public:
 	Skeleton();
-	~Skeleton();
-
-	virtual void Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects = NULL);
-	virtual void Render();
+	~Skeleton(); 
+	void Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects = NULL);
+	void Render();
 
 	virtual void GetBoundingBox(float &left, float &top, float &right, float &bottom);
 	virtual void SetState(int state);

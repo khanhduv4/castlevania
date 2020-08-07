@@ -147,6 +147,7 @@
     <ClCompile Include="SmallHeart.cpp" />
     <ClCompile Include="wAxe.cpp" />
     <ClCompile Include="wBlue.cpp" />
+    <ClCompile Include="wBone.cpp" />
     <ClCompile Include="wBoomerang.cpp" />
     <ClCompile Include="wSword.cpp" />
     <ClCompile Include="Elevator.cpp" />
@@ -197,6 +198,7 @@
     <ClInclude Include="SmallHeart.h" />
     <ClInclude Include="wAxe.h" />
     <ClInclude Include="wBlue.h" />
+    <ClInclude Include="wBone.h" />
     <ClInclude Include="wBoomerang.h" />
     <ClInclude Include="wSword.h" />
     <ClInclude Include="Define.h" />

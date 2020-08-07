@@ -1,13 +1,13 @@
 
 [CONFIG]
 # stage	time
-5	30000
+5	300000
 [OBJECTS]
 # type	x	y	ani_set_id	extra_settings per object type
 # type: 0 = SIMON , 1 = Brick, 
 # SIMON
 #0	200	400	1
-0	100	300	1	100	300
+0	200	400	1	100	300
 # GROUND 
 # --- platform (hint: I created the list using Excel!) ----
 #ground
@@ -47,7 +47,7 @@
 #Hidden Object
 #type	x	y	ani	width	height	type_hidden	height(stair)	SIMON_X	direction
 #Stair Around
-999	120	310	-1	50	20	1	165	100	1
+999	110	320	-1	50	20	1	165	100	1
 #Stair End
 999	270	187	-1	20	10	2	165	240	1
 

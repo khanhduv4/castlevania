@@ -91,6 +91,7 @@
 #define WEAPON_ANI_SET_BOOMERANG	14
 #define WEAPON_ANI_SET_AXE	12
 #define WEAPON_ANI_SET_BLUE	15
+#define WEAPON_ANI_SET_BONE	41
 
 #pragma endregion
 
@@ -113,6 +114,7 @@
 #define ITEM_ID_AXE 8
 #define ITEM_ID_SMALLHEART 9
 #define ITEM_ID_BOSSITEM	10
+#define ITEM_ID_MONEY	11
 
 #pragma endregion
 
@@ -178,9 +180,9 @@
 #define RAVEN_DISTANCE_WAITING_X 60
 
 #define RAVEN_ANI_IDLE_LEFT 0
-#define RAVEN_ANI_IDLE_RIGHT 1
-#define RAVEN_ANI_FLY_LEFT 2
-#define RAVEN_ANI_FLY_RIGHT 3
+#define RAVEN_ANI_IDLE_RIGHT 0
+#define RAVEN_ANI_FLY_LEFT 1
+#define RAVEN_ANI_FLY_RIGHT 2
 
 #define RAVEN_STATE_DIE 0
 #define RAVEN_STATE_IDLE 1

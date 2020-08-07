@@ -203,7 +203,7 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 	}
 
 	// General object setup
-	if (dynamic_cast<CEnemy*>(obj))
+	if (dynamic_cast<CEnemy*>(obj)) 
 		obj->itemId = atoi(tokens[4].c_str());
 	obj->SetPosition(x, y);
 	if (ani_set_id != -1) {

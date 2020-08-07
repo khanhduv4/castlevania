@@ -7,6 +7,8 @@ CSimon::CSimon() : CGameObject()
 	// Set default props for simon
 	untouchable = score = isClimbableUp = isClimbing = isStair = isFreeze = isSceneSwitching = 0;
 
+	untouchable = 1;
+
 	SetState(SIMON_STATE_IDLE);
 	morStar = new MorningStar();
 
@@ -50,11 +52,11 @@ void CSimon::StartOver() {
 
 	this->setSceneSwitching(true);
 	if (life-- == 0) {
-		score = 0; 
+		score = 0;
 		life = SIMON_DEFAULT_LIFE;
 		CGame::GetInstance()->SwitchScene(1);
 		CGameBoard::GetInstance()->SetOver(true);
-	} 
+	}
 	CGame::GetInstance()->StartOver();
 	SetPosition(startX, startY);
 }
@@ -74,6 +76,8 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects, vector<LPGAMEOBJE
 		}
 
 	}
+
+
 
 	if ((health <= 0 || y > SCREEN_HEIGHT) && GetState() != SIMON_STATE_DIE) {
 		SetState(SIMON_STATE_DIE);
@@ -238,6 +242,12 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects, vector<LPGAMEOBJE
 				if (isJumping) {
 					y -= 15;
 				}
+				if (dynamic_cast<Elevator*>(e->obj)) {
+					float evx, evy;
+					(dynamic_cast<Elevator*>(e->obj))->GetSpeed(evx, evy);
+					x += evx * dt * 3;
+				}
+					
 				this->setJumping(0);
 				continue;
 			}
@@ -247,8 +257,11 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects, vector<LPGAMEOBJE
 				continue;
 			}
 			else if (dynamic_cast<CEnemy*>(e->obj)) {
-				if (!untouchable && !isHurting)
+				
 					SetHurt(e);
+			}
+			else if (dynamic_cast<wBoomerang*>(e->obj)) {
+				(e->obj)->SetFinish(true);
 			}
 			else if (dynamic_cast<CItem*>(e->obj)) {
 				HandleCollisionSimonWithItem(e);
@@ -284,6 +297,8 @@ void CSimon::HandleCollisionSimonWithItem(LPCOLLISIONEVENT e)
 	}
 	else if (dynamic_cast<LargeHeart*>(e->obj))
 		AddHeart(5);
+	else if (dynamic_cast<Money*>(e->obj))
+		score += 100;
 	else if (dynamic_cast<SmallHeart*>(e->obj))
 		AddHeart(1);
 
@@ -434,7 +449,6 @@ void CSimon::Render()
 
 }
 
-
 void CSimon::GetBoundingBox(float& left, float& top, float& right, float& bottom)
 {
 	left = x;
@@ -511,6 +525,7 @@ void CSimon::SetSitting(bool status) {
 
 void CSimon::SetHurt(LPCOLLISIONEVENT e)
 {
+	if (untouchable || isHurting) return;
 	isAttacking = 0;
 	isJumping = 0;
 	morStar->SetFinish(1);

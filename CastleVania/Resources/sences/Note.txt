@@ -1,0 +1,4 @@
+Note
+
+- Sửa hàm xét va chạm simon
+- Sửa boss

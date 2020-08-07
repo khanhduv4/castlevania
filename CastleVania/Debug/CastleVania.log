@@ -1,3 +1,7 @@
-﻿  Raven.cpp
-C:\Users\Admin\Desktop\GAME\CastleVania\Raven.cpp(28,16): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+﻿  Enemy.cpp
+  Skeleton.cpp
+C:\Users\Admin\Desktop\GAME\CastleVania\Skeleton.cpp(51,21): warning C4018: '<': signed/unsigned mismatch
+C:\Users\Admin\Desktop\GAME\CastleVania\Skeleton.cpp(83,15): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+C:\Users\Admin\Desktop\GAME\CastleVania\Skeleton.cpp(106,21): warning C4018: '<': signed/unsigned mismatch
+  Generating Code...
   CastleVania.vcxproj -> C:\Users\Admin\Desktop\GAME\Debug\CastleVania.exe

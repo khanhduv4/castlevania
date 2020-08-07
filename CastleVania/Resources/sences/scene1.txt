@@ -30,7 +30,7 @@
 27	Resources\enemy\skeleton.png	255	0	255
 40	Resources\item\heart-sm.png	255	0	255
 41	Resources\other\hit.png	255	0	255
-
+42	Resources\item\money.png	255	0	255
 100	Resources\extra\blackboard.png	0	0	0
 101	Resources\extra\blackboardpause.png	0	0	0
 
@@ -206,6 +206,8 @@
 607	0	0	42	42	18
 #Small heart
 608	0	0	16	16	40
+#money
+609	0	0	30	30	42
 #=====================ENEMY========================
 #knight left
 700	0	0	32	64	8
@@ -388,6 +390,8 @@
 87	607	100
 #small heart
 88	608	100
+#money
+89	609	100
 
 
 # ======== BRICK ========= START: 6x
@@ -477,6 +481,8 @@
 20	103	104
 # Small Heart
 40	88
+#money
+41	89
 [CONFIG]
 # stage	time
 1	300000
@@ -497,7 +503,7 @@
 2	170	307	3	2
 2	450	307	3	1
 2	700	307	3	1
-2	950	307	3	2
+2	950	307	3	11
 2	1200	307	3	3
 
 

@@ -10,6 +10,10 @@ private:
 
 public:
 	Elevator();
+	void GetSpeed(float& vx, float& vy) {
+		vx = this->vx;
+		vy = this->vy;
+	}
 	virtual void Render();
 	virtual void Update(DWORD dt, vector<LPGAMEOBJECT>* coObject);
 	virtual void GetBoundingBox(float& l, float& t, float& r, float& b);

@@ -19,6 +19,7 @@
 #include "Boomerang.h"
 #include "Axe.h"
 #include "Blue.h"
+#include "Money.h"
 //Weapons
 #include "wSword.h"
 #include "wAxe.h"
@@ -57,8 +58,6 @@ class CSimon : public CGameObject
 	int freezingTimeCount = 0;
 	int dyingToDiedTime = 0;
 #pragma endregion
-
-
 
 public:
 

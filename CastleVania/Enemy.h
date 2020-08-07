@@ -9,6 +9,8 @@ public:
 	int ani;
 	int isEnable;
 	int damage;
+	float distanceAttack;
+
 	bool isFront = false;
 	int score;
 	LPANIMATION_SET disappearingAnimSet;

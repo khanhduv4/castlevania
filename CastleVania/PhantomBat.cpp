@@ -7,7 +7,7 @@
 PhantomBat::PhantomBat()
 {
 
-	this->health = 16;
+	this->health = 1;
 	this->damage = 2;
 
 
@@ -147,7 +147,7 @@ void PhantomBat::Render()
 		}
 
 		animation_set->at(ani)->Render(x, y);
-		RenderBoundingBox();
+		//RenderBoundingBox();
 	}
 	//collisionEffect->Render();
 

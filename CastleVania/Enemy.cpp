@@ -88,10 +88,6 @@ void CEnemy::Update(DWORD dt, vector<LPGAMEOBJECT>* listObject)
 
 void CEnemy::Render()
 {
-	//isFlickering ? CGame::GetInstance()->beginFlickering(false) : NULL;
-	//((ani!=-1)&&(!isFinish))?animation_set->at(ani)->Render(x, y,255):NULL;
-	//CGame::GetInstance()->endFlickering();
-	
 	if (objLife == OBJ_LIFE_DISAPPEARING)
 	{
 		disappearingAnimSet->at(0)->Render(x, y);
@@ -164,6 +160,10 @@ CItem* CEnemy::SpawnItem() {
 	}
 	case ITEM_ID_BOSSITEM: {
 		item = new BossItem(x, y);
+		break;
+	}
+	case ITEM_ID_MONEY: {
+		item = new Money(x, y);
 		break;
 	}
 	default: {

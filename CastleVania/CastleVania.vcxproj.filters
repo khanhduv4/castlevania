@@ -71,7 +71,7 @@
       <Filter>Object\Enemy\Base</Filter>
     </ClCompile>
     <ClCompile Include="Sword.cpp">
-      <Filter>Object\Item\Money\Sword</Filter>
+      <Filter>Object\Item\Sword</Filter>
     </ClCompile>
     <ClCompile Include="Knight.cpp">
       <Filter>Object\Enemy\Knight</Filter>
@@ -144,6 +144,9 @@
     </ClCompile>
     <ClCompile Include="BossItem.cpp">
       <Filter>Object\Item\BossItem</Filter>
+    </ClCompile>
+    <ClCompile Include="wBone.cpp">
+      <Filter>Object\Weapon\Bone</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -223,7 +226,7 @@
       <Filter>Object\Enemy\Base</Filter>
     </ClInclude>
     <ClInclude Include="Sword.h">
-      <Filter>Object\Item\Money\Sword</Filter>
+      <Filter>Object\Item\Sword</Filter>
     </ClInclude>
     <ClInclude Include="Knight.h">
       <Filter>Object\Enemy\Knight</Filter>
@@ -293,6 +296,9 @@
     </ClInclude>
     <ClInclude Include="BossItem.h">
       <Filter>Object\Item\BossItem</Filter>
+    </ClInclude>
+    <ClInclude Include="wBone.h">
+      <Filter>Object\Weapon\Bone</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -398,9 +404,6 @@
     <Filter Include="Object\Weapon\Sword">
       <UniqueIdentifier>{3cf7aa71-5777-432c-8233-18d266383a61}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Object\Item\Money\Sword">
-      <UniqueIdentifier>{8c3059b2-a874-4fb1-8a3e-60cae64596d3}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Object\Weapon\Axe">
       <UniqueIdentifier>{06c49324-5391-40d9-90b4-c9a235360d42}</UniqueIdentifier>
     </Filter>
@@ -436,6 +439,12 @@
     </Filter>
     <Filter Include="Object\Item\BossItem">
       <UniqueIdentifier>{a5f59213-e4a4-4890-8f8c-3fea552349f9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object\Item\Sword">
+      <UniqueIdentifier>{8c3059b2-a874-4fb1-8a3e-60cae64596d3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object\Weapon\Bone">
+      <UniqueIdentifier>{804002ec-b43e-400c-a511-e3d3ad597117}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

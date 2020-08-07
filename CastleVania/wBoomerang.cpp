@@ -7,6 +7,7 @@ wBoomerang::wBoomerang()
 	damage = 1;
 	aniIndex = WEAPON_ANI_SET_BOOMERANG;
 	ResetAniSet();
+	isCollisionWithSimon = true;
 }
 
 
@@ -20,7 +21,10 @@ void wBoomerang::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects, vector<LPGAME
 	if (isFinish)
 		return;
 	if (abs(x - startX) > BOOMERANG_MAX_DISTANCE && vx / direction > 0)
+	{
+		isTurnedAround = true;
 		vx = -vx;
+	}
 	CGameObject::Update(dt); // update dt,dx,dy 
 	x += dx;
 	y += dy;
@@ -30,7 +34,7 @@ void wBoomerang::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects, vector<LPGAME
 		isFinish = 1;
 		return;
 	}
-
+	coObjects->push_back(CSimon::GetInstance());
 	//Refactor Xu ly va cham weapon voi enemy
 	vector<LPCOLLISIONEVENT> coEvents;
 	vector<LPCOLLISIONEVENT> coEventsResult;
@@ -55,9 +59,10 @@ void wBoomerang::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects, vector<LPGAME
 				float x = 0, y = 0;
 				enemy->GetPosition(x, y);
 				enemy->SubHealth(damage, coObjects, coItems);
-			}else if (dynamic_cast<CSimon*>(object)) {
-				//check simon
-				isFinish = true;
+			}
+			else if (dynamic_cast<CSimon*>(object) && isTurnedAround) {
+				this->isFinish = true;
+				++begin;
 			}
 			else {
 				++begin;

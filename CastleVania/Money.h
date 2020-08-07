@@ -3,6 +3,7 @@
 class Money :
 	public CItem
 {
+	int score;
 public:
 	Money(float X = 0, float Y = 0);
 	~Money();

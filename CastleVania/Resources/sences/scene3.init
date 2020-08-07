@@ -6,7 +6,7 @@
 # type	x	y	ani_set_id	extra_settings per object type
 # type: 0 = SIMON , 1 = Brick, 
 # SIMON
-0	750	380	1	920	100
+0	755	380	1	920	100
 
 # GROUND 
 # --- platform (hint: I created the list using Excel!) ----
