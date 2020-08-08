@@ -472,6 +472,9 @@ void CPlayScenceKeyHandler::OnKeyDown(int KeyCode)
 	case DIK_P:
 		simon->SetHurt(new CCollisionEvent(0.2, 0.2, 0.2));
 		break;
+	case DIK_RETURN:
+		CGameBoard::GetInstance()->Start();
+		break;
 	case DIK_S:
 		if (game->IsKeyDown(DIK_UP)) {
 			if (simon->getCurrentSubWeapon() != -1 && simon->getHeart() > 0) {
@@ -515,6 +518,7 @@ void CPlayScenceKeyHandler::KeyState(BYTE* states)
 	if (simon->IsAttacking()) return;
 
 
+	if (!CGameBoard::GetInstance()->IsStarted()) return;
 	if (game->IsKeyDown(DIK_RIGHT) || game->IsKeyDown(DIK_LEFT)) {
 		if (simon->IsAttacking() || simon->isStair || simon->isHurting) return;
 		simon->SetState(SIMON_STATE_WALKING);

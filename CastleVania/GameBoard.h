@@ -8,6 +8,7 @@
 
 #define GAMEBOARD_SPRITE_ID 100100
 #define GAMEBOARD_SPRITE_BLACK_ID 100101
+#define GAMEBOARD_SPRITE_MAIN_MENU 100102
 
 #define POSITION_X_SUBWEAPON 310
 #define POSITION_Y_SUBWEAPON 35
@@ -44,11 +45,19 @@ public:
 	}
 	void ReloadSubWeaponSprites();
 	void SetOver(bool value,string overMsg );
+
+	bool IsStarted() { return isStarted; }
+	void Start() { isStarted = true; }
 private:
 	CGameBoard();
 	static CGameBoard* _instance;
 	CSprite* _sprite;
 	CSprite* _spriteBlack;
+	CSprite* _spriteMenu;
+
+	bool isStarted = false;
+
+
 
 	float _x;
 	float _y;

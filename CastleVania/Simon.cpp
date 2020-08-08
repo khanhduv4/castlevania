@@ -77,7 +77,7 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects, vector<LPGAMEOBJE
 			return;
 		}
 	}
-
+	// check is Dead
 	if ((health <= 0 || y > SCREEN_HEIGHT) && GetState() != SIMON_STATE_DIE) {
 		SetState(SIMON_STATE_DIE);
 		dyingToDiedTime = 500;

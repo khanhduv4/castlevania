@@ -35,6 +35,7 @@ void Hunchback::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 		DebugOut(L"NX: %d \n", nx);
 
+
 		if (state == HUNCHBACK_STATE_IDLE)
 		{
 			if (abs(x - simonX) < ATTACK_DISTANCE) {
@@ -50,11 +51,11 @@ void Hunchback::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			}
 		}
 		else if (state == HUNCHBACK_STATE_ATTACK) {
-	
-				nx = this->x >= simonX ? -1 : 1;
 
-				SetState(HUNCHBACK_STATE_ATTACK);
+			nx = this->x >= simonX ? -1 : 1;
 			
+			SetState(HUNCHBACK_STATE_ATTACK);
+
 		}
 
 
@@ -96,7 +97,7 @@ void Hunchback::Render()
 		default:
 			ani = -1;
 			break;
-		} 
+		}
 		animation_set->at(ani)->Render(x, y, 255);
 
 	}
@@ -142,14 +143,19 @@ void Hunchback::SetState(int state)
 		break;
 	case HUNCHBACK_STATE_ATTACK:
 	{
-
+		bool leap = rand() % 30 < 7;
 		if (nx > 0)
 		{
-			vx = HUNCHBACK_SPEED_X;
+			vx = leap*0.15f + HUNCHBACK_SPEED_X;
 		}
 		else
 		{
-			vx = -HUNCHBACK_SPEED_X;
+			vx = -leap * 0.15f - HUNCHBACK_SPEED_X;
+			 
+		}
+		if (vy == 0 && isGrounded) {
+			vy = -0.15 - leap * 0.15f;
+			isGrounded = false;
 		}
 
 	}

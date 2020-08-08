@@ -12,7 +12,7 @@ inline void CGameBoard::ReloadSubWeaponSprites() {
 
 }
 
-void CGameBoard::SetOver(bool value,string overMsg) {
+void CGameBoard::SetOver(bool value, string overMsg) {
 	isOver = value;
 	bossHP = initBossHP;
 	this->overMsg = overMsg;
@@ -39,6 +39,7 @@ CGameBoard::~CGameBoard() {
 void CGameBoard::Load() {
 	_sprite = CSprites::GetInstance()->Get(GAMEBOARD_SPRITE_ID);
 	_spriteBlack = CSprites::GetInstance()->Get(GAMEBOARD_SPRITE_BLACK_ID);
+	_spriteMenu = CSprites::GetInstance()->Get(GAMEBOARD_SPRITE_MAIN_MENU);
 	ReloadSubWeaponSprites();
 }
 void CGameBoard::Update(int dt, int time, int stage)
@@ -104,10 +105,16 @@ void CGameBoard::Render() {
 		wstring wStr = L"▮";
 		CGame::GetInstance()->Draw(wStr, baseX + i * 10, baseY, 300, 300, D3DCOLOR_XRGB(249, 121, 118));
 	}
-	 
+
 	if (isOver) {
 		_spriteBlack->Draw(0, 0, 255, true);
 		CGame::GetInstance()->Draw(overMsg, SCREEN_WIDTH / 2 - 90, SCREEN_HEIGHT / 2 - 5, 1000, 300, D3DCOLOR_XRGB(255, 255, 255));
+	}
+	if (!isStarted) {
+		_spriteMenu->Draw(0, 0, 255, true);
+		if (time / 400 % 2 == 0)
+			CGame::GetInstance()->Draw("PRESS START", SCREEN_WIDTH / 2 - 90, SCREEN_HEIGHT / 2 + 30, 1000, 1000, D3DCOLOR_XRGB(255, 255, 255));
+		
 	}
 }
 void CGameBoard::SetPosition(float x, float y) {

@@ -7,6 +7,7 @@ class CEnemy :
 public:
 	CEnemy();
 	int ani;
+	bool isGrounded = false;
 	int isEnable;
 	int damage;
 	float distanceAttack;

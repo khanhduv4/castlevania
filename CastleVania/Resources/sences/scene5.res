@@ -35,6 +35,7 @@
 
 100	Resources\extra\blackboard.png	0	0	0
 101	Resources\extra\blackboardpause.png	0	0	0
+102	Resources\extra\mainmenu.png	255	0	255
 
 # id	left	top	right	bottom	texture_id
 [SPRITES]
@@ -117,7 +118,9 @@
 #game board
 100100	0	0	520	80	100
 100101	0	0	900	900	101
+#main mainmenu
 
+100102	0	0	514	450	102
 
 #====================BRICK==========================
 20001	408	225	424	241	20
@@ -365,8 +368,8 @@
 #right
 57	421	100
 #============BLUE=================
-58	422	100	423	100	424	100
-#59
+58	422	100
+59	423	100	424	100
 #===========AXE=================
 60	425	100	426	100	427	100	428	100
 #===========BOOMERANG============
@@ -495,7 +498,7 @@
 # BOOMERANG
 14	85	61	61
 # BLUE
-15	86	58	58
+15	86	58	59
 # II
 16	87
 # Elevator

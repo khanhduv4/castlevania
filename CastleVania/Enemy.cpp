@@ -80,6 +80,8 @@ void CEnemy::Update(DWORD dt, vector<LPGAMEOBJECT>* listObject)
 		//if (nx != 0) vx = 0;
 		if (ny != 0) {
 			vy = 0;
+			if (ny == -1)
+				isGrounded = true;
 		}
 	}
 	for (UINT i = 0; i < coEvents.size(); i++)

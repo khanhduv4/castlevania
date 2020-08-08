@@ -26,6 +26,8 @@ void wBlue::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects, vector<LPGAMEOBJEC
 		{
 			displayTime = 0;
 			isFinish = true;
+			animation_set->at(2)->Reset();
+
 		}
 	}
 	vy += SIMON_GRAVITY/2 * dt;
@@ -102,10 +104,6 @@ void wBlue::Render() {
 		}
 		else {
 			animation_set->at(2)->Render(x, y);
-			if (animation_set->at(2)->IsDone()) {
-				//isFinish = true;
-				animation_set->at(2)->Reset();
-			}
 		}
 	}
 }
