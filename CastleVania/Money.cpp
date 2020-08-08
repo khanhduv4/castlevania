@@ -21,3 +21,17 @@ void Money::GetBoundingBox(float& left, float& top, float& right, float& bottom)
 	right = x + 30;
 	bottom = y + 30;
 }
+
+void Money::Render() {
+	CItem::Render();
+	if (displayTime > 0 && isFinish) {
+
+		animation_set->at(1)->Render(x, y);
+	}
+}
+
+void Money::SetFinish(bool b)
+{
+	isFinish = b;
+	displayTime = 1000;
+}

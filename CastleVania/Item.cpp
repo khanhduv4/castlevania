@@ -32,21 +32,6 @@ void CItem::Update(DWORD dt, vector<LPGAMEOBJECT>* listObject)
 	if (isFinish) return;
 	// Simple fall down
 	vy += 0.0001f;
-
-	//if (isWaitingDisplay())
-	//{
-	//	TimeWaited += dt;
-	//	return;
-	//}
-
-	//TimeDisplayed += dt;
-	//if (TimeDisplayed >= TimeDisplayMax)
-	//{
-	//	isFinish = true;
-	//	return;
-	//}
-
-
 	CGameObject::Update(dt);
 	vector<LPGAMEOBJECT> listObject_Brick;
 	listObject_Brick.clear();
@@ -81,7 +66,7 @@ void CItem::Update(DWORD dt, vector<LPGAMEOBJECT>* listObject)
 		if (ny != 0) {
 			vy = 0;
 			isGrounded = true;
-			if (displayTime > 3000) displayTime = 3000;
+			if (displayTime > ITEM_DISPLAY_TIME) displayTime = ITEM_DISPLAY_TIME;
 		}
 	}
 	for (UINT i = 0; i < coEvents.size(); i++)
@@ -91,20 +76,15 @@ void CItem::Update(DWORD dt, vector<LPGAMEOBJECT>* listObject)
 
 void CItem::Render()
 {
-	//if (isWaitingDisplay())
-	//{ 
-	//	return;
-	//}
 	if (isFinish) return;
 	animation_set->at(0)->Render(x, y);
-	//RenderBoundingBox();
-
 }
 
 bool CItem::isWaitingDisplay()
 {
 	return TimeWaited < TimeWaitMax;
 }
+
 
 
 

@@ -20,6 +20,7 @@
 #include "Axe.h"
 #include "Blue.h"
 #include "Money.h"
+#include "BossItem.h"
 //Weapons
 #include "wSword.h"
 #include "wAxe.h"
@@ -110,6 +111,7 @@ public:
 		return currentSubWeapon;
 	}
 	int getHealth() { return health; }
+	void setHealth(int value) { health = value; }
 	int getHeart() { return heart; }
 	int getLife() { return life; }
 	int getScore() { return score; }
@@ -132,8 +134,8 @@ public:
 
 	void SetState(int state);
 
-	void setSceneSwitching(bool value);
-
+	void setSceneSwitching(bool value, bool isFullHealth = false);
+	 
 	void setDirection(int direction) {
 		this->nx = direction;
 	}

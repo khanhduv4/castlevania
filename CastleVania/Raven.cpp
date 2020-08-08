@@ -20,6 +20,10 @@ Raven::~Raven()
 
 void Raven::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {	
+
+	CEnemy::Update(dt, coObjects);
+
+
 	float simonX, simonY;
 
 	CSimon* simon = CSimon::GetInstance();
@@ -31,7 +35,6 @@ void Raven::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		isEnable = true;
 	}
 	if (!isEnable || isFinish) return;
-	CEnemy::Update(dt, coObjects);
 	
 	nx = simon->x - x;
 	

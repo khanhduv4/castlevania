@@ -1,11 +1,16 @@
 ﻿#include "wBLue.h"
 
+#define BLUE_GRAVITY 
+
 wBlue::wBlue()
 {
 	damage = 2;
 	aniIndex = WEAPON_ANI_SET_BLUE;
 	SetState(BLUE_STATE_BOTTLE);
 	ResetAniSet();
+	displayTime = BLUE_DISPLAY_TIME;
+	isGrounded = false;
+
 }
 
 wBlue::~wBlue()
@@ -13,8 +18,17 @@ wBlue::~wBlue()
 }
 void wBlue::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects, vector<LPGAMEOBJECT>* coItem)
 {
+
 	if (isFinish) return;
-	vy += SIMON_GRAVITY * dt;
+	if (displayTime && isGrounded) {
+		displayTime -= dt;
+		if (displayTime <= 0)
+		{
+			displayTime = 0;
+			isFinish = true;
+		}
+	}
+	vy += SIMON_GRAVITY/2 * dt;
 
 	vector<LPGAMEOBJECT> listObject_Brick;
 	listObject_Brick.clear();
@@ -29,7 +43,6 @@ void wBlue::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects, vector<LPGAMEOBJEC
 	// No collision occured, proceed normally
 	if (coEvents.size() == 0)
 	{
-
 	}
 	else
 	{
@@ -48,8 +61,10 @@ void wBlue::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects, vector<LPGAMEOBJEC
 		if (ny != 0) {
 			vy = 0;
 			vx = 0;
+			isGrounded = true;
 			SetState(BLUE_STATE_FIRE);
 		}
+
 	}
 	for (UINT i = 0; i < coEvents.size(); i++)
 		delete coEvents[i];
@@ -62,7 +77,7 @@ void wBlue::Attack(float X, float Y, int Direction)
 {
 	// Tai sao bo vx = ... vao ham attack k duoc 
 	vx = WEAPON_SPEED_X /3.5 * Direction;
-	vy = 0.05f;
+	vy = BLUE_SPEED_Y;
 	Weapon::Attack(X + 20*Direction, Y , Direction);
 }
 
@@ -79,7 +94,6 @@ void wBlue::GetBoundingBox(float& left, float& top, float& right, float& bottom)
 
 void wBlue::RenderIcon(float X, float Y)
 {
-	//sprite->DrawFrameFlipX(0, X, Y); 
 }
 void wBlue::Render() { 
 	if (!isFinish) {
@@ -88,8 +102,10 @@ void wBlue::Render() {
 		}
 		else {
 			animation_set->at(2)->Render(x, y);
-			if (animation_set->at(2)->IsDone())
-				isFinish = true;
+			if (animation_set->at(2)->IsDone()) {
+				//isFinish = true;
+				animation_set->at(2)->Reset();
+			}
 		}
 	}
 }

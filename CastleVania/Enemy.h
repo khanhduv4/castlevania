@@ -10,7 +10,7 @@ public:
 	int isEnable;
 	int damage;
 	float distanceAttack;
-
+	float phantomDisappearingTime;
 	bool isFront = false;
 	int score;
 	LPANIMATION_SET disappearingAnimSet;

@@ -43,7 +43,7 @@ public:
 		this->initHP = initHP;
 	}
 	void ReloadSubWeaponSprites();
-	void SetOver(bool value);
+	void SetOver(bool value,string overMsg );
 private:
 	CGameBoard();
 	static CGameBoard* _instance;
@@ -66,7 +66,7 @@ private:
 
 	int overRenderTime = 1500;
 	bool isOver = false;
-
+	string overMsg = "";
 	int initHP;
 	int initBossHP;
 };

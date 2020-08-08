@@ -6,7 +6,8 @@
 #define SKELETON_ATTACK_TIME 3000
 #define SKELETON_MAX_MOVE 20
 #define SKELETON_DISTANCE_ATTACK 200
-#define SKELETON_SPEED_X 0.25f
+#define SKELETON_SPEED_X 0.30f
+#define SKELETON_SPEED_Y 0.45f
 
 Skeleton::Skeleton()
 {
@@ -77,7 +78,7 @@ void Skeleton::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 					vx = direction * SKELETON_SPEED_X;
 				else
 					vx = -direction * SKELETON_SPEED_X;
-				vy = -0.35f;
+				vy = -SKELETON_SPEED_Y;
 			}
 			else {
 				vx = 0.05 * nx;
@@ -85,7 +86,7 @@ void Skeleton::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 					nx = -(x > startX ? 1 : -1);
 					ani = 0;
 				}
-				if (ceil(attackTime / 550) != ceil((attackTime - dt) / 550))
+				if (ceil(attackTime / 1000) != ceil((attackTime - dt) / 1000))
 				{ 
 					bones.push_back(new wBone(direction, x, y - 5));
 				}

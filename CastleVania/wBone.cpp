@@ -26,6 +26,12 @@ void wBone::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	if (isCollision(CSimon::GetInstance())) {
 		CSimon::GetInstance()->SetHurt(new CCollisionEvent(1, 1, 1));
 	}
+	float cx, cy;
+	CGame::GetInstance()->GetCamPos(cx, cy);
+	if (x < cx || x > cx + SCREEN_WIDTH) {
+		isFinish = 1;
+		return;
+	}
 }
 
 void wBone::Render() {

@@ -31,6 +31,7 @@
 40	Resources\item\heart-sm.png	255	0	255
 41	Resources\other\hit.png	255	0	255
 42	Resources\item\money.png	255	0	255
+43	Resources\item\money-award.png	255	0	255
 100	Resources\extra\blackboard.png	0	0	0
 101	Resources\extra\blackboardpause.png	0	0	0
 
@@ -186,6 +187,11 @@
 
 503	0	0	16	20	41
 504	16	0	32	20	41
+
+#money award
+
+505	0	0	32	18	43
+506	32	0	64	18	43
 
 #======================ITEM========================
 #morning Star Upgrade
@@ -370,7 +376,8 @@
 70	500	150	501	150	502	150
 #hit
 71	503	150 503 150 503 150
-
+#money award
+72	505	150	506	150
 #=================ITEMS==================
 #Morning Star Upgrade
 80	600	100
@@ -482,4 +489,6 @@
 # Small Heart
 40	88
 #money
-41	89
+41	89	72
+#money award
+42	72

@@ -8,10 +8,14 @@
 #define BLUE_STATE_BOTTLE 1
 #define BLUE_STATE_FIRE 2
 
+#define BLUE_SPEED_Y 0.05f
+#define BLUE_DISPLAY_TIME 2000
+
 
 class wBlue : public Weapon
 {
-
+	int displayTime;
+	bool isGrounded;
 public:
 
 	wBlue();

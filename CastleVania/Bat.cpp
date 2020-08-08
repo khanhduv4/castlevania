@@ -100,7 +100,7 @@ void Bat::Render()
 		}
 		animation_set->at(ani)->Render(x, y, 255);
 
-		RenderBoundingBox();
+		//RenderBoundingBox();
 	}
 	CEnemy::Render();
 }

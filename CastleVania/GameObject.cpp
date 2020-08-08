@@ -7,6 +7,7 @@
 #include "Game.h"
 #include "GameObject.h"
 #include "Sprites.h"
+#include "Brick.h"
 
 CGameObject::CGameObject()
 {
@@ -97,10 +98,14 @@ void CGameObject::FilterCollision(
 
 	coEventsResult.clear();
 
+	float finalny = -99;
 	for (UINT i = 0; i < coEvents.size(); i++)
 	{
 		LPCOLLISIONEVENT c = coEvents[i];
 
+		if (dynamic_cast<CBrick*>(c->obj) && c->ny == -1) {
+			finalny = c->ny;
+		}
 		if (c->t < min_tx && c->nx != 0) {
 			min_tx = c->t; nx = c->nx; min_ix = i; rdx = c->dx;
 		}
@@ -112,6 +117,8 @@ void CGameObject::FilterCollision(
 
 	if (min_ix >= 0) coEventsResult.push_back(coEvents[min_ix]);
 	if (min_iy >= 0) coEventsResult.push_back(coEvents[min_iy]);
+	if (finalny != -99)
+		ny = finalny;
 }
 
 

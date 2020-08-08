@@ -9,10 +9,13 @@ inline void CGameBoard::ReloadSubWeaponSprites() {
 	for (int i = 0; i < 4; i++) {
 		_subWeaponSprites.push_back(CSprites::GetInstance()->Get(spriteIds[i]));
 	}
+
 }
 
-void CGameBoard::SetOver(bool value) {
+void CGameBoard::SetOver(bool value,string overMsg) {
 	isOver = value;
+	bossHP = initBossHP;
+	this->overMsg = overMsg;
 }
 
 CGameBoard::CGameBoard() {
@@ -99,12 +102,12 @@ void CGameBoard::Render() {
 	}
 	for (int i = 0; i < this->bossHP; i++) {
 		wstring wStr = L"▮";
-		CGame::GetInstance()->Draw(wStr, baseX + i * 10, baseY, 300, 300, D3DCOLOR_XRGB(156, 0, 0));
+		CGame::GetInstance()->Draw(wStr, baseX + i * 10, baseY, 300, 300, D3DCOLOR_XRGB(249, 121, 118));
 	}
 	 
 	if (isOver) {
 		_spriteBlack->Draw(0, 0, 255, true);
-		CGame::GetInstance()->Draw("GAME OVER", SCREEN_WIDTH / 2 - 90, SCREEN_HEIGHT / 2 - 5, 1000, 300, D3DCOLOR_XRGB(255, 255, 255));
+		CGame::GetInstance()->Draw(overMsg, SCREEN_WIDTH / 2 - 90, SCREEN_HEIGHT / 2 - 5, 1000, 300, D3DCOLOR_XRGB(255, 255, 255));
 	}
 }
 void CGameBoard::SetPosition(float x, float y) {

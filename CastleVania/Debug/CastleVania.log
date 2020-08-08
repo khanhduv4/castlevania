@@ -1,7 +1,8 @@
-﻿  Enemy.cpp
-  Skeleton.cpp
-C:\Users\Admin\Desktop\GAME\CastleVania\Skeleton.cpp(51,21): warning C4018: '<': signed/unsigned mismatch
-C:\Users\Admin\Desktop\GAME\CastleVania\Skeleton.cpp(83,15): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-C:\Users\Admin\Desktop\GAME\CastleVania\Skeleton.cpp(106,21): warning C4018: '<': signed/unsigned mismatch
-  Generating Code...
+﻿  Simon.cpp
+C:\Users\Admin\Desktop\GAME\CastleVania\wBlue.h(6,1): warning C4005: 'BLUE_HEIGHT': macro redefinition
+C:\Users\Admin\Desktop\GAME\CastleVania\Blue.h(5): message : see previous definition of 'BLUE_HEIGHT'
+C:\Users\Admin\Desktop\GAME\CastleVania\Simon.cpp(103,22): warning C4018: '<': signed/unsigned mismatch
+C:\Users\Admin\Desktop\GAME\CastleVania\Simon.cpp(184,23): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+C:\Users\Admin\Desktop\GAME\CastleVania\Simon.cpp(458,21): warning C4018: '<': signed/unsigned mismatch
+C:\Users\Admin\Desktop\GAME\CastleVania\Simon.cpp(680): warning C4715: 'CSimon::newSubWeapon': not all control paths return a value
   CastleVania.vcxproj -> C:\Users\Admin\Desktop\GAME\Debug\CastleVania.exe

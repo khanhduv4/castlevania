@@ -180,7 +180,6 @@ void MorningStar::UpgradeLevel()
 	if (level >= 2)
 		return;
 	level++;
-	damage = 2;
 
 }
 

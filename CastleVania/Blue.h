@@ -1,5 +1,9 @@
 #pragma once
 #include "Item.h"
+
+#define BLUE_WIDTH 32
+#define BLUE_HEIGHT 32
+
 class Blue :
 	public CItem
 {

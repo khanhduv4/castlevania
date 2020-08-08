@@ -36,9 +36,9 @@ CEnemy::CEnemy()
 
 void CEnemy::Update(DWORD dt, vector<LPGAMEOBJECT>* listObject)
 {
-
 	if (health <= 0 && !objLife) {
 		objLife = 1;
+		Disappear();
 	}
 	if (isFinish) return;
 	// Simple fall down
@@ -90,7 +90,22 @@ void CEnemy::Render()
 {
 	if (objLife == OBJ_LIFE_DISAPPEARING)
 	{
-		disappearingAnimSet->at(0)->Render(x, y);
+		if (dynamic_cast<PhantomBat*>(this)) {
+			for (int i = 0; i < 3; i++) {
+				disappearingAnimSet->at(0)->Render(x + i * 20, y);
+				disappearingAnimSet->at(0)->Render(x + i * 20, y + 30);
+			}
+			if (phantomDisappearingTime < 0) {
+				phantomDisappearingTime = 1000;
+				objLife = OBJ_LIFE_OUT;
+				isFinish = 1;
+				disappearingAnimSet->at(0)->Reset();
+			}
+		}
+		else {
+			disappearingAnimSet->at(0)->Render(x, y);
+			
+		}
 		if (disappearingAnimSet->at(0)->IsDone()) {
 			objLife = OBJ_LIFE_OUT;
 			isFinish = 1;

@@ -50,14 +50,16 @@ void CSimon::UpdateFreeze()
 
 void CSimon::StartOver() {
 
-	this->setSceneSwitching(true);
+	this->setSceneSwitching(true,true);
 	if (life-- == 0) {
 		score = 0;
-		life = SIMON_DEFAULT_LIFE;
+		life = SIMON_DEFAULT_LIFE; 
 		CGame::GetInstance()->SwitchScene(1);
-		CGameBoard::GetInstance()->SetOver(true);
+		CGameBoard::GetInstance()->SetOver(true, "GAME OVER");
 	}
-	CGame::GetInstance()->StartOver();
+	else {
+		CGame::GetInstance()->StartOver();
+	}
 	SetPosition(startX, startY);
 }
 
@@ -74,10 +76,7 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects, vector<LPGAMEOBJE
 			StartOver();
 			return;
 		}
-
 	}
-
-
 
 	if ((health <= 0 || y > SCREEN_HEIGHT) && GetState() != SIMON_STATE_DIE) {
 		SetState(SIMON_STATE_DIE);
@@ -89,15 +88,12 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects, vector<LPGAMEOBJE
 		// Calculate dx, dy 
 		CGameObject::Update(dt);
 
-		DebugOut(L"Simon X: %f Simon Y: %f\n", x, y);
-
 		// Check Attacking
 
 		if (isAttacking) {
 			if (weapon == SIMON_ATTACK_MAIN_WEAPON)
 				Attack(weapon);
 		}
-
 
 		// Update Weapon
 
@@ -209,11 +205,17 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects, vector<LPGAMEOBJE
 				++begin;
 		}
 		// TODO: This is a very ugly designed function!!!!
+
+		//Neu co brick thi uu tien chi brick
+
+
 		FilterCollision(coEvents, coEventsResult, min_tx, min_ty, nx, ny, rdx, rdy);
 
 		// how to push back Mario if collides with a moving objects, what if Mario is pushed this way into another object?
 		//if (rdx != 0 && rdx!=dx)
 		//	x += nx*abs(rdx); 
+
+
 
 		// block every object first!
 		x += min_tx * dx + nx * 0.4f;
@@ -247,7 +249,7 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects, vector<LPGAMEOBJE
 					(dynamic_cast<Elevator*>(e->obj))->GetSpeed(evx, evy);
 					x += evx * dt * 3;
 				}
-					
+
 				this->setJumping(0);
 				continue;
 			}
@@ -257,13 +259,24 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects, vector<LPGAMEOBJE
 				continue;
 			}
 			else if (dynamic_cast<CEnemy*>(e->obj)) {
-				
-					SetHurt(e);
+
+				SetHurt(e);
 			}
 			else if (dynamic_cast<wBoomerang*>(e->obj)) {
 				(e->obj)->SetFinish(true);
 			}
 			else if (dynamic_cast<CItem*>(e->obj)) {
+				y -= 1;
+				if (dynamic_cast<BossItem*>(e->obj)) {
+
+					this->setSceneSwitching(true,true);
+					score = 0;
+					life = SIMON_DEFAULT_LIFE;
+					CGame::GetInstance()->SwitchScene(1);
+					CGameBoard::GetInstance()->SetOver(true, "YOU WIN !!!");
+					SetPosition(startX, startY);
+					return;
+				}
 				HandleCollisionSimonWithItem(e);
 				CGameBoard::GetInstance()->UpdateSubWeapon(currentSubWeapon);
 				continue;
@@ -298,10 +311,11 @@ void CSimon::HandleCollisionSimonWithItem(LPCOLLISIONEVENT e)
 	else if (dynamic_cast<LargeHeart*>(e->obj))
 		AddHeart(5);
 	else if (dynamic_cast<Money*>(e->obj))
-		score += 100;
+		score += dynamic_cast<Money*>(e->obj)->GetScore();
 	else if (dynamic_cast<SmallHeart*>(e->obj))
 		AddHeart(1);
-
+	else if (dynamic_cast<BossItem*>(e->obj))
+		health = SIMON_DEFAULT_HEALTH;
 	dynamic_cast<CItem*>(e->obj)->SetFinish(1);
 }
 
@@ -619,12 +633,13 @@ void CSimon::SetState(int state)
 	}
 }
 
-void CSimon::setSceneSwitching(bool value) {
+void CSimon::setSceneSwitching(bool value, bool isFullHealth) {
 
 	stair = NULL;
 	isClimbing = 0;
 	isClimbableUp = isClimbableDown = 0;
-	health = SIMON_DEFAULT_HEALTH;
+	if (isFullHealth)
+		health = SIMON_DEFAULT_HEALTH;
 	SetState(SIMON_STATE_IDLE);
 	SetSpeed(0, 0);
 	this->isSceneSwitching = value;

@@ -465,6 +465,13 @@ void CPlayScenceKeyHandler::OnKeyDown(int KeyCode)
 		if (simon->IsSitting() || simon->isStair) return;
 		simon->SetState(SIMON_STATE_JUMPING);
 		break;
+	case DIK_Q:
+		simon->setHealth(16);
+		break;
+
+	case DIK_P:
+		simon->SetHurt(new CCollisionEvent(0.2, 0.2, 0.2));
+		break;
 	case DIK_S:
 		if (game->IsKeyDown(DIK_UP)) {
 			if (simon->getCurrentSubWeapon() != -1 && simon->getHeart() > 0) {

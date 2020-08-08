@@ -377,9 +377,6 @@
     <Filter Include="Object\Enemy\Bat">
       <UniqueIdentifier>{8f47f3c6-7bba-488e-b318-c3ad88298556}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Object\HiddenObject">
-      <UniqueIdentifier>{c4e1c7ad-5858-4dcf-8c08-fa6e5bf240a5}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Object\Item\Axe">
       <UniqueIdentifier>{7439d26c-d4e5-45bb-a36c-00374a1a6730}</UniqueIdentifier>
     </Filter>
@@ -445,6 +442,9 @@
     </Filter>
     <Filter Include="Object\Weapon\Bone">
       <UniqueIdentifier>{804002ec-b43e-400c-a511-e3d3ad597117}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object\HiddenObject">
+      <UniqueIdentifier>{c4e1c7ad-5858-4dcf-8c08-fa6e5bf240a5}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

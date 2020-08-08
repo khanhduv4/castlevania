@@ -19,9 +19,8 @@ class PhantomBat : public CEnemy
 	long delayTime;
 	int previousHP;
 	float introTime;
-	double chaseTime;
-	bool isTest = false;
-	float refX = -1, refY = -1;
+	double chaseTime; 
+	float desX = -1, desY = -1;
 	bool isHurted;
 	float distanceAttack;
 	bool isChasing = false;
@@ -33,7 +32,7 @@ public:
 
 	void makeRandomCurve();
 	 
-	int calculateYCurve(int x);
+	float calculatevYCurve(int x);
 	 
 	virtual void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects = NULL);
 	virtual void Render();
@@ -47,6 +46,6 @@ public:
 	void RandomPos();
 	bool Intro(DWORD dt);
 	void CheckHPChange();
-	void CheckHurtTime(DWORD dt);
+	void CheckHurtTime(DWORD dt); 
 	void FlyToRandomPos(DWORD dt);
 };

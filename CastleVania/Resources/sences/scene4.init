@@ -32,8 +32,8 @@
 
 
 # SIMON
-0	300	100	1	300	320
-#0	1380	320	1	1380	320
+#0	300	100	1	300	320
+0	1380	320	1	1380	320
 
 #===============ENEMY====================
 
@@ -46,17 +46,12 @@
 #ghost
 11	1180	360	20	1
 
-
-
-
-
 #Hidden Object
 #type	x	y	ani	width	height	type_hidden	height(stair)	SIMON_X	direction
 #stair 1 begin
 999	300	240	-1	50	20	1	165	310	-1
 #stair 1 end
 #999	900	220	-1	50	10	2	165	332	1
-
 
 #wall
 1	50	100	-1	15	500

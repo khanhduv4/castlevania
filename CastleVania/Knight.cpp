@@ -42,7 +42,7 @@ void Knight::Render()
 	animation_set->at(ani)->Render(x, y, 255);
 
 	if (!objLife) { 
-		RenderBoundingBox();
+		//RenderBoundingBox();
 	}
 
 	CEnemy::Render();
