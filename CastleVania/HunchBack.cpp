@@ -154,7 +154,7 @@ void Hunchback::SetState(int state)
 			 
 		}
 		if (vy == 0 && isGrounded) {
-			vy = -0.15 - leap * 0.15f;
+			vy = -0.15 - leap * 0.10f;
 			isGrounded = false;
 		}
 

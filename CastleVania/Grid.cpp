@@ -15,23 +15,6 @@ using namespace std;
 
 
  Grid* Grid::_currentInstance = NULL;
-void Grid::LoadSetting(string line)
-{
-	vector<string> tokens = split(line);
-	if (tokens.size() < 2)
-	{
-		return;
-	}
-
-	cellSize = atof(tokens[0].c_str());
-	numXCells = atof(tokens[1].c_str());
-	numYCells = atof(tokens[2].c_str());
-
-	cells = new LPCELL[numXCells];
-
-	for (int i = 0; i < numXCells; i++)
-		cells[i] = new Cell[numYCells];
-}
 
 bool checkContainId(vector<LPGAMEOBJECT>* list_object, LPGAMEOBJECT e)
 {
@@ -90,31 +73,6 @@ Grid* Grid::Create(int cellSize, int numXCell, int numYCell, vector<LPGAMEOBJECT
 Grid* Grid::GetCurrentInstance() {
 	return _currentInstance;
 }
-void Grid::LoadObject(string line)
-{
-	vector<string> tokens = split(line);
-
-	if (tokens.size() < 2)
-	{
-		return;
-	}
-
-	int indexX = atoi(tokens[0].c_str());
-	int indexY = atoi(tokens[1].c_str());
-	int idObject;
-
-	for (int j = 2; j < tokens.size(); j++)
-	{
-		idObject = atoi(tokens[j].c_str());
-
-		if (idObject == 2)
-		{
-			int i = 100;
-		}
-		cells[indexX][indexY].Insert(listObject->at(idObject));
-	}
-}
-
 Grid::Grid(int cellSize, int numXCell, int numYCell, vector <LPGAMEOBJECT>* listObject)
 {
 

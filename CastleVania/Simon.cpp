@@ -224,6 +224,7 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects, vector<LPGAMEOBJE
 		if (nx != 0) vx = 0;
 		if (ny != 0) {
 			vy = 0;
+			if (isJumping && ny == -1) vx = 0;
 		}
 		// 
 		// Collision logic with other objects
@@ -621,6 +622,8 @@ void CSimon::SetState(int state)
 		break;
 	}
 	case SIMON_STATE_IDLE:
+		if (isJumping)
+			break;
 		if (!isHurting)
 			vx = 0;
 		break;

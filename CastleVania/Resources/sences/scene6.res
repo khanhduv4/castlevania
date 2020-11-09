@@ -507,7 +507,7 @@
 # BOOMERANG
 14	85	61	61
 # BLUE
-15	86	58	69
+15	86	58	59
 # II
 16	87
 # Elevator

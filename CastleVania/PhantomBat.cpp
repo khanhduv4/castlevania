@@ -7,7 +7,7 @@
 PhantomBat::PhantomBat()
 {
 
-	this->health = 2;
+	this->health = 16;
 	this->damage = 2;
 
 

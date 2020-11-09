@@ -11,10 +11,8 @@ class Grid
 	Cell** cells = NULL;
 	int numXCells = 0;
 	int numYCells = 0;
-	vector <LPGAMEOBJECT>* listObject;
-	void LoadSetting(string line);
-	
-	void LoadObject(string line);
+	vector <LPGAMEOBJECT>* listObject; 
+	 
 	static Grid* _currentInstance;
 public:
 	void Insert(CGameObject* obj);

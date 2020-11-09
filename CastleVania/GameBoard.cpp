@@ -55,6 +55,8 @@ void CGameBoard::Update(int dt, int time, int stage)
 	auto simon = CSimon::GetInstance();
 	simonHP = simon->getHealth();
 	score = simon->getScore();
+	if (score > 0)
+		lastScore = score;
 	heart = simon->getHeart();
 	life = simon->getLife();
 	this->stage = stage;
@@ -109,6 +111,7 @@ void CGameBoard::Render() {
 	if (isOver) {
 		_spriteBlack->Draw(0, 0, 255, true);
 		CGame::GetInstance()->Draw(overMsg, SCREEN_WIDTH / 2 - 90, SCREEN_HEIGHT / 2 - 5, 1000, 300, D3DCOLOR_XRGB(255, 255, 255));
+		CGame::GetInstance()->Draw("YOUR SCORE: " + to_string(lastScore) , SCREEN_WIDTH / 2 - 120, SCREEN_HEIGHT / 2 + 30, 1000, 300, D3DCOLOR_XRGB(255, 255, 255));
 	}
 	if (!isStarted) {
 		_spriteMenu->Draw(0, 0, 255, true);

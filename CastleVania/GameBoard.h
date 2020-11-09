@@ -57,7 +57,7 @@ private:
 
 	bool isStarted = false;
 
-
+	int lastScore = -1;
 
 	float _x;
 	float _y;

@@ -1,6 +1,29 @@
-﻿  HunchBack.cpp
+﻿  Enemy.cpp
 C:\Users\Admin\Desktop\GAME\CastleVania\wBlue.h(6,1): warning C4005: 'BLUE_HEIGHT': macro redefinition
 C:\Users\Admin\Desktop\GAME\CastleVania\Blue.h(5): message : see previous definition of 'BLUE_HEIGHT'
-C:\Users\Admin\Desktop\GAME\CastleVania\HunchBack.cpp(153,15): warning C4804: '-': unsafe use of type 'bool' in operation
-C:\Users\Admin\Desktop\GAME\CastleVania\HunchBack.cpp(157,15): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+  PlayScence.cpp
+C:\Users\Admin\Desktop\GAME\CastleVania\wBlue.h(6,1): warning C4005: 'BLUE_HEIGHT': macro redefinition
+C:\Users\Admin\Desktop\GAME\CastleVania\Blue.h(5): message : see previous definition of 'BLUE_HEIGHT'
+C:\Users\Admin\Desktop\GAME\CastleVania\PlayScence.cpp(114,20): warning C4018: '<': signed/unsigned mismatch
+C:\Users\Admin\Desktop\GAME\CastleVania\PlayScence.cpp(135,20): warning C4018: '<': signed/unsigned mismatch
+C:\Users\Admin\Desktop\GAME\CastleVania\PlayScence.cpp(151,10): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+C:\Users\Admin\Desktop\GAME\CastleVania\PlayScence.cpp(152,10): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+C:\Users\Admin\Desktop\GAME\CastleVania\PlayScence.cpp(194,11): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+C:\Users\Admin\Desktop\GAME\CastleVania\PlayScence.cpp(195,11): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+C:\Users\Admin\Desktop\GAME\CastleVania\PlayScence.cpp(216,57): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+C:\Users\Admin\Desktop\GAME\CastleVania\PlayScence.cpp(216,32): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+C:\Users\Admin\Desktop\GAME\CastleVania\PlayScence.cpp(352,20): warning C4018: '<': signed/unsigned mismatch
+C:\Users\Admin\Desktop\GAME\CastleVania\PlayScence.cpp(374,18): warning C4244: 'initializing': conversion from 'int' to 'float', possible loss of data
+C:\Users\Admin\Desktop\GAME\CastleVania\PlayScence.cpp(406,20): warning C4018: '<': signed/unsigned mismatch
+C:\Users\Admin\Desktop\GAME\CastleVania\PlayScence.cpp(419,20): warning C4018: '<': signed/unsigned mismatch
+C:\Users\Admin\Desktop\GAME\CastleVania\PlayScence.cpp(424,20): warning C4018: '<': signed/unsigned mismatch
+C:\Users\Admin\Desktop\GAME\CastleVania\PlayScence.cpp(438,20): warning C4018: '<': signed/unsigned mismatch
+C:\Users\Admin\Desktop\GAME\CastleVania\PlayScence.cpp(443,20): warning C4018: '<': signed/unsigned mismatch
+C:\Users\Admin\Desktop\GAME\CastleVania\PlayScence.cpp(473,52): warning C4305: 'argument': truncation from 'double' to 'float'
+  Tilemap.cpp
+C:\Users\Admin\Desktop\GAME\CastleVania\Tilemap.cpp(147,20): warning C4018: '<': signed/unsigned mismatch
+C:\Users\Admin\Desktop\GAME\CastleVania\Tilemap.cpp(150,21): warning C4018: '<': signed/unsigned mismatch
+C:\Users\Admin\Desktop\GAME\CastleVania\Tilemap.cpp(153,80): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\Users\Admin\Desktop\GAME\CastleVania\Tilemap.cpp(153,69): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+  Generating Code...
   CastleVania.vcxproj -> C:\Users\Admin\Desktop\GAME\Debug\CastleVania.exe
